@@ -1,7 +1,7 @@
-numpy==1.22.2
-pandas==1.4.2
-scipy==1.8.0
-openpyxl==3.0.10
-matplotlib==3.5.1
-seaborn==0.11.2
+numpy
+pandas
+scipy
+openpyxl
+matplotlib
+seaborn
 

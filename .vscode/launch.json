@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // Python Debug Configuration
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        // R Debug Configuration
+        {
+            "type": "R-Debugger",
+            "request": "launch",
+            "name": "Debug R Script",
+            "file": "${file}"
+        }
+    ]
+}

@@ -48,7 +48,7 @@ def _(mo):
 
 @app.cell
 def _():
-    integer_value = 3       # int
+    integer_value = 320       # int
     float_value = 2.5       # float
 
     print("integer_value =", integer_value, "->", type(integer_value))
@@ -68,14 +68,14 @@ def _(mo):
 
 @app.cell
 def _():
-    value = 34
-    print(repr(value), "->", type(value))
+    value = 340
+    print(value, "->", type(value))
 
     value = 3.3
-    print(repr(value), "->", type(value))
+    print(value, "->", type(value))
 
     value = "No"
-    print(repr(value), "->", type(value))
+    print(value, "->", type(value))
     return
 
 
@@ -90,12 +90,10 @@ def _(mo):
 @app.cell
 def _():
     condition_example = False
-    character_name_example = "John"
+    print(condition_example, "->", type(condition_example))
 
-    print(condition_example)
-    print(character_name_example)
-    print(type(condition_example))
-    print(type(character_name_example))
+    character_name_example = "John"
+    print(character_name_example, " ->", type(character_name_example))
     return
 
 
@@ -115,6 +113,8 @@ def _():
     age_mother = 40
 
     print("Laura is", age_person, "years old. Her mother is", age_mother)
+    
+    # Using Python's f-string formatting
     print(f"Laura is {age_person} years old. Her mother is {age_mother}")
     return
 
@@ -171,10 +171,22 @@ def _(mo):
 
 @app.cell
 def _():
-    literal_examples = [402, 5.5, "Python", "404", False]
 
-    for literal_value in literal_examples:
-        print(f"{literal_value!r:10} -> {type(literal_value).__name__}")
+    literal_example = 404
+    print(f"{literal_example:8}", "->", type(literal_example))
+
+    literal_example = "404"
+    print(f"{literal_example:8}", "->", type(literal_example))
+
+    literal_example = 5.5
+    print(f"{literal_example:8}", "->", type(literal_example))
+
+    literal_example = "Python"
+    print(f"{literal_example:8}", "->", type(literal_example))
+
+    literal_example = False
+    print(f"{literal_example:8}", "->", type(literal_example))
+   
     return
 
 
@@ -225,12 +237,12 @@ def _():
     number_x = 2.5
     number_n = "No"
 
-    print("Before assignment:")
+    print("\nBefore assignment:")
     print("number_x =", number_x, type(number_x))
     print("number_n =", number_n, type(number_n))
 
     number_n = number_x
-    print("After number_n = number_x:")
+    print("\nAfter number_n = number_x:")
     print("number_n =", number_n, type(number_n))
     return
 
@@ -263,7 +275,7 @@ def _():
     division_value = 5
     print("5 / 2  =", division_value / 2)
     print("5 // 2 =", division_value // 2)
-    print("5 / 3  =", 5 / 3)
+    print("\n5 / 3  =", 5 / 3)
     print("5 // 3 =", 5 // 3)
     return
 

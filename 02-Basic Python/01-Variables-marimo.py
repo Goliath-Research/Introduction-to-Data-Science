@@ -173,19 +173,19 @@ def _(mo):
 def _():
 
     literal_example = 404
-    print(f"{literal_example:8}", "->", type(literal_example))
+    print(literal_example, "->", type(literal_example))
 
     literal_example = "404"
-    print(f"{literal_example:8}", "->", type(literal_example))
+    print(literal_example, "->", type(literal_example))
 
     literal_example = 5.5
-    print(f"{literal_example:8}", "->", type(literal_example))
+    print(literal_example, "->", type(literal_example))
 
     literal_example = "Python"
-    print(f"{literal_example:8}", "->", type(literal_example))
+    print(literal_example, "->", type(literal_example))
 
     literal_example = False
-    print(f"{literal_example:8}", "->", type(literal_example))
+    print(literal_example, "->", type(literal_example))
    
     return
 

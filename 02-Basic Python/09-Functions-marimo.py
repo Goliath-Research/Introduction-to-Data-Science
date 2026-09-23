@@ -18,14 +18,14 @@ def _(mo):
 
     ## Objectives
 
-    - Define a function and call it.
-    - Pass positional arguments, `*args`, keyword arguments, and `**kwargs`.
-    - Give a parameter a default value and pass a list.
-    - Return a value, including a function that calls itself.
+    - Define a function and call it by name.
+    - Pass values as positional arguments, keyword arguments, `*args`, and `**kwargs`.
+    - Give a parameter a default value, pass a list, and return one or more values.
+    - Write a function that calls itself.
 
     ## Background
 
-    A function is a block of code that runs when you call it. Parameters receive the data you pass in. A function can return a result.
+    A function is a named block of code that runs when you call it. You can pass data in through parameters and send a result back with `return`. A function lets you write a task once and use it in more than one place.
 
     ## Datasets Used
 
@@ -37,9 +37,9 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Defining and calling a function
+    ## Defining and calling
 
-    `def` creates the function. The function does not run until a later line calls it.
+    `def` starts a function. The indented lines are the body. They do not run at `def`. They run when you call the function: the name, followed by parentheses.
     """)
     return
 
@@ -56,9 +56,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Arguments
-
-    Arguments go inside the parentheses, separated by commas. The call must pass the number of arguments the definition expects.
+    A parameter is a name in the parentheses. A call must pass one value for each parameter, unless that parameter has a default. The value you pass is an argument. Run the last cell in this section to see the error from passing too many arguments.
     """)
     return
 
@@ -70,69 +68,56 @@ def _():
 
     hello("John")
     hello("Mary")
+    return (hello,)
 
-    try:
-        hello("Mary", "John")
-    except TypeError as error:
-        print("TypeError:", error)
+
+@app.cell
+def _(hello):
+    hello("Mary", "John")
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
+    ## Ways to pass arguments
 
-    Change the name passed to `greet`, then run the cell.
+    `*kids` collects any number of positional arguments into a tuple. The function below treats the first item as the youngest, so the caller must pass the names in that order. `*args` is the name often used for this pattern in documentation.
+
+    Keyword arguments use `name=value`. The order of those arguments does not matter, and they must come after positional arguments.
+
+    `**kid` collects keyword arguments into a dictionary. `**kwargs` is the usual name for that pattern. The function below reads the key `"child1"`.
     """)
     return
 
 
 @app.cell
 def _():
-    def greet(name):
-        print("Welcome,", name)
-
-    greet("Ana")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Arbitrary arguments
-
-    `*kids` collects any number of positional arguments into a tuple. This version treats the first argument as the youngest child, so the call is expected to list children from youngest to oldest.
-    """)
-    return
-
-
-@app.cell
-def _():
-    def youngest_from_args(*kids):
+    def youngest_of(*kids):
         print("The youngest child is", kids[0])
 
-    youngest_from_args("John", "Mary", "Anna")
-    youngest_from_args("John", "Mary", "Anna", "Raul")
-    youngest_from_args("Anna", "John", "Mary", "Raul")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Keyword arguments
-
-    `name=value` assigns an argument by parameter name, so the order in the call does not matter.
-    """)
+    youngest_of("John", "Mary", "Anna")
+    youngest_of("John", "Mary", "Anna", "Raul")
+    youngest_of("Anna", "John", "Mary", "Raul")
     return
 
 
 @app.cell
 def _():
-    def youngest_from_keywords(child3, child2, child1):
+    def youngest_by_name(child3, child2, child1):
         print("The youngest child is", child1)
 
+    youngest_by_name(child1="John", child2="Mary", child3="Anna")
+    youngest_by_name(child2="Mary", child3="Anna", child1="John")
+    return
+
+
+@app.cell
+def _():
+    def youngest_from_keywords(**kid):
+        print("The youngest child is", kid["child1"])
+
+    youngest_from_keywords(child1="Mary", child3="Anna")
     youngest_from_keywords(child1="John", child2="Mary", child3="Anna")
     youngest_from_keywords(child2="Mary", child3="Anna", child1="John")
     return
@@ -141,27 +126,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `**kid` collects keyword arguments into a dictionary. The function then reads the keys it needs.
-    """)
-    return
-
-
-@app.cell
-def _():
-    def youngest_from_kwargs(**kid):
-        print("The youngest child is", kid["child1"])
-
-    youngest_from_kwargs(child1="Mary", child3="Anna")
-    youngest_from_kwargs(child1="John", child2="Mary", child4="Anna")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Default values and lists
-
-    A default value is used when the caller omits that argument. A list can be passed as one argument and then visited inside the function.
+    A default value is used when the call leaves that argument out.
     """)
     return
 
@@ -177,72 +142,80 @@ def _():
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A list is one argument. The function can loop over that list. The same function works for any list you pass.
+    """)
+    return
+
+
 @app.cell
 def _():
     def my_food(food):
         for item in food:
             print(item)
 
-    foods = ["orange", "apple", "grapes", "patata"]
-    my_food(foods)
+    meals = ["rice", "beans", "eggs", "patata"]
+    my_food(meals)
+    print()
+    fruits = ["orange", "apple", "grapes", "banana"]
+    my_food(fruits)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
-
-    Add another food to the list, or change the default country in a copy of the function above.
+    `return` sends a value back to the caller. A function can return more than one value. Python packs those values into a tuple.
     """)
     return
 
 
 @app.cell
 def _():
-    def describe_meal(country="USA", foods=None):
-        if foods is None:
-            foods = ["rice"]
-        print("I am from", country)
-        print("Foods:", ", ".join(foods))
+    def mult_by_10(x):
+        return 10 * x
 
-    describe_meal("Mexico", ["beans", "corn"])
+    print("0 multiply by 10 is", mult_by_10(0))
+    print("1 multiply by 10 is", mult_by_10(1))
+    print("5 multiply by 10 is", mult_by_10(5))
+    print("8 multiply by 10 is", mult_by_10(8))
+    return
+
+
+@app.cell
+def _():
+    def swap(a, b):
+        return b, a
+
+    print(swap(1, 2))
+    print(swap("Anna", "John"))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Return values
+    ## Recursion
 
-    `return` sends a value back to the caller. A function may also call itself. `factorial` keeps multiplying until it reaches the base case.
+    A function may call itself. This factorial function multiplies `n` by `factorial(n - 1)`. The calls stop when `n` is not greater than `1`: that call returns `1` and does not call the function again. That stopping case is required. Without it, the function would call itself forever.
     """)
     return
 
 
 @app.cell
 def _():
-    def mult_by_5(value):
-        return 5 * value
-
-    print("0 multiply by 5 is", mult_by_5(0))
-    print("1 multiply by 5 is", mult_by_5(1))
-    print("5 multiply by 5 is", mult_by_5(5))
-    print("8 multiply by 5 is", mult_by_5(8))
-    return
-
-
-@app.cell
-def _():
-    def factorial(number):
-        if number > 1:
-            result = number * factorial(number - 1)
+    def factorial(n):
+        if n > 1:
+            result = n * factorial(n - 1)
         else:
             result = 1
         return result
 
     print("3! =", factorial(3))
     print("0! =", factorial(0))
+    print("10! =", factorial(10))
     return
 
 
@@ -251,18 +224,18 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_number`. The function returns that number squared.
+    Change `your_name`, then run the cell.
     """)
     return
 
 
 @app.cell
 def _():
-    def square(number):
-        return number * number
+    def greet(name):
+        return "Hello " + name
 
-    your_number = 6
-    print(square(your_number))
+    your_name = "Ana"
+    print(greet(your_name))
     return
 
 
@@ -273,10 +246,11 @@ def _(mo):
 
     **Key takeaways:**
 
-    - `def` creates a function. A call runs it.
-    - A call must match the parameters, unless the definition uses defaults, `*args`, or `**kwargs`.
-    - Keyword arguments assign values by name.
-    - `return` gives a value back. A function can call itself when a base case stops the chain.
+    - `def` creates a function. The body runs only when you call the function.
+    - A call needs one argument per parameter, unless the parameter has a default.
+    - `*args` collects extra positional arguments into a tuple. `**kwargs` collects keyword arguments into a dictionary.
+    - `return` sends a value back. Several returned values arrive as a tuple.
+    - A recursive function must have a case that stops the calls.
 
     ## References
 

@@ -18,18 +18,18 @@ def _(mo):
 
     ## Objectives
 
-    - Create ordered lists, including lists with repeated or mixed values.
-    - Read items with positive indexes, slices, and negative indexes.
+    - Create a list, including an empty list, a list with repeated values, and a list that mixes types.
+    - Read one item or a slice with positive indexes and with negative indexes.
     - Add, remove, reverse, and sort items with list methods.
     - Use a list as a stack and as a queue.
 
     ## Background
 
-    A list is a mutable, ordered sequence. Each value in the list is an item. Lists are written with square brackets.
+    A list is a mutable, ordered sequence. Mutable means the list can change after you create it: you can add, remove, and replace items. Ordered means each item has a position, and that position stays put until you change the list. Each value in the list is an item. Lists are written with square brackets `[]`.
 
     ## Datasets Used
 
-    This notebook does not use external datasets.
+    This notebook does not use external datasets. The examples are short lists written in the code.
     """)
     return
 
@@ -39,7 +39,7 @@ def _(mo):
     mo.md(r"""
     ## Creating lists
 
-    An empty list is `[]`. A list may contain numbers, strings, and other types in the same sequence. Repeated values are allowed.
+    An empty list is `[]`. A list may hold numbers, text, and other values, and the same value may appear more than once.
     """)
     return
 
@@ -47,23 +47,59 @@ def _(mo):
 @app.cell
 def _():
     empty_list = []
-    print("empty:", empty_list)
+    print("empty:", empty_list, "->", type(empty_list))
 
     numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    print(numbers)
-    print(type(numbers))
-    print(type(numbers[0]))
+    print("numbers:", numbers, "->", type(numbers))
+    print("first item:", numbers[0], "->", type(numbers[0]))
+    print()
 
+    # The same value may appear more than once.
     repeated_numbers = [0, 1, 2, 2, 2, 2]
     print("duplicates:", repeated_numbers)
+    return
 
-    number_text = [str(item) for item in numbers]
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `str()` turns one number into text. A later lesson, List Comprehension, shows how to build a whole new list by applying `str()` to every item. This lesson writes those text values directly, because that lesson has not been introduced yet.
+    """)
+    return
+
+
+@app.cell
+def _():
+    number_text = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     print(number_text)
-    print(type(number_text), type(number_text[0]))
+    print("first item:", number_text[0], "->", type(number_text[0]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A list can hold items of different types, including another list. Because a variable can refer to any type, the items do not have to match.
+    """)
+    return
+
+
+@app.cell
+def _():
+    mixed_list = [0, 1, 2, ["a", "b", "c"], 3, 4]
+    print(mixed_list)
+    print("item 0:", mixed_list[0], "->", type(mixed_list[0]))
+    print("item 3:", mixed_list[3], "->", type(mixed_list[3]))
+    # mixed_list[3] is itself a list, so a second index reads one of its items.
+    print("item 3, then item 0:", mixed_list[3][0])
+    print()
 
     mixed_values = [True, "2", 3.3, 4]
     print(mixed_values)
-    print([type(item) for item in mixed_values])
+    print("item 0:", mixed_values[0], "->", type(mixed_values[0]))
+    print("item 1:", mixed_values[1], "->", type(mixed_values[1]))
+    print("item 2:", mixed_values[2], "->", type(mixed_values[2]))
+    print("item 3:", mixed_values[3], "->", type(mixed_values[3]))
     return
 
 
@@ -72,7 +108,31 @@ def _(mo):
     mo.md(r"""
     ## Indexing and slicing
 
-    `list[0]` is the first item. A slice such as `list[:2]` includes the start and excludes the stop. Negative indexes count from the end: `-1` is the last item.
+    The first index is `0`. A slice `list[start:stop]` includes the item at `start` and stops before `stop`. Omit `start` to begin at the first item. Omit `stop` to continue through the last item.
+    """)
+    return
+
+
+@app.cell
+def _():
+    values = [True, "2", 3.3, 4]
+    print("list:", values)
+    print("first two:", values[:2])
+    print("from index 2:", values[2:])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Negative indexes
+
+    A negative index counts from the end. `-1` is the last item, and `-2` is the item before that.
+
+    | | **True** | **"2"** | **3.3** | **4** |
+    |---|---:|---:|---:|---:|
+    | index | 0 | 1 | 2 | 3 |
+    | negative index | -4 | -3 | -2 | -1 |
     """)
     return
 
@@ -80,11 +140,8 @@ def _(mo):
 @app.cell
 def _():
     indexed_values = [True, "2", 3.3, 4]
-
-    print("first two:", indexed_values[:2])
-    print("from index 2:", indexed_values[2:])
-    print("last:", indexed_values[-1])
-    print("second last:", indexed_values[-2])
+    print("last item:", indexed_values[-1])
+    print("item before the last:", indexed_values[-2])
     print("last three:", indexed_values[-3:])
     return
 
@@ -92,19 +149,15 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An index past the end of the list raises `IndexError`.
+    An index must refer to an item that exists. Run the next cell to see the error raised by an index past the end of the list.
     """)
     return
 
 
 @app.cell
 def _():
-    bounded_values = [True, "2", 3.3, 4]
-
-    try:
-        print(bounded_values[10])
-    except IndexError as error:
-        print("IndexError:", error)
+    short_list = [True, "2", 3.3, 4]
+    short_list[10]
     return
 
 
@@ -113,18 +166,17 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Replace the items, then print the first item, the last item, and a slice.
+    Change `practice_list` and the indexes, then run the cell. Predict the printed items before you run it.
     """)
     return
 
 
 @app.cell
 def _():
-    your_items = ["red", "green", "blue"]
-
-    print(your_items[0])
-    print(your_items[-1])
-    print(your_items[:2])
+    practice_list = ["red", "green", "blue", "yellow"]
+    print(practice_list[0])
+    print(practice_list[-1])
+    print(practice_list[1:3])
     return
 
 
@@ -133,58 +185,67 @@ def _(mo):
     mo.md(r"""
     ## List methods
 
-    These methods change the list itself. This sequence is kept in one cell so you can follow each change.
+    These methods change the list they are called on. `len()` is not a list method: it works on any sequence and returns how many items the list holds.
+
+    `append()` adds one item at the end. `count()` returns how many times a value appears. `remove()` deletes the first matching value. `insert()` places an item at an index and shifts the later items right. `pop()` removes the item at an index and returns that item. `reverse()` reverses the order. `sort()` orders the items.
     """)
     return
 
 
 @app.cell
 def _():
-    samples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    print("length:", len(samples))
-    print("count of 5:", samples.count(5))
+    items = [0, 1, 2, ["a", "b", "c"], 3, 4]
+    print("length:", len(items))
+    print("count of 5:", items.count(5))
 
-    samples.append(5)
-    print("after append:", samples)
-    print("count of 5:", samples.count(5))
+    items.append(5)
+    print("after append 5:", items)
+    print("count of 5:", items.count(5))
 
-    samples.remove(5)
-    print("after remove:", samples)
+    items.remove(5)
+    print("after remove 5:", items)
 
-    samples.insert(3, "five")
-    print("after insert:", samples)
+    items.insert(3, "five")
+    print("after insert:", items)
 
-    samples.pop(3)
-    print("after pop:", samples)
+    # pop(4) removes the nested list, which is now at index 4.
+    removed_list = items.pop(4)
+    print("pop(4) removed", removed_list)
+    print("list is now:", items)
 
-    samples.reverse()
-    print("after reverse:", samples)
+    items.reverse()
+    print("after reverse:", items)
 
-    samples.sort()
-    print("after sort:", samples)
+    # Index 2 is the text "five". sort() cannot order text and numbers together.
+    removed_text = items.pop(2)
+    print("pop(2) removed", repr(removed_text))
+    print("list is now:", items)
 
-    samples.sort(reverse=True)
-    print("after reverse sort:", samples)
+    items.sort()
+    print("after sort:", items)
+
+    items.sort(reverse=True)
+    print("after sort(reverse=True):", items)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
-
-    Start with the list below. Append one item, insert one item at index 1, then print the list.
+    `+` builds a new list from two lists. It does not change either original list.
     """)
     return
 
 
 @app.cell
 def _():
-    practice_list = ["a", "b", "c"]
+    left = [4, 3, 2, 1, 0]
+    right = [0, 1, 2, 2, 2, 2]
+    print(left + right)
 
-    practice_list.append("d")
-    practice_list.insert(1, "aa")
-    print(practice_list)
+    words = ["0", "1", "2"]
+    other = [True, "2", 3.3, 4]
+    print(words + other)
     return
 
 
@@ -193,7 +254,7 @@ def _(mo):
     mo.md(r"""
     ## Lists as stacks
 
-    A stack is last in, first out. `append` puts an item on top. `pop()` removes that same item.
+    A stack adds and removes items at the same end. The last item added is the first item removed. That order is called last in, first out (LIFO). `append()` adds to the end, and `pop()` with no index removes from the end.
     """)
     return
 
@@ -202,11 +263,11 @@ def _(mo):
 def _():
     stack = [2, 3, 4]
     stack.append(5)
-    print("after append:", stack)
+    print("after append 5:", stack)
 
-    print("popped:", stack.pop())
-    print("popped:", stack.pop())
-    print("remaining:", stack)
+    print("pop:", stack.pop())
+    print("pop:", stack.pop())
+    print("stack is now:", stack)
     return
 
 
@@ -215,7 +276,7 @@ def _(mo):
     mo.md(r"""
     ## Lists as queues
 
-    A queue is first in, first out. `append` adds to the end. `pop(0)` removes the first item.
+    A queue adds items at the back and removes items from the front. The first item added is the first item removed. That order is called first in, first out (FIFO). `pop(0)` removes the front item. You must pass `0`. A `pop()` with no index would remove the last item instead.
     """)
     return
 
@@ -226,29 +287,35 @@ def _():
     queue.append("Peter")
     print("after append:", queue)
 
-    print("left:", queue.pop(0))
-    print("left:", queue.pop(0))
-    print("remaining:", queue)
+    person = queue.pop(0)
+    print("left the queue:", person)
+    print("queue is now:", queue)
+
+    person = queue.pop(0)
+    print("left the queue:", person)
+    print("queue is now:", queue)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
-
-    Add one name to the queue, then remove the person who has been waiting the longest.
+    `append()` at the end of a list is fast. `pop(0)` is slow, because every remaining item has to shift one position left. `collections.deque` is a sequence made for fast adds and removals at both ends. `popleft()` removes the front item.
     """)
     return
 
 
 @app.cell
 def _():
-    your_queue = ["Luis", "Mei"]
+    from collections import deque
 
-    your_queue.append("Sofia")
-    print("next:", your_queue.pop(0))
-    print("still waiting:", your_queue)
+    waiting = deque(["John", "Mary", "Anna"])
+    waiting.append("Peter")
+    print("after append:", waiting)
+
+    next_person = waiting.popleft()
+    print("left the queue:", next_person)
+    print("queue is now:", waiting)
     return
 
 
@@ -259,10 +326,10 @@ def _(mo):
 
     **Key takeaways:**
 
-    - A list is an ordered, mutable sequence written with `[]`.
-    - Indexes start at 0. Negative indexes start at the last item.
-    - `append`, `insert`, `remove`, `pop`, `reverse`, and `sort` change the list.
-    - `append` plus `pop()` models a stack. `append` plus `pop(0)` models a queue.
+    - A list is an ordered, mutable sequence written with square brackets.
+    - Indexes start at 0. Negative indexes start at the last item. A slice includes the start and excludes the stop.
+    - `append`, `insert`, `remove`, `pop`, `reverse`, and `sort` change the list. `+` builds a new list.
+    - `append` and `pop` use a list as a stack. `append` and `pop(0)` use a list as a queue. `deque.popleft()` removes the front item without shifting every remaining item.
 
     ## References
 

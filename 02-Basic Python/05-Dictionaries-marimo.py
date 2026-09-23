@@ -18,18 +18,18 @@ def _(mo):
 
     ## Objectives
 
-    - Store and read values with keys.
-    - Add, update, and remove key-value pairs.
-    - Copy a dictionary so the copy is independent.
-    - Nest dictionaries inside another dictionary.
+    - Create a dictionary of key-value pairs and read a value by its key.
+    - Add, change, and remove pairs.
+    - Use `keys()`, `values()`, `items()`, `get()`, `update()`, `pop()`, and `popitem()`.
+    - Copy a dictionary, and read a value from a nested dictionary.
 
     ## Background
 
-    A dictionary is an ordered, changeable collection of key-value pairs. Each key maps to one value. Dictionaries do not allow duplicate keys, and they are read by key rather than by position.
+    A dictionary maps each key to one value. You retrieve a value by its key, not by a numeric position. That makes a dictionary a good fit for a record, such as a person's name and age, or for a group of records.
 
     ## Datasets Used
 
-    This notebook does not use external datasets.
+    This notebook does not use external datasets. The examples are small dictionaries written in the code.
     """)
     return
 
@@ -37,9 +37,11 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Creating and reading dictionaries
+    ## Creating dictionaries
 
-    An empty dictionary is `{}`. Read a value with `dictionary[key]` or `dictionary.get(key)`.
+    An empty dictionary is `{}`. A dictionary with data is written as `{key: value, ...}`. Keys must be hashable, which means they cannot change. Strings, numbers, and tuples are allowed as keys. Lists and dictionaries are not, because those can change.
+
+    A dictionary keeps the order in which you insert the pairs. Keys are unique: assigning to a key that is already present replaces the value.
     """)
     return
 
@@ -47,55 +49,63 @@ def _(mo):
 @app.cell
 def _():
     empty_dictionary = {}
-    print(type(empty_dictionary))
+    print("empty:", empty_dictionary, "->", type(empty_dictionary))
 
     student = {"name": "John", "last_name": "Doe", "age": 30}
     print(student)
-    print(student["name"])
-    print(student.get("name"))
-
-    student["age"] = 33
-    print(student)
-    print("name" in student)
-    print("middle_name" in student)
+    print("name:", student["name"])
+    print("last_name:", student["last_name"])
+    print("age:", student["age"])
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Slicing uses positions. A dictionary is organized by keys, so a slice raises `TypeError`.
+    `get()` also reads a value by key. The second argument is returned when the key is absent, so a missing key does not raise an error. Square brackets raise an error when the key is absent.
     """)
     return
 
 
 @app.cell
 def _():
-    record = {"name": "John", "last_name": "Doe", "age": 33}
-
-    try:
-        print(record["name":"last_name"])
-    except KeyError as error:
-        print("KeyError:", error)
+    lookup = {"name": "John", "last_name": "Doe", "age": 30}
+    print(lookup.get("name", "Unknown"))
+    print(lookup.get("middle_name", "Unknown"))
+    print("name" in lookup)
+    print("middle_name" in lookup)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
-
-    Change the keys and values, then print one value and check whether another key exists.
+    Assign to a key to change its value, or to add a key that is not there yet.
     """)
     return
 
 
 @app.cell
 def _():
-    your_profile = {"name": "Ana", "city": "Madrid"}
+    updated_student = {"name": "John", "last_name": "Doe", "age": 30}
+    updated_student["age"] = 33
+    updated_student["weight"] = 65
+    print(updated_student)
+    return
 
-    print(your_profile["name"])
-    print("city" in your_profile)
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A dictionary is not a sequence of positions. A slice does not make sense, and it raises an error. Run the next cell to see that error.
+    """)
+    return
+
+
+@app.cell
+def _():
+    slice_attempt = {"name": "John", "last_name": "Doe", "age": 30}
+    slice_attempt["name":"last_name"]
     return
 
 
@@ -104,81 +114,79 @@ def _(mo):
     mo.md(r"""
     ## Dictionary methods
 
-    Add a pair by assigning a new key. `update` adds or replaces pairs. `items`, `keys`, and `values` show the contents. `pop` removes a named key. `popitem` removes the last inserted pair.
+    `len()` returns how many pairs the dictionary holds. `keys()`, `values()`, and `items()` return views of the keys, the values, and the pairs. Each pair from `items()` is a tuple of `(key, value)`.
+
+    `update()` adds or replaces pairs from another dictionary. `pop(key)` removes that key and returns its value. `popitem()` removes and returns the last inserted pair.
     """)
     return
 
 
 @app.cell
 def _():
-    profile = {"name": "John", "last_name": "Doe", "age": 33}
-    print("length:", len(profile))
+    methods_student = {"name": "John", "last_name": "Doe", "age": 33, "weight": 65}
+    print("length:", len(methods_student))
+    print("keys:", methods_student.keys())
+    print("values:", methods_student.values())
+    print("items:", methods_student.items())
+    print()
 
-    profile["weight"] = 65
-    profile.update({"height": 5.8})
-    print(profile)
-    print("items:", list(profile.items()))
-    print("keys:", list(profile.keys()))
-    print("values:", list(profile.values()))
+    methods_student.update({"height": 5.8})
+    print("after update:", methods_student)
 
-    profile.pop("weight")
-    print("after pop:", profile)
-    print("popitem removed:", profile.popitem())
-    print("remaining:", profile)
+    print("pop weight:", methods_student.pop("weight"))
+    print("after pop:", methods_student)
+
+    print("popitem:", methods_student.popitem())
+    print("after popitem:", methods_student)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Copying and deleting
+    ### Copying a dictionary
 
-    `alias = original` makes both names refer to the same dictionary. `dict(original)` and `copy()` make a separate dictionary. `clear` empties a dictionary. `del` can remove one key or the whole dictionary.
+    `alias = student` does not copy the dictionary. Both names refer to the same dictionary, so a change through one name is visible through the other. `dict()` and `copy()` each build a separate dictionary.
     """)
     return
 
 
 @app.cell
 def _():
-    person = {"last_name": "Doe", "age": 33}
-    copied = dict(person)
-    copied_again = person.copy()
-    print("copy:", copied_again)
+    original = {"name": "John", "last_name": "Doe", "age": 33}
+    alias = original
+    alias["age"] = 40
+    print("same dictionary:", original)
 
-    copied_again.clear()
-    print("cleared copy:", copied_again)
-    print("original:", person)
+    separate = {"name": "John", "last_name": "Doe", "age": 33}
+    copied = dict(separate)
+    copied["age"] = 40
+    print("original:", separate)
+    print("dict() copy:", copied)
 
-    del person["last_name"]
-    print("after del key:", person)
-
-    removed = person
-    del removed
-    try:
-        print(removed)
-    except NameError as missing_name:
-        print("NameError:", missing_name)
+    other_copy = separate.copy()
+    other_copy.clear()
+    print("cleared copy:", other_copy)
+    print("original is unchanged:", separate)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Try it yourself
-
-    Copy `scores`, add a new subject, and print both dictionaries. The original should stay unchanged.
+    `del` removes one pair. `del` can also delete the name. Run the next cell to see the error from using a name after it has been deleted.
     """)
     return
 
 
 @app.cell
 def _():
-    scores = {"math": 90, "history": 85}
-    scores_copy = scores.copy()
-    scores_copy["science"] = 88
+    removable = {"name": "John", "last_name": "Doe", "age": 33}
+    del removable["name"]
+    print("after del name:", removable)
 
-    print("original:", scores)
-    print("copy:", scores_copy)
+    del removable
+    print(removable)
     return
 
 
@@ -187,7 +195,7 @@ def _(mo):
     mo.md(r"""
     ## Nested dictionaries
 
-    A value may itself be a dictionary. The outer keys select a record, and the inner keys select a field.
+    A value may itself be a dictionary. The first key selects the inner dictionary. The second key selects a field inside it.
     """)
     return
 
@@ -205,8 +213,27 @@ def _():
         "child3": child3,
         "child4": child4,
     }
-    print(family["child1"])
-    print(family["child3"]["name"])
+    print(family["child4"])
+    print(family["child4"]["name"])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Add a key to `practice` and print that value.
+    """)
+    return
+
+
+@app.cell
+def _():
+    practice = {"city": "Austin", "year": 2024}
+    practice["month"] = "September"
+    print(practice["city"])
+    print(practice.get("month", "Unknown"))
     return
 
 
@@ -217,11 +244,11 @@ def _(mo):
 
     **Key takeaways:**
 
-    - A dictionary maps each key to one value.
-    - Read values with `dictionary[key]` or `get`. Test keys with `in`.
-    - Assign a new key to add a pair. `pop` and `del` remove pairs.
-    - Copy with `copy()` or `dict()` when the new dictionary must be independent.
-    - Dictionaries can contain other dictionaries.
+    - A dictionary stores key-value pairs. You read and write a value by its key, not by position.
+    - Keys must be values that cannot change, such as strings, numbers, and tuples. Keys are unique.
+    - `get()` can return a default when the key is missing. Square brackets raise an error instead.
+    - `update()`, `pop()`, `popitem()`, and `del` change the pairs. `dict()` and `copy()` make a separate dictionary.
+    - A value can be another dictionary. Use one key after another to reach an inner value.
 
     ## References
 

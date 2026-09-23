@@ -14,22 +14,22 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # Conditional Statements
+    # Conditional Statements in Python
 
     ## Objectives
 
     - Compare values with `==`, `!=`, `<`, `<=`, `>`, and `>=`.
-    - Combine Boolean expressions with `and`, `or`, and `not`.
-    - Choose code with `if`, `elif`, and `else`.
-    - Nest a condition and use `pass` when a branch is intentionally empty.
+    - Combine comparisons with `and`, `or`, and `not`.
+    - Choose which lines run with `if`, `elif`, and `else`.
+    - Match one value against several cases with `match`.
 
     ## Background
 
-    A condition is an expression that is `True` or `False`. Python uses indentation to decide which lines belong to a branch.
+    A condition is an expression that is either `True` or `False`. A conditional statement uses that result to decide which block of code runs. The lines that belong to a branch are indented.
 
     ## Datasets Used
 
-    This notebook does not use external datasets.
+    This notebook does not use external datasets. The examples compare small values written in the code.
     """)
     return
 
@@ -39,29 +39,30 @@ def _(mo):
     mo.md(r"""
     ## Comparisons
 
-    | Operator | Meaning |
+    These operators compare two values and return `True` or `False`.
+
+    | Condition | Expression |
     |---|---|
-    | `==` | equal |
-    | `!=` | not equal |
-    | `<` | less than |
-    | `<=` | less than or equal to |
-    | `>` | greater than |
-    | `>=` | greater than or equal to |
+    | Equal | `a == b` |
+    | Not equal | `a != b` |
+    | Less than | `a < b` |
+    | Less than or equal to | `a <= b` |
+    | Greater than | `a > b` |
+    | Greater than or equal to | `a >= b` |
     """)
     return
 
 
 @app.cell
 def _():
-    left = 2
-    right = 5
-
-    print("equal:             ", left == right)
-    print("not equal:         ", left != right)
-    print("less than:         ", left < right)
-    print("less or equal:     ", left <= right)
-    print("greater than:      ", left > right)
-    print("greater or equal:  ", left >= right)
+    a = 2
+    b = 5
+    print("a == b:", a == b)
+    print("a != b:", a != b)
+    print("a < b:", a < b)
+    print("a <= b:", a <= b)
+    print("a > b:", a > b)
+    print("a >= b:", a >= b)
     return
 
 
@@ -70,49 +71,25 @@ def _(mo):
     mo.md(r"""
     ## Logical operators
 
-    - `and` is true when both parts are true.
-    - `or` is true when at least one part is true.
-    - `not` reverses a Boolean value.
+    `and` is `True` only when both sides are `True`. `or` is `True` when at least one side is `True`. `not` reverses a boolean value.
     """)
     return
 
 
 @app.cell
 def _():
-    first = 1
-    second = 2
-    third = 10
-
-    print("True and True:  ", first < third and second < third)
-    print("True and False: ", first < third and second > third)
-    print("True or False:  ", first < third or second > third)
-    print("False or True:  ", first > third or second < third)
-    print("True or True:   ", first < third or second < third)
-    print("False or False: ", first > third or second > third)
-    print("not False:      ", not False)
-    print("not (first < third):", not (first < third))
-    print("not (first > third):", not (first > third))
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ### Try it yourself
-
-    Change the two numbers and predict each comparison before you run the cell.
-    """)
-    return
-
-
-@app.cell
-def _():
-    your_left = 8
-    your_right = 3
-
-    print(your_left == your_right)
-    print(your_left > your_right)
-    print(your_left < 10 and your_right < 10)
+    left = 1
+    middle = 2
+    right = 10
+    print("True and True:", left < right and middle < right)
+    print("True and False:", left < right and middle > right)
+    print("True or False:", left < right or middle > right)
+    print("False or True:", left > right or middle < right)
+    print("True or True:", left < right or middle < right)
+    print("False or False:", left > right or middle > right)
+    print("not False:", not False)
+    print("not (left < right):", not (left < right))
+    print("not (left > right):", not (left > right))
     return
 
 
@@ -121,23 +98,53 @@ def _(mo):
     mo.md(r"""
     ## if, elif, and else
 
-    The indented lines run only when the condition is true. `else` runs when the earlier conditions are false. `elif` tries another condition. Only one `else` is allowed, and it must be last.
+    The indented lines under `if` run only when the condition is `True`. When the condition is `False`, those lines are skipped. `else` runs when the `if` condition is `False`. `elif` tries another condition when the earlier conditions were `False`. You may write several `elif` branches. If you write `else`, it must be last, and there can be only one.
     """)
     return
 
 
 @app.cell
 def _():
-    high = 20
-    low = 10
+    larger = 20
+    smaller = 10
+    if larger > smaller:
+        print("The condition is True")
+        print("All these sentences are executed!")
+    return
 
-    if high > low:
-        print("The condition (high > low) is True, so this sentence runs.")
 
+@app.cell
+def _():
+    first = 10
+    second = 20
+    if second < first:
+        print("The condition is False")
+        print("These sentences are NOT executed!")
+    print("This line is not indented, so it always runs.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Python uses indentation to decide which lines belong to the `if`. The next block is not valid Python, because the `print` lines are not indented under the `if`. A notebook cell has to be valid Python, so this version is shown here rather than run:
+
+    ```python
+    if second > first:
+    print("The condition is True")
+    ```
+    """)
+    return
+
+
+@app.cell
+def _():
+    high = 10
+    low = 5
     if high < low:
-        print("This sentence does not run.")
+        print("The condition is True.")
     else:
-        print("The condition is False, so else runs.")
+        print("The condition is False.")
     return
 
 
@@ -145,32 +152,29 @@ def _():
 def _():
     equal_left = 3
     equal_right = 3
-
     if equal_right > equal_left:
-        print("right is greater than left")
+        print("b is greater than a")
     elif equal_left == equal_right:
-        print("the two values are equal")
+        print("a and b are equal")
     return
 
 
 @app.cell
 def _():
-    greater_left = 6
-    greater_right = 4
-
-    if greater_right > greater_left:
-        print("right is greater than left")
-    elif greater_left == greater_right:
-        print("the two values are equal")
+    greater = 6
+    lesser = 4
+    if lesser > greater:
+        print("b is greater than a")
+    elif greater == lesser:
+        print("a and b are equal")
     else:
-        print("left is greater than right")
+        print("a is greater than b")
     return
 
 
 @app.cell
 def _():
     known_name = "Anna"
-
     if known_name == "Maria":
         print("Hello Maria!")
     elif known_name == "Sarah":
@@ -181,13 +185,8 @@ def _():
         print("Hello Sofia!")
     else:
         print("I do not know who you are!")
-    return
 
-
-@app.cell
-def _():
     unknown_name = "Julia"
-
     if unknown_name == "Maria":
         print("Hello Maria!")
     elif unknown_name == "Sarah":
@@ -204,19 +203,148 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The lines inside `if` must be indented. This cell runs the same statement without indentation and prints the `IndentationError`.
+    `input()` pauses and reads a line that you type. It always returns text. `int()` converts that text to an integer so it can be compared with `18`.
     """)
     return
 
 
 @app.cell
 def _():
-    unindented = "if 20 > 10:\nprint('missing indentation')"
+    username = input("Enter username:")
+    print("Your name is", username)
+    return
 
-    try:
-        exec(unindented)
-    except IndentationError as error:
-        print("IndentationError:", error)
+
+@app.cell
+def _():
+    age_text = input("Enter your age:")
+    if int(age_text) < 18:
+        print("You are a child!")
+    else:
+        print("You are an adult!")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    An `if` may contain another `if`. The inner test runs only when the outer condition is `True`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    fourteen = 14
+    if fourteen > 10:
+        print("Above 10,")
+        if fourteen > 20:
+            print("and also above 20.")
+        else:
+            print("but not above 20.")
+
+    thirty_five = 35
+    if thirty_five > 10:
+        print("Above 10,")
+        if thirty_five > 20:
+            print("and also above 20.")
+        else:
+            print("but not above 20.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    An `if` body cannot be empty. `pass` is a statement that does nothing, so the branch is valid and no error is raised.
+    """)
+    return
+
+
+@app.cell
+def _():
+    checked = 33
+    limit = 200
+    if limit > checked:
+        pass
+    else:
+        print("b <= a")
+    print("The cell finished. pass did not print anything.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## The match statement
+
+    `match` compares one value with several `case` patterns. It can do the same job as a chain of `elif` branches, and it can also unpack a tuple. `_` matches anything that the earlier cases did not match. `case 401 | 403 | 404` matches any one of those three values. `case _ as error_code` matches anything left and stores it in `error_code`.
+
+    `match` requires Python 3.10 or newer.
+    """)
+    return
+
+
+@app.cell
+def _():
+    http_error_code = 404
+    match http_error_code:
+        case 200:
+            print("OK")
+        case 400:
+            print("Bad Request")
+        case 401:
+            print("Unauthorized")
+        case 403:
+            print("Forbidden")
+        case 404:
+            print("Not Found")
+        case 500:
+            print("Internal Server Error")
+        case 502:
+            print("Bad Gateway")
+        case 503:
+            print("Service Unavailable")
+        case 504:
+            print("Gateway Timeout")
+        case _:
+            print("Unknown error")
+
+    print()
+    match http_error_code:
+        case 200:
+            print("OK")
+        case 400:
+            print("Bad Request")
+        case 401 | 403 | 404:
+            print("Not allowed")
+        case 500:
+            print("Internal Server Error")
+        case 502:
+            print("Bad Gateway")
+        case 503:
+            print("Service Unavailable")
+        case 504:
+            print("Gateway Timeout")
+        case _ as error_code:
+            print(f"Unknown error {error_code}")
+    return
+
+
+@app.cell
+def _():
+    point = (1, 2)
+    match point:
+        case (0, 0):
+            print("Origin")
+        case (0, y):
+            print(f"Y = {y}")
+        case (x, 0):
+            print(f"X = {x}")
+        case (x, y):
+            print(f"X = {x}, Y = {y}")
+        case _:
+            print("It is not a point")
     return
 
 
@@ -225,101 +353,22 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_score`. Print `"pass"` when it is at least 60, and `"retry"` otherwise.
+    Change `score` and predict which message prints before you run the cell.
     """)
     return
 
 
 @app.cell
 def _():
-    your_score = 72
-
-    if your_score >= 60:
-        print("pass")
+    score = 82
+    if score >= 90:
+        print("A")
+    elif score >= 80:
+        print("B")
+    elif score >= 70:
+        print("C")
     else:
-        print("retry")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Nested if and pass
-
-    An `if` inside another `if` tests a second condition only after the first one is true. An empty branch is not allowed; use `pass` when the branch should do nothing.
-    """)
-    return
-
-
-@app.cell
-def _():
-    small_number = 14
-
-    if small_number > 10:
-        print("Above 10,")
-        if small_number > 20:
-            print("and also above 20.")
-        else:
-            print("but not above 20.")
-    return
-
-
-@app.cell
-def _():
-    large_number = 35
-
-    if large_number > 10:
-        print("Above 10,")
-        if large_number > 20:
-            print("and also above 20.")
-        else:
-            print("but not above 20.")
-    return
-
-
-@app.cell
-def _():
-    pass_left = 33
-    pass_right = 200
-
-    if pass_right > pass_left:
-        pass
-    else:
-        print("right is not greater than left")
-
-    print("The empty branch used pass, so execution continued.")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Interactive check
-
-    Type a name and an age. The results update when you change either value. This replaces `input()`, which would stop the notebook while it waits for the terminal.
-    """)
-    return
-
-
-@app.cell
-def _(mo):
-    name_input = mo.ui.text(value="Ana", label="Name")
-    age_input = mo.ui.number(value=21, label="Age", start=0, stop=120)
-    mo.hstack([name_input, age_input], justify="start", gap=2)
-    return age_input, name_input
-
-
-@app.cell
-def _(age_input, mo, name_input):
-    entered_name = name_input.value
-    entered_age = age_input.value
-
-    if entered_age < 18:
-        age_message = "You are a child."
-    else:
-        age_message = "You are an adult."
-
-    mo.md(f"**{entered_name}**, age {entered_age}. {age_message}")
+        print("Not yet")
     return
 
 
@@ -330,10 +379,10 @@ def _(mo):
 
     **Key takeaways:**
 
-    - Comparison operators produce `True` or `False`.
-    - `and`, `or`, and `not` combine Boolean expressions.
-    - `if`, `elif`, and `else` choose which block runs. The blocks must be indented.
-    - A nested `if` adds a second test. `pass` fills a branch that should do nothing.
+    - A comparison or a logical expression is `True` or `False`.
+    - Indented lines under `if` run only when that condition is `True`. `elif` tries the next condition. `else` runs when none of the conditions were `True`.
+    - `input()` returns text. Convert it with `int()` before a numeric comparison.
+    - `pass` fills a branch that should do nothing. `match` selects a `case` from one value, including several values written with `|` and values unpacked from a tuple.
 
     ## References
 

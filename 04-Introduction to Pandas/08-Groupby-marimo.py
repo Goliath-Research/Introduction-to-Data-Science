@@ -64,7 +64,7 @@ def _(pd):
     }
     df = pd.DataFrame(data)
     df
-    return (df,)
+    return df, data
 
 
 @app.cell(hide_code=True)
@@ -243,7 +243,7 @@ def _(t):
 def _(t):
     filtered = t.filter(lambda x: x['Year'].count() == 2)
     filtered
-    return
+    return (filtered,)
 
 
 @app.cell(hide_code=True)
@@ -275,7 +275,7 @@ def _(pd):
         'Points': [10, 30, 20, 40],
     })
     practice.groupby('Team')['Points'].mean()
-    return
+    return (practice,)
 
 
 @app.cell(hide_code=True)

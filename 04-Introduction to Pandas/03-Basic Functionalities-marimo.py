@@ -54,7 +54,7 @@ def _(np, pd):
     }
     df = pd.DataFrame(students)
     df.head(3)
-    return (df,)
+    return df, students
 
 
 @app.cell(hide_code=True)
@@ -168,7 +168,7 @@ def _(labeled):
     restored = labeled.copy()
     restored.reset_index(drop=True, inplace=True)
     restored
-    return
+    return (restored,)
 
 
 @app.cell(hide_code=True)
@@ -195,7 +195,7 @@ def _(df):
     print(type(v))
     print(v)
     v.flatten()
-    return
+    return (v,)
 
 
 @app.cell(hide_code=True)
@@ -343,7 +343,7 @@ def _(pd):
     )
     print(practice.loc[:'y', ['City', 'Temp']])
     practice.iloc[:2, [1]]
-    return
+    return (practice,)
 
 
 @app.cell(hide_code=True)

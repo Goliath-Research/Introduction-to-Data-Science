@@ -97,7 +97,7 @@ def _(df):
 def _(add2, df):
     df2 = df.pipe(add2, 10)
     df2
-    return
+    return (df2,)
 
 
 @app.cell(hide_code=True)
@@ -257,7 +257,7 @@ def _(N, np, pd):
         'E': np.random.normal(100, 10, size=(N)).tolist(),
     })
     draft.head()
-    return
+    return (draft,)
 
 
 @app.cell
@@ -383,7 +383,7 @@ def _(mo):
 def _(pd):
     practice = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
     practice.apply(lambda column: column.max() - column.min())
-    return
+    return (practice,)
 
 
 @app.cell(hide_code=True)

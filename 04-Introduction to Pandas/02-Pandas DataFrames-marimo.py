@@ -56,7 +56,7 @@ def _(mo):
 def _(pd):
     empty_frame = pd.DataFrame()
     print(empty_frame)
-    return
+    return (empty_frame,)
 
 
 @app.cell(hide_code=True)
@@ -72,7 +72,7 @@ def _(pd):
     data = [10, 20, 30, 40, 50]
     from_list = pd.DataFrame(data)
     print(from_list)
-    return (data,)
+    return data, from_list
 
 
 @app.cell(hide_code=True)
@@ -87,7 +87,7 @@ def _(mo):
 def _(data, pd):
     named_column = pd.DataFrame(data, columns=['data'])
     print(named_column)
-    return
+    return (named_column,)
 
 
 @app.cell(hide_code=True)
@@ -103,7 +103,7 @@ def _(pd):
     students_rows = [['John', 18], ['Anna', 17], ['Peter', 19]]
     from_rows = pd.DataFrame(students_rows, columns=['Name', 'Age'])
     from_rows
-    return
+    return students_rows, from_rows
 
 
 @app.cell(hide_code=True)
@@ -123,7 +123,7 @@ def _(pd):
     students = {'Name': ['John', 'Jane', 'Emma'], 'Age': [18, 17, 19]}
     with_index = pd.DataFrame(students, index=['a', 'b', 'c'])
     with_index
-    return (students,)
+    return students, with_index
 
 
 @app.cell(hide_code=True)
@@ -139,7 +139,7 @@ def _(pd, students):
     # without index
     without_index = pd.DataFrame(students)
     without_index
-    return
+    return (without_index,)
 
 
 @app.cell(hide_code=True)
@@ -379,7 +379,7 @@ def _(pd):
     practice = pd.DataFrame({'Name': ['John', 'Anna', 'Peter'], 'Age': [18, 17, 19]})
     practice['NextYear'] = practice['Age'] + 1
     practice
-    return
+    return (practice,)
 
 
 @app.cell(hide_code=True)

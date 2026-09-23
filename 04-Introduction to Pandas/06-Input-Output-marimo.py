@@ -125,7 +125,7 @@ def _(df_auto, pd):
     df2_auto = pd.read_csv('auto.csv')
     print(df2_auto.shape)
     df2_auto.head()
-    return (df2_auto,)
+    return df2_auto, with_index
 
 
 @app.cell(hide_code=True)
@@ -162,7 +162,7 @@ def _(pd):
     )
     print(df_hst_comma.shape)
     df_hst_comma.head()
-    return
+    return (df_hst_comma,)
 
 
 @app.cell
@@ -199,7 +199,7 @@ def _(df2_auto, pd):
     check = pd.read_csv('auto.csv')
     print(check.shape)
     check.head(3)
-    return
+    return (check,)
 
 
 @app.cell(hide_code=True)
@@ -231,7 +231,7 @@ def _(urlopen):
     with urlopen(stAcademic_url) as downloaded:
         status_code = downloaded.status
         payload = downloaded.read()
-    return payload, status_code
+    return payload, status_code, stAcademic_url
 
 
 @app.cell
@@ -274,7 +274,7 @@ def _(mo):
 def _(meta):
     column_names = meta.names()
     print('Column Names:', column_names)
-    return
+    return (column_names,)
 
 
 @app.cell
@@ -362,7 +362,7 @@ def _():
         record_prefix='car_',
     )
     print(cars)
-    return
+    return json_normalize, data, cars
 
 
 @app.cell(hide_code=True)
@@ -385,7 +385,7 @@ def _(pd):
     )
     print(df_immuno.shape)
     df_immuno.head()
-    return (df_immuno,)
+    return df_immuno, openpyxl
 
 
 @app.cell

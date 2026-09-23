@@ -53,7 +53,7 @@ def _(mo):
 def _(pd):
     empty_series = pd.Series(dtype='int')
     print(empty_series)
-    return
+    return (empty_series,)
 
 
 @app.cell(hide_code=True)
@@ -71,7 +71,7 @@ def _(np, pd):
     data = np.array([10, 20, 30, 40])
     from_array = pd.Series(data)
     print(from_array)
-    return (data,)
+    return data, from_array
 
 
 @app.cell(hide_code=True)
@@ -86,14 +86,14 @@ def _(mo):
 def _(data, pd):
     letter_index = pd.Series(data, index=['a', 'b', 'c', 'd'])
     print(letter_index)
-    return
+    return (letter_index,)
 
 
 @app.cell
 def _(data, pd):
     color_index = pd.Series(data, index=['blue', 'red', 'pink', 'green'])
     print(color_index)
-    return
+    return (color_index,)
 
 
 @app.cell(hide_code=True)
@@ -109,7 +109,7 @@ def _(pd):
     d1 = {'a': 5, 'b': 10, 'c': 15, 'd': 20}
     from_dictionary = pd.Series(d1)
     print(from_dictionary)
-    return (d1,)
+    return d1, from_dictionary
 
 
 @app.cell(hide_code=True)
@@ -128,7 +128,7 @@ def _(mo):
 def _(d1, pd):
     missing_index = pd.Series(d1, index=['b', 'c', 'd', 'f'])
     print(missing_index)
-    return
+    return (missing_index,)
 
 
 @app.cell(hide_code=True)
@@ -143,7 +143,7 @@ def _(mo):
 def _(pd):
     from_scalar = pd.Series(20, index=[1, 2, 3, 4, 5])
     print(from_scalar)
-    return
+    return (from_scalar,)
 
 
 @app.cell(hide_code=True)
@@ -161,7 +161,7 @@ def _(pd):
     practice = {'a': 5, 'b': 10, 'c': 15}
     yours = pd.Series(practice, index=['b', 'a', 'z'])
     print(yours)
-    return
+    return practice, yours
 
 
 @app.cell(hide_code=True)
@@ -210,7 +210,7 @@ def _(pd):
     s3 = s3.astype('object')
     print(s3)
     print(s3.dtype)
-    return (s3,)
+    return s3, s2
 
 
 @app.cell
@@ -228,7 +228,7 @@ def _(mo):
     - `s3` can be converted to integer because its values are numbers.
     - `s4` cannot be converted to integer because its values are letters.
 
-    The next cell raises an error. The cells after it still run.
+    The next cell converts `s3`. The cell after that tries to convert `s4` and prints the error.
     """)
     return
 
@@ -241,7 +241,10 @@ def _(s3):
 
 @app.cell
 def _(s4):
-    s4.astype('int')  # This will raise an error
+    try:
+        _ = s4.astype('int')  # letters cannot become integers
+    except ValueError as error:
+        print('ValueError:', error)
     return
 
 
@@ -383,14 +386,17 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    If a label is not in the index, Pandas raises an exception. The next cell raises that error.
+    If a label is not in the index, Pandas raises `KeyError`. The next cell tries that label and prints the error.
     """)
     return
 
 
 @app.cell
 def _(s):
-    s['f']  # This will raise an error
+    try:
+        _ = s['f']  # f is not a label in this Series
+    except KeyError as error:
+        print('KeyError:', error)
     return
 
 
@@ -496,7 +502,7 @@ def _(pd):
     print('Min =', scores.min())
     print('Max =', scores.max())
     scores.value_counts()
-    return
+    return (scores,)
 
 
 @app.cell(hide_code=True)

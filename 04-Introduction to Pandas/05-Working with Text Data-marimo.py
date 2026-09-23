@@ -212,7 +212,7 @@ def _(pd):
     # return all the 'e's
     print(colors.str.findall('e'))
     colors.str.endswith('e')
-    return
+    return (colors,)
 
 
 @app.cell(hide_code=True)
@@ -233,14 +233,14 @@ def _(pd):
         'Puerto Rico',
     ])
     country.str.get_dummies()
-    return
+    return (country,)
 
 
 @app.cell
 def _(pd):
     sex = pd.Series(['Male', 'Female'])
     sex.str.get_dummies()
-    return
+    return (sex,)
 
 
 @app.cell(hide_code=True)
@@ -257,7 +257,7 @@ def _(mo):
 def _(pd):
     practice = pd.Series(['  Cat', 'DOG  ', 'Blue Bird'])
     practice.str.strip().str.lower().str.replace(' ', '_')
-    return
+    return (practice,)
 
 
 @app.cell(hide_code=True)

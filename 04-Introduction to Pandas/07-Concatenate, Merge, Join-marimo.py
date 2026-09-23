@@ -77,7 +77,7 @@ def _(df1, df2, df3, pd):
     res = pd.concat(frames)
     print(res.shape)
     res
-    return (frames,)
+    return frames, res
 
 
 @app.cell(hide_code=True)
@@ -193,7 +193,7 @@ def _(pd):
     }
     customers = pd.DataFrame(d1)
     customers
-    return (customers,)
+    return customers, d1
 
 
 @app.cell
@@ -204,7 +204,7 @@ def _(pd):
     }
     states = pd.DataFrame(d2)
     states
-    return (states,)
+    return states, d2
 
 
 @app.cell(hide_code=True)
@@ -384,7 +384,7 @@ def _(itemsByOrder, orders, pd):
     # Perform a left join
     left_orders = pd.merge(orders, itemsByOrder, how='left', left_on='ID', right_on='OrderID')
     left_orders
-    return
+    return (left_orders,)
 
 
 @app.cell(hide_code=True)
@@ -429,7 +429,7 @@ def _(pd):
     part_b = pd.DataFrame({'B': [3, 4]})
     print(pd.concat([part_a, part_b]))
     pd.concat([part_a, part_b], axis=1)
-    return
+    return part_a, part_b
 
 
 @app.cell(hide_code=True)

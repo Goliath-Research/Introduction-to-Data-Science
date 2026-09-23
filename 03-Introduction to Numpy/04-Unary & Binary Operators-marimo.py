@@ -107,7 +107,7 @@ def _(mo):
     mo.md(r"""
     ## Universal functions
 
-    Each arithmetic operator has a ufunc with the same result.
+    Applying one operation to every element, instead of writing a Python loop, is called **vectorization**. NumPy does that with universal functions (`ufuncs`). Each arithmetic operator has a ufunc with the same result.
 
     | Operator | Ufunc | Description |
     |---|---|---|
@@ -128,7 +128,11 @@ def _(left, np, right):
     print("subtract:\n", np.subtract(left, right))
     print("multiply:\n", np.multiply(left, right))
     print("divide:\n", np.divide(left, right))
-    print(type(np.add), type(np.subtract), type(np.multiply), type(np.divide))
+    # add, subtract, multiply, and divide are ufuncs.
+    print(type(np.add))
+    print(type(np.subtract))
+    print(type(np.multiply))
+    print(type(np.divide))
     return
 
 

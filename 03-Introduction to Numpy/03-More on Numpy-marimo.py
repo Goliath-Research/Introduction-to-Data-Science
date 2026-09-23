@@ -25,7 +25,7 @@ def _(mo):
 
     ## Background
 
-    These operations change how an array is arranged. Reshape and many slices share data with the original array. `flatten`, `sort`, and an explicit copy do not.
+    These tools rearrange an array. `reshape` returns a new shape and leaves the original array's shape unchanged. The new shape must hold the same number of elements. Later sections join arrays, cut them apart, find values, and sort them.
 
     ## Datasets Used
 
@@ -59,12 +59,21 @@ def _(np):
     print("1 x 12:\n", as_row)
     print("12 x 1:\n", as_column)
     print("original is still", grid.shape)
-
-    try:
-        grid.reshape(2, 5)
-    except ValueError as error:
-        print("ValueError:", error)
     return (grid,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The new shape has to contain the same number of elements. This array has 12 elements. A shape of `(2, 5)` has 10. Run the next cell to see the error.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    grid.reshape(2, 5)
+    return
 
 
 @app.cell
@@ -123,7 +132,9 @@ def _(mo):
     mo.md(r"""
     ## Concatenation
 
-    `concatenate` joins arrays. `+` adds them element by element; it does not join them. For 2-D arrays, `axis=0` stacks rows and `axis=1` stacks columns. `vstack` and `hstack` do the same when the arrays have different ranks.
+    `concatenate` joins arrays. `+` adds them element by element; it does not join them.
+
+    A 2-D array has rows and columns, so you choose the axis. `axis=0` stacks rows. That is also the default. `axis=1` stacks columns. `vstack` and `hstack` do the same job when the arrays do not have the same number of dimensions.
     """)
     return
 
@@ -137,9 +148,12 @@ def _(np):
 
     zeros_block = np.zeros((2, 2))
     ones_block = np.ones((2, 2))
-    by_rows = np.concatenate([zeros_block, ones_block], axis=0)
+    # axis=0 is the default: the blocks are stacked as extra rows.
+    by_rows = np.concatenate([zeros_block, ones_block])
+    by_rows_explicit = np.concatenate([zeros_block, ones_block], axis=0)
     by_columns = np.concatenate([zeros_block, ones_block], axis=1)
-    print("axis 0:\n", by_rows, by_rows.shape)
+    print("default axis:\n", by_rows, by_rows.shape)
+    print("axis 0:\n", by_rows_explicit, by_rows_explicit.shape)
     print("axis 1:\n", by_columns, by_columns.shape)
 
     top_row = np.array([1, 2, 3])
@@ -204,7 +218,9 @@ def _(mo):
     mo.md(r"""
     ## Search
 
-    `where(condition)` returns the indexes where the condition is true. An empty index array means there was no match.
+    `where(condition)` returns a tuple. The first item is the array of indexes where the condition is true. `nditer` walks those indexes one by one, so each match can be printed with its value. An empty index array means there was no match.
+
+    `%` is the remainder after floor division. A value is odd when that remainder is 1.
     """)
     return
 
@@ -213,19 +229,36 @@ def _(mo):
 def _(np):
     values = np.array([-5, 6, 4, 4, 1, 0, -6])
 
-    def report(label, indexes):
-        positions = indexes[0]
-        print(label, positions)
-        if positions.size == 0:
-            print("  no match")
-        for position in positions:
-            print(f"  index {position}, value {values[position]}")
+    index_one = np.where(values == 1)
+    print("equal to 1:", index_one)
+    print("positions:", index_one[0])
+    for position in np.nditer(index_one):
+        print("index:", int(position), "value:", values[position])
 
-    report("equal to 1:", np.where(values == 1))
-    report("equal to 4:", np.where(values == 4))
-    report("equal to 9:", np.where(values == 9))
-    report("odd:", np.where(values % 2 == 1))
-    report("positive:", np.where(values > 0))
+    index_four = np.where(values == 4)
+    print("equal to 4:", index_four)
+    print("positions:", index_four[0])
+    for position in np.nditer(index_four):
+        print("index:", int(position), "value:", values[position])
+
+    index_nine = np.where(values == 9)
+    if index_nine[0].size == 0:
+        print("equal to 9: no match")
+    else:
+        print("equal to 9:", index_nine)
+        for position in np.nditer(index_nine):
+            print("index:", int(position), "value:", values[position])
+
+    # An odd integer leaves a remainder of 1 when divided by 2.
+    index_odd = np.where(values % 2 == 1)
+    print("odd positions:", index_odd[0])
+    for position in np.nditer(index_odd):
+        print("index:", int(position), "value:", values[position])
+
+    index_positive = np.where(values > 0)
+    print("positive positions:", index_positive[0])
+    for position in np.nditer(index_positive):
+        print("index:", int(position), "value:", values[position])
     return
 
 

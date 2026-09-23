@@ -25,7 +25,7 @@ def _(mo):
 
     ## Background
 
-    Fancy indexing passes a list or array of positions instead of one position. The result is a copy of the selected elements. A Boolean array of the same shape keeps only the elements where the mask is true.
+    Fancy indexing passes a list or an array of positions instead of one position. A Boolean array used as an index keeps the elements marked `True`. `np.unique` finds the distinct values in an array.
 
     ## Datasets Used
 
@@ -127,7 +127,10 @@ def _(mo):
 def _(grid, values):
     even_mask = []
     for item in values:
-        even_mask.append(item % 2 == 0)
+        if item % 2 == 0:  # the value is even
+            even_mask.append(True)
+        else:
+            even_mask.append(False)
     print("values:", values)
     print("even mask:", even_mask)
     print("even values:", values[even_mask])

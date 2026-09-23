@@ -39,7 +39,19 @@ def _(mo):
     mo.md(r"""
     ## The NumPy library
 
-    NumPy is usually imported as `np`. The main namespace holds the array tools. Specialized work lives in submodules such as `linalg` (linear algebra), `fft`, `polynomial`, `random`, and `strings`.
+    NumPy works with arrays and matrices of numbers. It is usually imported as `np`, so the package is referred to by that short name.
+
+    The main tools live in `numpy` itself. Other parts of the library handle specialized work:
+
+    - `fft` computes the discrete Fourier transform.
+    - `linalg` handles linear algebra, including the dot product and matrix multiplication.
+    - `polynomial` works with polynomials.
+    - `random` draws samples from several distributions.
+    - `strings` operates on arrays of text.
+    - `testing` provides checks used in NumPy's own tests.
+    - `typing` exposes type names such as `ArrayLike` and `DTypeLike`.
+
+    This lesson uses the main array tools and `random`.
     """)
     return
 
@@ -55,7 +67,9 @@ def _(mo):
     mo.md(r"""
     ## The array
 
-    An array is similar to a list, except every element has the same type, usually a number. A **structured array** can store named fields of different types in each item. Arrays are much faster than lists for large amounts of numeric data.
+    An array is similar to a list, except every element has the same type, usually a number such as `int` or `float`. Arrays are much faster than lists when the data is large and numeric.
+
+    A **structured array** stores one record in each element. A record is a group of named **fields**, and those fields may have different types. The example below has a text field, `student`, and a float field, `grade`.
     """)
     return
 
@@ -77,6 +91,7 @@ def _(np):
     table = np.array([[1, 2, 3], [4, 5, 6]])
     cube = np.array([[[1, 1, 1], [2, 2, 2]], [[3, 3, 3], [4, 4, 4]]])
 
+    # A structured dtype names each field and gives it a type.
     student_type = np.dtype([("student", np.str_, 32), ("grade", np.float64)])
     records = np.array([("Sarah", 8.0), ("John", 6.0)], dtype=student_type)
 
@@ -227,6 +242,7 @@ def _(mo):
 
 @app.cell
 def _(np):
+    # One dense 3x3 coordinate array per axis, stored as integers.
     print(np.indices((3, 3), dtype=int, sparse=False))
     return
 

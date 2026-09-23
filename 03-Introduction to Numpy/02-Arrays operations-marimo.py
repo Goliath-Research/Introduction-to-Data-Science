@@ -25,7 +25,7 @@ def _(mo):
 
     ## Background
 
-    NumPy arrays support vectorized operations. Slices of an array are usually views of the same data, not independent copies. Changing a view changes the original array.
+    This lesson reads and changes array elements, then slices them. A slice of a NumPy array is usually a view of the same data, not a separate copy. Changing the view changes the original array. A slice of a Python list is a copy.
 
     ## Datasets Used
 
@@ -178,7 +178,7 @@ def _(mo):
     mo.md(r"""
     ## Views and copies
 
-    A NumPy slice is a **view**: it looks at the same data as the original array. Changing the slice changes the original. A Python list slice is a copy. Call `.copy()` when the slice must be independent.
+    A NumPy slice is a **view**: it looks at the same data as the original array. Changing the slice changes the original. That is useful with a large array, because you can work on one piece without copying the whole array. A Python list slice is a copy. Call `.copy()` when the NumPy slice must be independent.
     """)
     return
 

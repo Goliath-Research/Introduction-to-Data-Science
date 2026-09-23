@@ -126,7 +126,21 @@ def _(mo):
     mo.md(r"""
     ## Bitwise operators
 
-    `and` and `or` ask whether a whole object is true. `&` and `|` compare bits, or Boolean elements.
+    `and` and `or` ask whether a whole object is true. They follow this table:
+
+    | a | b | a and b | a or b |
+    |---|---|---|---|
+    | False | False | False | False |
+    | False | True | False | True |
+    | True | False | False | True |
+    | True | True | True | True |
+
+    | a | not a |
+    |---|---|
+    | False | True |
+    | True | False |
+
+    `&` and `|` compare bits, or Boolean elements, one by one.
 
     | Operator | Ufunc |
     |---|---|
@@ -135,7 +149,9 @@ def _(mo):
     | `^` | `np.bitwise_xor` |
     | `~` | `np.bitwise_not` |
 
-    For ordinary integers, `and` returns one of the objects. `&` compares their binary digits. `9` is `0b1001` and `10` is `0b1010`, so `9 & 10` is `0b1000`, which is 8.
+    Any integer other than 0 counts as true. `and` returns the last object it had to look at, not the word `True`. Python skips the right-hand side when the left-hand side is already enough to decide. `9 and 10` returns `10`. `10 and 9` returns `9`.
+
+    `&` compares the binary digits. `9` is `0b1001` and `10` is `0b1010`. Comparing those bits gives `0b1000`, which is 8: `1001 & 1010 = 1000`.
     """)
     return
 
@@ -160,18 +176,27 @@ def _(np):
     print("b:", bits_b)
     print("and:", bits_a & bits_b)
     print("or: ", bits_a | bits_b)
+    return bits_a, bits_b
 
-    try:
-        print(bits_a and bits_b)
-    except ValueError as error:
-        print("ValueError:", error)
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The keywords `and` and `or` compare whole objects. They cannot compare two arrays element by element. Run the next cell to see the error.
+    """)
+    return
+
+
+@app.cell
+def _(bits_a, bits_b):
+    bits_a and bits_b
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Use `&` inside the brackets to require two conditions. Each condition needs parentheses because `&` binds more tightly than the comparisons.
+    Use `&` inside the brackets to require two conditions. Each condition needs parentheses because `&` is applied before the comparisons.
     """)
     return
 

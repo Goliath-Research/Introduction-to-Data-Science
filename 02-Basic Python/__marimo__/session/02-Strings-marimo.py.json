@@ -1,0 +1,269 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "32bd4a25b2daac0f2c40697e66637db8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"python-strings\">Python Strings</h1>\n<h2 id=\"objectives\">Objectives</h2>\n<ul>\n<li>Create string literals with single quotes, double quotes, and triple quotes.</li>\n<li>Read individual characters and slices, including negative indexes.</li>\n<li>Use common string methods without changing the original string.</li>\n<li>Combine strings with concatenation and <code>format()</code>.</li>\n</ul>\n<h2 id=\"background\">Background</h2>\n<span class=\"paragraph\">A string is a sequence of characters. Python does not have a separate character type: a single character is a string of length 1. The first index is 0.</span>\n<h2 id=\"datasets-used\">Datasets Used</h2>\n<span class=\"paragraph\">This notebook does not use external datasets. It focuses on string values written in the code.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "2c3b75ec9e97dc8fe7e5872886e447a3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"string-literals\">String literals</h2>\n<span class=\"paragraph\">String literals are surrounded by single or double quotation marks. <code>'hello'</code> is the same as <code>\"hello\"</code>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "0c7ea0b36f5904911a312afd87af329a",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "3caa2e0c70eb3e1ff86ff26d880b1e95",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"multiline-strings\">Multiline strings</h3>\n<span class=\"paragraph\">Assign a multiline string with three quotes.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "9862bd2c9c2601f384e59cbe025937e7",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "618091e55d9fd600a52f81da7ce999fd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"strings-are-sequences\">Strings are sequences</h2>\n<span class=\"paragraph\">Square brackets read one character. Index <code>0</code> is the first character.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "d7a0df9855b31f0cdd069c9c0134e87b",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "7a8e64262666eda72ab88428c84aa7c4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"try-it-yourself\">Try it yourself</h3>\n<span class=\"paragraph\">Change <code>your_word</code>, then run the cell. Print the first character and the length.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "a60a2cc5c5edf982eccedf59f7619786",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "9a3f33c6994fb5e0e18a549e977cb30f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"slicing\">Slicing</h2>\n<span class=\"paragraph\">A slice returns a range of characters. <code>s[1:5]</code> includes index 1 and stops before index 5.</span>\n<ul>\n<li>Omit the start to begin at the first character: <code>s[:5]</code></li>\n<li>Omit the end to continue through the last character: <code>s[6:]</code></li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "1cd2fa42d498e1b87c404eaa995738f0",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "76bf3f600ef1ffa2971bf9119aab505f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"negative-indexes\">Negative indexes</h3>\n<span class=\"paragraph\">A negative index counts from the end of the string. The diagram below labels the indexes of <code>Hello World!</code>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "82263576197cfffffa51f4750539aaf1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><table>\n<thead>\n<tr>\n<th></th>\n<th style=\"text-align: right;\"><strong>H</strong></th>\n<th style=\"text-align: right;\"><strong>e</strong></th>\n<th style=\"text-align: right;\"><strong>l</strong></th>\n<th style=\"text-align: right;\"><strong>l</strong></th>\n<th style=\"text-align: right;\"><strong>o</strong></th>\n<th style=\"text-align: right;\"></th>\n<th style=\"text-align: right;\"><strong>W</strong></th>\n<th style=\"text-align: right;\"><strong>o</strong></th>\n<th style=\"text-align: right;\"><strong>r</strong></th>\n<th style=\"text-align: right;\"><strong>l</strong></th>\n<th style=\"text-align: right;\"><strong>d</strong></th>\n<th style=\"text-align: right;\"><strong>!</strong></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>index</td>\n<td style=\"text-align: right;\">0</td>\n<td style=\"text-align: right;\">1</td>\n<td style=\"text-align: right;\">2</td>\n<td style=\"text-align: right;\">3</td>\n<td style=\"text-align: right;\">4</td>\n<td style=\"text-align: right;\">5</td>\n<td style=\"text-align: right;\">6</td>\n<td style=\"text-align: right;\">7</td>\n<td style=\"text-align: right;\">8</td>\n<td style=\"text-align: right;\">9</td>\n<td style=\"text-align: right;\">10</td>\n<td style=\"text-align: right;\">11</td>\n</tr>\n<tr>\n<td>negative index</td>\n<td style=\"text-align: right;\">-12</td>\n<td style=\"text-align: right;\">-11</td>\n<td style=\"text-align: right;\">-10</td>\n<td style=\"text-align: right;\">-9</td>\n<td style=\"text-align: right;\">-8</td>\n<td style=\"text-align: right;\">-7</td>\n<td style=\"text-align: right;\">-6</td>\n<td style=\"text-align: right;\">-5</td>\n<td style=\"text-align: right;\">-4</td>\n<td style=\"text-align: right;\">-3</td>\n<td style=\"text-align: right;\">-2</td>\n<td style=\"text-align: right;\">-1</td>\n</tr>\n</tbody>\n</table></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "b4a8cea910b66a9fdbe221810dacf572",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "08fde5aa5f399955dc45eac1d259afb5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"try-it-yourself\">Try it yourself</h3>\n<span class=\"paragraph\">Change the slice bounds and predict the printed text before you run the cell.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "15960af40a1ba331c7422ee73a90af74",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "6dd11bcf0fd8435295bf92a4abfdb80b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"string-methods\">String methods</h2>\n<span class=\"paragraph\">String methods return a new string. They do not change the original value.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "54fae5b9f9869e0cea9b47976f1bfcc2",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "db28f235704b1fa824212a66a7e34317",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "a032f4364241401787ceefd5cd9dd03f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><code>find</code> returns the first position, or <code>-1</code> when the text is absent. <code>rfind</code> returns the last position. <code>count</code> returns how many times the text occurs.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "73bcd58e0b7400ce26262811f0089d9b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"concatenation-and-format\">Concatenation and format</h2>\n<span class=\"paragraph\"><code>+</code> joins strings. <code>format</code> places values into <code>{}</code> placeholders. Numbered placeholders such as <code>{0}</code> choose the argument by position.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "ac860b04266956e10beb8a5e36c22acc",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "86daaf8f53a0d5d8cc48317ced08a2c7",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "ed8dc2a68fa9d5e521e8150a5715da85",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"try-it-yourself\">Try it yourself</h3>\n<span class=\"paragraph\">Edit the name and age, then run the cell.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aLJB",
+      "code_hash": "0bfb4c8ef1bb2f29206bfeb39f385a88",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "nHfw",
+      "code_hash": "0888fa18b1f29c3cac781609602c195b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"conclusions\">Conclusions</h2>\n<span class=\"paragraph\"><strong>Key takeaways:</strong></span>\n<ul>\n<li>Strings can be written with single, double, or triple quotes.</li>\n<li>Indexes start at 0. Negative indexes start at the end.</li>\n<li>A slice includes the start index and excludes the stop index.</li>\n<li>String methods return a new string and leave the original unchanged.</li>\n<li><code>+</code> concatenates strings. <code>format()</code> fills placeholders.</li>\n</ul>\n<h2 id=\"references\">References</h2>\n<ul>\n<li>VanderPlas, J. (2017). <em>Python Data Science Handbook: Essential Tools for Working with Data</em>. O'Reilly Media.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

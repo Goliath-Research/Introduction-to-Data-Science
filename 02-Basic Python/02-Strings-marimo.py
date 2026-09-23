@@ -46,12 +46,11 @@ def _(mo):
 
 @app.cell
 def _():
-    print("Hello World!")
+    print('Hello World!')
     print("Hello World!")
 
     greeting = "Hello World!"
-    print(greeting)
-    print(type(greeting))
+    print(greeting, '->', type(greeting))    
     return
 
 
@@ -71,11 +70,19 @@ def _():
     example of a
     multiline string."""
     print(first_multiline)
+    print('\n')
 
     second_multiline = '''This is another
     example of a
     multiline string.'''
     print(second_multiline)
+    print('\n')
+
+    # Using () to break up a long string
+    third_multiline = ('This is a very long string that goes'
+                       ' on and on '
+                       'with automatic concatenation')
+    print(third_multiline)
     return
 
 
@@ -107,7 +114,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_word`, then run the cell. Print the first character, the last character, and the length.
+    Change `your_word`, then run the cell. Print the first character and the length.
     """)
     return
 
@@ -117,8 +124,7 @@ def _():
     your_word = "Python"
 
     print(your_word)
-    print("first =", your_word[0])
-    print("last  =", your_word[-1])
+    print("first =", your_word[0])    
     print("length =", len(your_word))
     return
 
@@ -160,7 +166,10 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ![Indexes of Hello World](Hello_World.PNG)
+    | | **H** | **e** | **l** | **l** | **o** | | **W** | **o** | **r** | **l** | **d** | **!** |
+    |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+    | index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+    | negative index | -12 | -11 | -10 | -9 | -8 | -7 | -6 | -5 | -4 | -3 | -2 | -1 |
     """)
     return
 
@@ -208,12 +217,24 @@ def _(mo):
 @app.cell
 def _():
     spaced_text = "   Hello World!    "
-    trimmed_text = spaced_text.strip()
+
+    # strip() removes the whitespace from the beginning and end of the string
+    trimmed_text = spaced_text.strip()    
     print("strip:     ", trimmed_text)
+
+    # lower() converts the string to lowercase
     print("lower:     ", trimmed_text.lower())
+
+    # upper() converts the string to uppercase
     print("upper:     ", trimmed_text.upper())
-    print("capitalize:", "hello world".capitalize())
+
+    # capitalize() converts the first character to uppercase and the rest to lowercase
+    print("capitalize:", trimmed_text.capitalize())
+
+    # replace() replaces the old substring with the new substring
     print("replace:   ", trimmed_text.replace("World", "Earth"))
+
+    # repr() returns the string representation of the string
     print("original:  ", repr(spaced_text))
     return
 
@@ -222,21 +243,19 @@ def _():
 def _():
     search_text = "Hello World!"
 
-    print("find o:  ", search_text.find("o"))
+    # find() returns the first position of the substring or -1 when the text is absent. 
+    print("find o:  ", search_text.find("o"))    
     print("find u:  ", search_text.find("u"))
+    print('\n')
+    # count() returns the number of occurrences of the substring
     print("count u: ", search_text.count("u"))
-    print("count l: ", search_text.count("l"))
-    print("find l:  ", search_text.find("l"))
+    print("count l: ", search_text.count("l"))    
+    print('\n')
+    # rfind() returns the last position of the substring or -1 when the text is absent. 
+    print("find l:  ", search_text.find("l"))    
     print("rfind l: ", search_text.rfind("l"))
     return
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    `find` returns the first position, or `-1` when the text is absent. `rfind` returns the last position. `count` returns how many times the text occurs.
-    """)
-    return
 
 
 @app.cell(hide_code=True)
@@ -254,23 +273,29 @@ def _():
     given_name = "Jane"
     family_name = "Doe"
     print(given_name + " " + family_name)
+    print('\n')
 
+    # format() places values into {} placeholders
     age_years = 30
     sentence = "My name is Anna, I am {}"
     print(sentence.format(age_years))
-
+    print('\n')
+    
+    # format() takes unlimited number of arguments.  They are placed into the respective placeholders.
     full_sentence = "My name is {} {}, I am {}"
-    print(full_sentence.format("Jane", "Doe", 33))
+    print(full_sentence.format(given_name, family_name, age_years))
 
+    # You can use index numbers to be sure the arguments are placed in the correct placeholders.
     indexed_sentence = "My name is {1} {2}, I am {0}"
-    print(indexed_sentence.format(33, "Jane", "Doe"))
+    print(indexed_sentence.format(age_years, given_name, family_name))
     return
 
 
 @app.cell
 def _():
     comma_text = "Hello, World!"
-    print(comma_text.split(","))
+    # split() returns a list of substrings separated by the delimiter
+    print(comma_text.split(","))    
     return
 
 

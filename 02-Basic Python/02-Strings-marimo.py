@@ -57,6 +57,21 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    An apostrophe ends a single-quoted string early. Wrap the text in double quotes, or escape the apostrophe with `\'`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    print("I'm a string")
+    print('I\'m a string')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Multiline strings
 
     Assign a multiline string with three quotes.
@@ -325,7 +340,7 @@ def _(mo):
 
     **Key takeaways:**
 
-    - Strings can be written with single, double, or triple quotes.
+    - Strings can be written with single, double, or triple quotes. Escape a matching quote with `\`.
     - Indexes start at 0. Negative indexes start at the end.
     - A slice includes the start index and excludes the stop index.
     - String methods return a new string and leave the original unchanged.

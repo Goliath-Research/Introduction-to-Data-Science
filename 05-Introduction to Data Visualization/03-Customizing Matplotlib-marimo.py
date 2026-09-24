@@ -552,7 +552,8 @@ def _(mo):
 
     **Key takeaways:**
 
-    - A format string sets the color and the marker in one argument. Two `plot` calls can put a line and a marker on the same points.
+    - Matplotlib enables extensive customization of plot elements, allowing modifications to line styles, colors, and markers that enhance readability and aesthetic appeal.
+    A format string sets the color and the marker in one argument. Two `plot` calls can put a line and a marker on the same points.
     - `subplot(nrows, ncols, index)` picks one cell of a grid. `suptitle` names the whole figure.
     - `bins`, `facecolor`, and `alpha` change a histogram. `xlabel`, `ylabel`, `title`, and `text` write on it. A raw string between `$` signs is rendered as LaTeX.
     - `hist2d` and `hexbin` color a grid by how many points fall in each cell. `annotate` points at one place on a chart.

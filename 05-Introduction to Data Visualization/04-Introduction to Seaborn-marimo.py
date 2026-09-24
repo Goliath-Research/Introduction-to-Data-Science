@@ -269,9 +269,7 @@ def _(mo):
     mo.md(r"""
     ## Two numeric columns
 
-    Passing both `x` and `y` to `displot` bins the plane into rectangles and colors each rectangle by the count. `cbar=True` adds the color scale.
-
-    `kind='kde'` replaces the rectangles with a smooth surface. The lines on the chart are contours of that surface. `col` and `hue` still split the chart into groups. Removing `kind='kde'` returns to the colored rectangles. `row` adds another direction of panels.
+    Passing both `x` and `y` to `displot` bins the plane into rectangles and colors each rectangle by the count. `cbar=True` adds the color scale.    
     """)
     return
 
@@ -284,23 +282,6 @@ def _(sns, tips):
 @app.cell
 def _(sns, tips):
     sns.displot(data=tips, x="total_bill", y="tip", cbar=True)
-
-
-@app.cell
-def _(sns, tips):
-    sns.displot(data=tips, x="total_bill", y="tip", kind="kde")
-
-
-@app.cell
-def _(sns, tips):
-    sns.displot(data=tips, x="total_bill", y="tip", col="time", kind="kde")
-
-
-@app.cell
-def _(sns, tips):
-    sns.displot(
-        data=tips, x="total_bill", y="tip", col="time", hue="smoker", kind="kde"
-    )
 
 
 @app.cell

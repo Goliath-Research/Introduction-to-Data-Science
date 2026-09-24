@@ -541,6 +541,7 @@ def _(np, plt):
         arrowprops=dict(facecolor="darkred"),
     )
     plt.ylim(-2, 2)
+    plt.show()
     return _figure
 
 

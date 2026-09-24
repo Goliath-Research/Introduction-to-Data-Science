@@ -150,37 +150,32 @@ def _(mo):
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip")
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip", col="time")
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip", col="time")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip", row="sex")
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip", row="sex")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip", col="time", row="sex")
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip", col="time", row="sex")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip", col="time", hue="smoker")
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip", col="time", hue="smoker")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.relplot(
+    sns.relplot(
         data=tips,
         x="total_bill",
         y="tip",
@@ -188,7 +183,6 @@ def _(sns, tips):
         hue="smoker",
         size="size",
     )
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -204,8 +198,7 @@ def _(mo):
 @app.cell
 def _(sns, tips):
     split_by = "time"
-    _grid = sns.relplot(data=tips, x="total_bill", y="tip", col=split_by)
-    return _grid
+    sns.relplot(data=tips, x="total_bill", y="tip", col=split_by)
 
 
 @app.cell(hide_code=True)
@@ -224,60 +217,51 @@ def _(mo):
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill")
-    return _grid
+    sns.displot(data=tips, x="total_bill")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", col="time")
-    return _grid
+    sns.displot(data=tips, x="total_bill", col="time")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", col="time", hue="smoker")
-    return _grid
+    sns.displot(data=tips, x="total_bill", col="time", hue="smoker")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", col="time", hue="smoker", kde=True)
-    return _grid
+    sns.displot(data=tips, x="total_bill", col="time", hue="smoker", kde=True)
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", kind="kde")
-    return _grid
+    sns.displot(data=tips, x="total_bill", kind="kde")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", kind="kde", linewidth=5)
-    return _grid
+    sns.displot(data=tips, x="total_bill", kind="kde", linewidth=5)
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(
+    sns.displot(
         data=tips, x="total_bill", col="time", hue="smoker", kde=True, bins=30
     )
-    return _grid
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", col="time", hue="smoker", kind="kde")
-    return _grid
+    sns.displot(data=tips, x="total_bill", col="time", hue="smoker", kind="kde")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(
+    sns.displot(
         data=tips, x="total_bill", col="time", hue="smoker", kind="kde", rug=True
     )
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -294,48 +278,41 @@ def _(mo):
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", y="tip")
-    return _grid
+    sns.displot(data=tips, x="total_bill", y="tip")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", y="tip", cbar=True)
-    return _grid
+    sns.displot(data=tips, x="total_bill", y="tip", cbar=True)
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", y="tip", kind="kde")
-    return _grid
+    sns.displot(data=tips, x="total_bill", y="tip", kind="kde")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", y="tip", col="time", kind="kde")
-    return _grid
+    sns.displot(data=tips, x="total_bill", y="tip", col="time", kind="kde")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(
+    sns.displot(
         data=tips, x="total_bill", y="tip", col="time", hue="smoker", kind="kde"
     )
-    return _grid
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(data=tips, x="total_bill", y="tip", col="time", hue="smoker")
-    return _grid
+    sns.displot(data=tips, x="total_bill", y="tip", col="time", hue="smoker")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.displot(
+    sns.displot(
         data=tips, x="total_bill", y="tip", col="time", row="sex", hue="smoker"
     )
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -352,21 +329,18 @@ def _(mo):
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.jointplot(data=tips, x="total_bill", y="tip")
-    return _grid
+    sns.jointplot(data=tips, x="total_bill", y="tip")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.jointplot(data=tips, x="total_bill", y="tip", hue="time")
-    return _grid
+    sns.jointplot(data=tips, x="total_bill", y="tip", hue="time")
 
 
 @app.cell
 def _(sns, tips):
     _pair_data = tips[["total_bill", "tip", "time"]]
-    _grid = sns.pairplot(data=_pair_data, hue="time")
-    return _grid
+    sns.pairplot(data=_pair_data, hue="time")
 
 
 @app.cell(hide_code=True)
@@ -382,8 +356,7 @@ def _(mo):
 @app.cell
 def _(sns, tips):
     column = "total_bill"
-    _grid = sns.displot(data=tips, x=column, kind="kde")
-    return _grid
+    sns.displot(data=tips, x=column, kind="kde")
 
 
 @app.cell(hide_code=True)

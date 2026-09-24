@@ -74,14 +74,12 @@ def _(mo):
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.catplot(data=tips, x="day", y="total_bill")
-    return _grid
+    sns.catplot(data=tips, x="day", y="total_bill")
 
 
 @app.cell
 def _(sns, tips):
-    _grid = sns.catplot(data=tips, x="day", y="total_bill", kind="strip")
-    return _grid
+    sns.catplot(data=tips, x="day", y="total_bill", kind="strip")
 
 
 @app.cell
@@ -113,21 +111,19 @@ def _(sns, tips):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(data=tips, x="day", y="total_bill", order=category_order)
-    return _grid
+    sns.catplot(data=tips, x="day", y="total_bill", order=category_order)
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", order=category_order
     ).set(title="Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -135,7 +131,6 @@ def _(category_order, sns, tips):
         order=category_order,
         jitter=False,
     ).set(title="Total Bill by Day, jitter off")
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -151,10 +146,9 @@ def _(mo):
 @app.cell
 def _(sns, tips):
     your_order = ["Fri", "Thur", "Sat", "Sun"]
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", order=your_order
     ).set(title="Your order")
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -171,10 +165,9 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", kind="swarm", order=category_order
     ).set(title="Total Bill by Day")
-    return _grid
 
 
 @app.cell
@@ -189,10 +182,9 @@ def _(category_order, plt, sns, tips):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, y="day", x="total_bill", kind="swarm", order=category_order
     ).set(title="Total Bill by Day")
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -209,10 +201,9 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", kind="box", order=category_order
     ).set(title="Total Bill by Day")
-    return _grid
 
 
 @app.cell
@@ -238,15 +229,14 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", kind="boxen", order=category_order
     ).set(title="Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -254,7 +244,6 @@ def _(category_order, sns, tips):
         order=category_order,
         showfliers=False,
     ).set(title="Total Bill by Day, outliers hidden")
-    return _grid
 
 
 @app.cell
@@ -293,7 +282,7 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -301,12 +290,11 @@ def _(category_order, sns, tips):
         inner="box",
         order=category_order,
     ).set(title="Total Bill by Day, inner='box'")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -314,12 +302,11 @@ def _(category_order, sns, tips):
         inner="quartiles",
         order=category_order,
     ).set(title="Total Bill by Day, inner='quartiles'")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -327,12 +314,11 @@ def _(category_order, sns, tips):
         inner="point",
         order=category_order,
     ).set(title="Total Bill by Day, inner='point'")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -340,12 +326,11 @@ def _(category_order, sns, tips):
         inner="stick",
         order=category_order,
     ).set(title="Total Bill by Day, inner='stick'")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -353,7 +338,6 @@ def _(category_order, sns, tips):
         inner=None,
         order=category_order,
     ).set(title="Total Bill by Day, inner=None")
-    return _grid
 
 
 @app.cell
@@ -377,18 +361,16 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", kind="count", order=category_order
     ).set(title="Number of Days")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, y="day", kind="count", order=category_order
     ).set(title="Number of Days")
-    return _grid
 
 
 @app.cell
@@ -414,15 +396,14 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", kind="point", order=category_order
     ).set(title="Mean, the default")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -430,12 +411,11 @@ def _(category_order, np, sns, tips):
         estimator=np.mean,
         order=category_order,
     ).set(title="Mean of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -443,12 +423,11 @@ def _(category_order, np, sns, tips):
         estimator=np.median,
         order=category_order,
     ).set(title="Median of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         y="day",
         x="total_bill",
@@ -456,12 +435,11 @@ def _(category_order, np, sns, tips):
         estimator=np.median,
         order=category_order,
     ).set(title="Median of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         y="day",
         x="total_bill",
@@ -470,12 +448,11 @@ def _(category_order, np, sns, tips):
         linestyle="--",
         order=category_order,
     ).set(title="Median of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         y="day",
         x="total_bill",
@@ -484,7 +461,6 @@ def _(category_order, np, sns, tips):
         linestyle="none",
         order=category_order,
     ).set(title="Median of Total Bill by Day")
-    return _grid
 
 
 @app.cell
@@ -515,15 +491,14 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", kind="bar", order=category_order
     ).set(title="Mean of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -531,12 +506,11 @@ def _(category_order, sns, tips):
         errorbar=None,
         order=category_order,
     ).set(title="Mean of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -544,12 +518,11 @@ def _(category_order, np, sns, tips):
         estimator=np.median,
         order=category_order,
     ).set(title="Median of Total Bill by Day")
-    return _grid
 
 
 @app.cell
 def _(category_order, np, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -557,7 +530,6 @@ def _(category_order, np, sns, tips):
         estimator=np.sum,
         order=category_order,
     ).set(title="Sum of Total Bill by Day")
-    return _grid
 
 
 @app.cell
@@ -585,15 +557,14 @@ def _(mo):
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips, x="day", y="total_bill", order=category_order, hue="smoker"
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -601,12 +572,11 @@ def _(category_order, sns, tips):
         order=category_order,
         hue="smoker",
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -615,12 +585,11 @@ def _(category_order, sns, tips):
         hue="smoker",
         col="time",
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -629,12 +598,11 @@ def _(category_order, sns, tips):
         hue="smoker",
         col="time",
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -644,12 +612,11 @@ def _(category_order, sns, tips):
         col="time",
         row="sex",
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -659,12 +626,11 @@ def _(category_order, sns, tips):
         inner="stick",
         split=True,
     )
-    return _grid
 
 
 @app.cell
 def _(category_order, sns, tips):
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         y="day",
         x="total_bill",
@@ -674,7 +640,6 @@ def _(category_order, sns, tips):
         inner="stick",
         split=True,
     )
-    return _grid
 
 
 @app.cell(hide_code=True)
@@ -690,7 +655,7 @@ def _(mo):
 @app.cell
 def _(category_order, sns, tips):
     kind = "swarm"
-    _grid = sns.catplot(
+    sns.catplot(
         data=tips,
         x="day",
         y="total_bill",
@@ -698,7 +663,6 @@ def _(category_order, sns, tips):
         order=category_order,
         hue="smoker",
     ).set(title=kind)
-    return _grid
 
 
 @app.cell(hide_code=True)

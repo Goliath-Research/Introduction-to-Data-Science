@@ -1,0 +1,192 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.2",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "39f152b3d0998d1e824744119018e29d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"marimo\">Marimo</h1>\n<h2 id=\"what-is-marimo\">What is Marimo?</h2>\n<span class=\"paragraph\">Marimo is an open-source Python notebook environment for interactive and reproducible computing. One document holds Python code, explanations, visualizations, and interactive controls.</span>\n<span class=\"paragraph\">A Marimo notebook is <strong>reactive</strong>. When a variable changes, Marimo updates the cells that depend on it. You still work in a notebook, and the notebook also behaves like a small interactive application.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "12414ab2873f6a779d33fbea20e2f916",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"marimo-notebooks\">Marimo notebooks</h2>\n<span class=\"paragraph\">A notebook is made of <strong>cells</strong>. A cell contains either Python code or formatted text written in Markdown.</span>\n<span class=\"paragraph\">In the lessons for this course:</span>\n<ul>\n<li><strong>Markdown cells are hidden.</strong> You read the formatted explanation. You do not need to edit the Markdown.</li>\n<li><strong>Python cells stay visible.</strong> Read the code, then change it and watch the output.</li>\n</ul>\n<h3 id=\"what-a-notebook-can-do\">What a notebook can do</h3>\n<ul>\n<li><strong>Interactive Python.</strong> You write and run Python directly in a cell. The output appears with that cell.</li>\n<li><strong>Reactive execution.</strong> Marimo records which cells use which names. Change a value, and the cells that depend on it run again.</li>\n<li><strong>Rich content.</strong> A notebook can place formatted text, mathematical expressions, tables, plots, and images next to Python.</li>\n<li><strong>Interactive elements.</strong> Sliders, buttons, dropdown lists, and text fields connect directly to Python. Moving a control changes a value, and the notebook updates.</li>\n<li><strong>Reproducibility.</strong> Marimo follows the dependencies between cells, so the result does not depend on the order in which you happened to run cells by hand.</li>\n<li><strong>Python files.</strong> A notebook is stored as an ordinary <code>.py</code> file. That makes the lessons straightforward to manage with Git and GitHub.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "98e181e8b94f08e08e521d40ebd8092f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"how-marimo-works\">How Marimo works</h2>\n<span class=\"paragraph\">The next two cells are a complete example. The first cell defines <code>x</code>. The second cell uses <code>x</code> to compute <code>y</code>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "a2127948c68b7c044f539209bc518dbe",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "3639a39be111b499fe75913b2a7ff369",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "50\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": "60258d269677aa47bc0a5f9bdc3251ad",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Change <code>x</code> from <code>10</code> to <code>25</code>. Marimo reruns the cell that calculates <code>y</code>, and that cell prints <code>50</code>.</span>\n<span class=\"paragraph\">You only edit <code>x</code>. You do not need to run the second cell yourself.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9c867faa3121e2d501f40aade2a8078b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The second cell depends on <code>x</code>. Marimo sees that relationship and keeps <code>y</code> consistent with the current value of <code>x</code>.</span>\n<span class=\"paragraph\">This is the main idea of Marimo: <strong>edit a value, and everything that uses it stays in step.</strong></span>\n<span class=\"paragraph\">The order of cells on the page is for reading. It is not the order of the program. Marimo builds the execution order from the relationships among variables. A cell can appear lower on the page and still run first, when a cell above it needs a name that the lower cell defines.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "cd08456fd77fa12ba996a509ad543301",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"try-an-interactive-control\">Try an interactive control</h2>\n<span class=\"paragraph\">A slider is a Python object. The next cell creates one and shows it. The cell after that reads <code>x_control.value</code> and computes <code>y</code>.</span>\n<span class=\"paragraph\">Drag the slider. The formula does not change. The value does, and the dependent cell updates.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "1e2edf80898caaaf60fbb4dd8be131ea",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='RGSE-0' random-id='7895acaa-996f-23e9-db54-30ba01d046c7'><marimo-slider data-initial-value='10' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ex&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0' data-stop='20' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "f38f3bba889f684db8dfc0a7bfc1ef7a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "x = 5\ny = x * 2 = 10\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "emfo",
+      "code_hash": "e20e33c3593e841c4a88a62f51fbb691",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"using-the-marimo-lessons-in-this-course\">Using the Marimo lessons in this course</h2>\n<span class=\"paragraph\">The programming lessons are Marimo notebooks. Use each one in two ways:</span>\n<ol>\n<li><strong>Read the lesson.</strong> Study the explanations, the Python, and the results.</li>\n<li><strong>Run the notebook.</strong> Change the examples, try new values, and complete the activities.</li>\n</ol>\n<span class=\"paragraph\">You are encouraged to change values, modify expressions, and experiment. Programming is learned by writing and running code.</span>\n<h3 id=\"how-to-work-in-a-lesson\">How to work in a lesson</h3>\n<ul>\n<li>Read the text above a Python cell before you edit that cell.</li>\n<li>Click the cell, change a number, a name, or an expression, then leave the cell. Marimo updates every cell that depends on your change.</li>\n<li>Do not run the notebook from top to bottom. Marimo chooses the order from the variable relationships.</li>\n<li>If a cell shows an error, read the message. It names the problem, often a misspelled name or an expression Python cannot evaluate.</li>\n<li>To restore the original lesson, undo your edit, or discard your changes to that file in Git.</li>\n</ul>\n<span class=\"paragraph\">Open a lesson with Marimo by running <code>marimo edit</code> and the file name. For this notebook:</span>\n<div class=\"language-text codehilite\"><pre><span></span><code>marimo edit intr-marimo.py\n</code></pre></div>\n<span class=\"paragraph\">When you edit inside Marimo, you see the Python of each code cell. You do not write <code>def</code> or <code>return</code> yourself. Marimo adds that structure when it saves the <code>.py</code> file.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "1175702feae5b073fc415877d64ef2ed",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"about-the-course\">About the course</h2>\n<span class=\"paragraph\">The course uses several kinds of activities:</span>\n<ul>\n<li><strong>Videos.</strong> Short introductions and summaries of the main ideas of each topic.</li>\n<li><strong>E-books.</strong> Structured explanations of the material.</li>\n<li><strong>Marimo notebooks.</strong> The primary programming resource. They contain executable Python you can explore and modify.</li>\n<li><strong>Quizzes.</strong> Self-assessment with immediate feedback. They are not formal exams.</li>\n<li><strong>Certificate of Knowledge.</strong> Pass a 15-question test within 15 minutes. If you do not pass on the first attempt, you have two further attempts.</li>\n</ul>\n<h2 id=\"conclusions\">Conclusions</h2>\n<span class=\"paragraph\"><strong>Key takeaways:</strong></span>\n<ul>\n<li>A Marimo notebook combines explanation and Python in one reactive document.</li>\n<li>In these lessons, Markdown is hidden so you can read it, and Python stays visible so you can study and change it.</li>\n<li>When a variable changes, Marimo updates the cells that depend on it.</li>\n<li>Cell order on the page does not decide the logic. Dependencies do.</li>\n<li>Learn by editing the examples and reading the new results.</li>\n</ul>\n<h2 id=\"references\">References</h2>\n<ul>\n<li><a href=\"https://marimo.io\" rel=\"noopener noreferrer\" target=\"_blank\">Marimo</a></li>\n<li><a href=\"https://docs.marimo.io\" rel=\"noopener noreferrer\" target=\"_blank\">Marimo documentation</a></li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

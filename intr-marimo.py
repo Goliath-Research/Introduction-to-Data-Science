@@ -61,7 +61,7 @@ def _(mo):
 
 @app.cell
 def _():
-    x = 25
+    x = 10
     return (x,)
 
 

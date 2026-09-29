@@ -82,7 +82,8 @@ def _(mo):
     mo.md(r"""
     ## Binary operators
 
-    `+`, `-`, and `*` combine arrays element by element, so the shapes must match. `dot` is matrix multiplication: the number of columns in the first array must equal the number of rows in the second.
+    `+`, `-`, and `*` combine arrays element by element. The shapes must either match or be compatible for broadcasting. 
+    `dot` is matrix multiplication: the number of columns in the first array must equal the number of rows in the second.
     """)
     return
 

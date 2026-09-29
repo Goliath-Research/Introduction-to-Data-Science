@@ -239,8 +239,8 @@ def _(mo):
     mo.md(r"""
     ## Error bars
 
-    A measurement is usually a value plus some uncertainty. Here `x` is 50 evenly spaced numbers from 0 to 10. `y` is `sin(x)` plus a random shift. `dy` is the size of that shift, and it is also the length of the error bar.
-
+    A measurement is usually a value plus some uncertainty. Here `x` contains 50 evenly spaced numbers from 0 to 10. `y` is `sin(x)` plus a random shift between 0 and `dy`. The value `dy` is also used as the size of the error bars.
+    
     `plt.errorbar` draws the points and a bar of length `yerr` around each one. It returns an `ErrorbarContainer` with three pieces:
 
     - `plotline` is the `Line2D` of the data.

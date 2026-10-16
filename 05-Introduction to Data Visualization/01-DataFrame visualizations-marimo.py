@@ -555,47 +555,36 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the two column names. `size` is another numeric column.
-    """)
-    return
-
-
-@app.cell
-def _(df, plt):
-    horizontal = "total_bill"
-    vertical = "tip"
-    _figure, _axes = plt.subplots()
-    df.plot(horizontal, vertical, kind="scatter", ax=_axes, title=f"{vertical} and {horizontal}")
-    return
-
-
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ### Try it yourself
-
-    Draw a scatter plot with `size` on the horizontal axis and `tip` on the vertical axis. Replace `None` with your code. What does a point represent, and does a pattern establish causation?
+    Create a `tip_percentage` column: the tip divided by the total bill, times 100. Draw a scatter plot with `total_bill` on the horizontal axis and `tip_percentage` on the vertical axis. Replace `None` with your code. What does a point represent? Do larger bills generally receive a higher or lower tip percentage? Can this plot explain why the relationship occurs?
     """)
     return
 
 
 @app.cell
 def _():
-    student_size_tip_scatter = None
-    print("student_size_tip_scatter:", student_size_tip_scatter)
-    return (student_size_tip_scatter,)
+    student_tip_percentage_scatter = None
+    student_tip_percentage_scatter
+    return (student_tip_percentage_scatter,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.accordion({"Show answers": mo.md(r'''
 ```python
+tip_data = df.assign(
+    tip_percentage=df["tip"] / df["total_bill"] * 100
+)
 _figure, _axes = plt.subplots()
-student_size_tip_scatter = df.plot(x="size", y="tip", kind="scatter", ax=_axes, title="Tip and party size")
+student_tip_percentage_scatter = tip_data.plot(
+    x="total_bill",
+    y="tip_percentage",
+    kind="scatter",
+    alpha=0.6,
+    ax=_axes,
+    title="Tip percentage and total bill",
+)
 ```
-A point represents one recorded bill. Repeated party sizes can produce vertical groups of points. An association does not establish causation.
+A point is one recorded bill. Larger bills tend to have a lower tip percentage. The plot shows that association. It does not explain why the relationship occurs.
 ''')}, lazy=True)
     return
 

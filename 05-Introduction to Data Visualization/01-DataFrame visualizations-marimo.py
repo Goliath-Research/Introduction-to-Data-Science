@@ -562,6 +562,9 @@ def _(mo):
 
 @app.cell
 def _():
+    tip_data = None
+    print("tip_data:\n", tip_data)
+
     student_tip_percentage_scatter = None
     student_tip_percentage_scatter
     return (student_tip_percentage_scatter,)

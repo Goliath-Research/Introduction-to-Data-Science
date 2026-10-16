@@ -60,16 +60,41 @@ def _(np, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The last three rows, three random rows, and the shape `(rows, columns)`:
+    `tail(3)` shows the last three rows.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.tail(3))
-    print('\nThree random rows')
-    print(df.sample(3))
+    df.tail(3)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `sample(3)` shows three random rows. Run the cell again to get other rows.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.sample(3)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `shape` is `(rows, columns)`.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.shape
     return
 
@@ -78,8 +103,6 @@ def _(df):
 def _(mo):
     mo.md(r"""
     `df.T` transposes the table: rows become columns and columns become rows.
-
-    `df.axes` returns the row labels and the column labels. `df.index` is only the row labels.
     """)
     return
 
@@ -90,10 +113,25 @@ def _(df):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `df.axes` returns a list with the row labels and the column labels.
+    """)
+    return
+
+
 @app.cell
 def _(df):
-    print(df)
     df.axes
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `df.index` is only the row labels.
+    """)
     return
 
 
@@ -202,42 +240,112 @@ def _(labeled):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `columns` is the column names. `dtypes` is the type of each column. `empty` is `True` only when the object has no elements. `size` is the number of elements, rows times columns. `values` is the data as a NumPy array.
+    `columns` is the column names.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.columns)
-    print(df.dtypes)
-    print('empty =', df.empty)
-    print('size  =', df.size)
-    print('shape =', df.shape)
+    df.columns
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `dtypes` is the type of each column. `Name` is `object` because it holds text. `Age` is `float64` because of the missing age.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.dtypes
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `empty` is `True` only when the object has no elements.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.empty
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `size` is the number of elements: 7 rows times 3 columns.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.size
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `values` is the data as a NumPy array, without the row and column labels. Each inner list is one row.
+    """)
     return
 
 
 @app.cell
 def _(df):
     v = df.values
-    print(type(v))
-    print(v)
-    v.flatten()
+    v
     return (v,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `value_counts` counts how many times each distinct value appears in a column. By default it does not count missing values. `dropna=False` includes them.
+    `flatten` puts all the values of the array in one row, reading the table row by row.
+    """)
+    return
+
+
+@app.cell
+def _(v):
+    v.flatten()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `value_counts` counts how many times each distinct value appears in a column. By default it does not count missing values.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.Age.value_counts())
-    print('\nIncluding missing values')
+    df.Age.value_counts()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `dropna=False` includes the missing values. Anna's missing age is counted as `NaN`.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.Age.value_counts(dropna=False)
     return
 
@@ -414,7 +522,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the stop label in `loc` and the stop position in `iloc`. Include `City` in the column list and run the cell again.
+    The next two cells select from `practice`, first with `loc` and then with `iloc`. Change the stop label in `loc` and run the cell. Then change the stop position in `iloc`, add position `0` (`City`) to its column list, and run that cell.
     """)
     return
 
@@ -425,9 +533,14 @@ def _(pd):
         {'City': ['Rome', 'Oslo', 'Lima', 'Accra'], 'Temp': [18, 7, 22, 29]},
         index=['w', 'x', 'y', 'z'],
     )
-    print(practice.loc[:'y', ['City', 'Temp']])
-    practice.iloc[:2, [1]]
+    practice.loc[:'y', ['City', 'Temp']]
     return (practice,)
+
+
+@app.cell
+def _(practice):
+    practice.iloc[:2, [1]]
+    return
 
 
 @app.cell(hide_code=True)

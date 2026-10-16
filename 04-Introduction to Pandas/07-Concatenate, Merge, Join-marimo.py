@@ -75,9 +75,22 @@ def _(df1, df2, df3, pd):
     # concatenating dataframes
     frames = [df1, df2, df3]
     res = pd.concat(frames)
-    print(res.shape)
     res
     return frames, res
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The rows of the three tables are stacked: 3 + 4 + 3 = 10 rows, and the same 3 columns.
+    """)
+    return
+
+
+@app.cell
+def _(res):
+    res.shape
+    return
 
 
 @app.cell(hide_code=True)
@@ -111,8 +124,6 @@ def _(res1):
 def _(mo):
     mo.md(r"""
     `df4` has different column names and a partly shared index. Stacking `df1` and `df4` keeps every column. A row that does not have a column is filled with `NaN`.
-
-    `axis=1` places the tables side by side and aligns them on the index. `reset_index` moves that index into a column. `drop=True` discards it instead.
     """)
     return
 
@@ -130,6 +141,14 @@ def _(df1, df4, pd):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `axis=1` places the tables side by side and aligns them on the index.
+    """)
+    return
+
+
 @app.cell
 def _(df1, df4, pd):
     res2 = pd.concat([df1, df4], axis=1)
@@ -137,9 +156,30 @@ def _(df1, df4, pd):
     return (res2,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `reset_index` moves that index into a column called `index`, and numbers the rows from 0.
+    """)
+    return
+
+
 @app.cell
 def _(res2):
-    print(res2.reset_index())
+    res2.reset_index()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `drop=True` discards the old index instead of keeping it as a column.
+    """)
+    return
+
+
+@app.cell
+def _(res2):
     res2.reset_index(drop=True)
     return
 
@@ -147,9 +187,7 @@ def _(res2):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `join='inner'` keeps only the index labels that appear in both DataFrames. This is the same idea as an inner join of two tables.
-
-    `join='outer'` keeps every index label. It is the default. Missing cells are `NaN`. With `axis=1`, the result has every column and every row label from either DataFrame.
+    `join='inner'` keeps only the index labels that appear in both DataFrames. This is the same idea as an inner join of two tables. Here the shared labels are 1 and 2.
     """)
     return
 
@@ -160,10 +198,16 @@ def _(df1, df4, pd):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `join='outer'` keeps every index label. It is the default, so this is the same table as `res2`. Missing cells are `NaN`. The result has every column and every row label from either DataFrame.
+    """)
+    return
+
+
 @app.cell
 def _(df1, df4, pd):
-    print(pd.concat([df1, df4]))
-    print(pd.concat([df1, df4], join='outer'))
     pd.concat([df1, df4], axis=1, join='outer')
     return
 
@@ -377,11 +421,30 @@ def _(left, right):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `how='inner'` returns only the rows whose index label is in both tables.
+    """)
+    return
+
+
 @app.cell
 def _(left, right):
-    # inner join between both dataframes (only rows with matching index values are returned)
-    print(left.join(right, how='inner'))
-    # the same as above, but with the order of dataframes reversed (right columns come first)
+    left.join(right, how='inner')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The same inner join with the tables reversed. The rows are the same, and the columns of `right` come first.
+    """)
+    return
+
+
+@app.cell
+def _(left, right):
     right.join(left, how='inner')
     return
 
@@ -502,7 +565,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Stack `part_a` and `part_b`, then place them side by side with `axis=1`.
+    The first cell stacks `part_a` and `part_b`. The second places them side by side with `axis=1`. Change the values or the column names and run both cells again.
     """)
     return
 
@@ -511,9 +574,14 @@ def _(mo):
 def _(pd):
     part_a = pd.DataFrame({'A': [1, 2]})
     part_b = pd.DataFrame({'B': [3, 4]})
-    print(pd.concat([part_a, part_b]))
-    pd.concat([part_a, part_b], axis=1)
+    pd.concat([part_a, part_b])
     return part_a, part_b
+
+
+@app.cell
+def _(part_a, part_b, pd):
+    pd.concat([part_a, part_b], axis=1)
+    return
 
 
 @app.cell(hide_code=True)

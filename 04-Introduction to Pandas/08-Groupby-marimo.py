@@ -70,9 +70,7 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `groupby('Team')` splits the rows by the team label. The result is a groupby object, not a DataFrame yet. `groups` shows the row positions in each team. `size` counts the rows. `ngroups` is the number of teams. `groups.keys()` is the team labels.
-
-    Grouping by `Team` and `Year` together makes a finer split: one group for each pair.
+    `groupby('Team')` splits the rows by the team label. The result is a groupby object, not a DataFrame yet.
     """)
     return
 
@@ -83,19 +81,100 @@ def _(df):
     return
 
 
-@app.cell
-def _(df):
-    print(df.groupby('Team').groups)
-    print(df.groupby('Team').size())
-    print('Number of teams =', df.groupby('Team').ngroups)
-    df.groupby('Team').groups.keys()
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `groups` shows the row labels in each team. Team `A` has the rows 0, 1, 8, and 11.
+    """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.groupby(['Team', 'Year']).groups)
-    print('Number of groups =', df.groupby(['Team', 'Year']).ngroups)
+    df.groupby('Team').groups
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `size` counts the rows in each team.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.groupby('Team').size()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `ngroups` is the number of teams.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.groupby('Team').ngroups
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `groups.keys()` is the team labels.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.groupby('Team').groups.keys()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Grouping by `Team` and `Year` together makes a finer split: one group for each pair. Each team has at most one row per year, so every group here has one row.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.groupby(['Team', 'Year']).groups
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    There are 12 pairs, one for each row of `df`.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.groupby(['Team', 'Year']).ngroups
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The group names are now `(Team, Year)` tuples.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.groupby(['Team', 'Year']).groups.keys()
     return
 
@@ -103,7 +182,7 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A groupby object can be looped over. Each step gives the group name and the rows in that group. `get_group` selects one group by its name. The object `t` is reused by the aggregation, transformation, and filter cells below.
+    A groupby object can be looped over. Each step gives the group name and the rows in that group. The object `t` is reused by the aggregation, transformation, and filter cells below.
     """)
     return
 
@@ -117,9 +196,30 @@ def _(df):
     return (t,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `get_group` selects one group by its name. These are the rows of team `A`:
+    """)
+    return
+
+
 @app.cell
 def _(t):
-    print(t.get_group('A'))
+    t.get_group('A')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    And the rows of team `D`:
+    """)
+    return
+
+
+@app.cell
+def _(t):
     t.get_group('D')
     return
 
@@ -154,10 +254,44 @@ def _(t):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The shortcuts give one summary each. `sum` adds the values of each team:
+    """)
+    return
+
+
 @app.cell
 def _(t):
-    print(t[['Rank', 'Points']].sum())
-    print(t[['Rank', 'Points']].mean())
+    t[['Rank', 'Points']].sum()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `mean` is the same result as `agg('mean')` above:
+    """)
+    return
+
+
+@app.cell
+def _(t):
+    t[['Rank', 'Points']].mean()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `median` is the middle value of each team. A team with an even number of rows uses the average of its two middle values.
+    """)
+    return
+
+
+@app.cell
+def _(t):
     t[['Rank', 'Points']].median()
     return
 

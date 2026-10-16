@@ -76,7 +76,7 @@ def _(mo):
     mo.md(r"""
     ## Table-wise function application
 
-    `pipe` performs the operation on the whole DataFrame. `df.pipe(add2, 5)` adds 5 to every value. The original `df` is unchanged. Assign the result if you want to keep it.
+    `pipe` performs the operation on the whole DataFrame. `df.pipe(add2, 5)` adds 5 to every value.
     """)
     return
 
@@ -87,9 +87,25 @@ def _(add2, df):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The original `df` is unchanged:
+    """)
+    return
+
+
 @app.cell
 def _(df):
     df
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Assign the result if you want to keep it. `df2` holds `df` plus 10.
+    """)
     return
 
 
@@ -179,10 +195,44 @@ def _():
     return (sum_squares,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    With the default axis, the result has one value per column. For `Col2`, that is 1 + 4 + 9 + 16 = 30.
+    """)
+    return
+
+
 @app.cell
 def _(df, sum_squares):
-    print(df.apply(sum_squares))
-    print(df.apply(sum_squares, axis=0))
+    df.apply(sum_squares)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `axis=0` is the default, so the result is the same.
+    """)
+    return
+
+
+@app.cell
+def _(df, sum_squares):
+    df.apply(sum_squares, axis=0)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    With `axis=1`, the result has one value per row. For the first row, that is 1 + 1 + 1 = 3.
+    """)
+    return
+
+
+@app.cell
+def _(df, sum_squares):
     df.apply(sum_squares, axis=1)
     return
 
@@ -190,17 +240,27 @@ def _(df, sum_squares):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A lambda is a small function written in one line. Here the argument is a column, or a row when `axis=1`. The result is the range, `max - min`.
+    A lambda is a small function written in one line. Here the argument is a column, and the result is the range of that column, `max - min`.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df)
-    print('\nRange of each column')
-    print(df.apply(lambda x: x.max() - x.min()))
-    print('\nRange of each row')
+    df.apply(lambda x: x.max() - x.min())
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    With `axis=1`, the argument is a row, so the result is the range of each row.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.apply(lambda x: x.max() - x.min(), axis=1)
     return
 
@@ -211,18 +271,21 @@ def _(mo):
     ## Element wise function application
 
     `map` runs the function on every element and returns a new DataFrame. The lambda below multiplies each element by 100.
-
-    You can chain calls. `map` first, then `apply`, computes the mean of those new values. `map` on one column, `Col1`, returns a Series. `pipe` can multiply the whole DataFrame by 100 as well.
-
-    After all of these calls, `df` still holds the original numbers.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df)
     df.map(lambda x: x * 100)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    You can chain calls. `map` first, then `apply`, computes the mean of those new values.
+    """)
     return
 
 
@@ -232,16 +295,39 @@ def _(df, np):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `map` on one column, `Col1`, returns a Series.
+    """)
+    return
+
+
 @app.cell
 def _(df):
-    print(df.Col1)
     df.Col1.map(lambda x: x * 100)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `pipe` can multiply the whole DataFrame by 100 as well. The lambda receives the whole table at once.
+    """)
     return
 
 
 @app.cell
 def _(df):
     df.pipe(lambda x: x * 100)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    After all of these calls, `df` still holds the original numbers.
+    """)
     return
 
 
@@ -327,19 +413,31 @@ def _(N, np, pd):
     return (dfi,)
 
 
-@app.cell
-def _(dfi):
-    # Getting the names of the columns
-    for col in dfi:
-        print(col)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A `for` loop over a DataFrame gives the column names.
+    """)
     return
 
 
 @app.cell
 def _(dfi):
-    # Getting the values of the columns
-    # Key will be the column name
-    # Values will be the column values
+    for col in dfi:
+        print(col)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `items()` gives each column name, `key`, and that column, `values`. The inner loop prints the values of the column one by one.
+    """)
+    return
+
+
+@app.cell
+def _(dfi):
     for key, values in dfi.items():
         print('Key=', key)
         print('Values=')
@@ -348,10 +446,26 @@ def _(dfi):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `iterrows()` gives each index and that row as a Series. Each printed line is one row.
+    """)
+    return
+
+
 @app.cell
 def _(dfi):
     for index, series in dfi.iterrows():
         print(index, series['Date'], series['Values'], series['Categ'])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `itertuples()` gives one named tuple per row. The first field, `Index`, is the row label.
+    """)
     return
 
 

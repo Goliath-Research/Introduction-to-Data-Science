@@ -212,48 +212,154 @@ def _(mo):
     mo.md(r"""
     ## Basic operations on DataFrames
 
-    A new column is added by name. The calculation is done row by row.
+    The steps below start from the `records` table and change it one step at a time. Each step works on a copy of the previous table, so you can see the table after every step.
 
-    `df['a'] + df['b']` is `NaN` in a row where `b` is missing. Any arithmetic with `NaN` gives `NaN`.
-
-    These steps change `df` in order: add `d`, add `e`, add the scalar column `f`, delete `f`, pop `e`, then drop `d`. `drop` without `inplace=True` returns a new DataFrame and leaves `df` unchanged. `inplace=True` changes `df` itself. `rename` changes the column names.
+    A new column is added by name. The calculation is done row by row. Here `d` is `a + b`. In a row where `b` is missing, `d` is `NaN`, because any arithmetic with `NaN` gives `NaN`.
     """)
     return
 
 
 @app.cell
 def _(pd, records):
-    df = pd.DataFrame(records)
-    print('Add d = a + b')
-    df['d'] = df['a'] + df['b']
-    print(df)
+    df_d = pd.DataFrame(records)
+    df_d['d'] = df_d['a'] + df_d['b']
+    df_d
+    return (df_d,)
 
-    print('\nAdd e = a - c. Arithmetic with NaN is NaN.')
-    df['e'] = df['a'] - df['c']
-    print(df)
 
-    print('\nAdd a scalar column f')
-    df['f'] = 5
-    print(df)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Add `e = a - c`. The rows where `c` is missing get `NaN`.
+    """)
+    return
 
-    print('\nDelete column f')
-    del(df['f'])
-    print(df)
 
-    print('\nPop column e. pop returns the deleted column.')
-    print(df.pop('e'))
-    print(df)
+@app.cell
+def _(df_d):
+    df_e = df_d.copy()
+    df_e['e'] = df_e['a'] - df_e['c']
+    df_e
+    return (df_e,)
 
-    print("\ndrop returns another DataFrame without column 'd'.")
-    print(df.drop(columns=['d']))
-    print('\ndf itself is unchanged:')
-    print(df)
 
-    print('\ndrop with inplace=True changes df.')
-    df.drop(columns=['d'], inplace=True)
-    print(df)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A scalar column repeats the same value in every row.
+    """)
+    return
 
-    df.rename(columns={'a': 'A', 'b': 'B', 'c': 'C'}, inplace=True)
+
+@app.cell
+def _(df_e):
+    df_f = df_e.copy()
+    df_f['f'] = 5
+    df_f
+    return (df_f,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `del` deletes a column. Column `f` is gone.
+    """)
+    return
+
+
+@app.cell
+def _(df_f):
+    df_deleted = df_f.copy()
+    del df_deleted['f']
+    df_deleted
+    return (df_deleted,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `pop` also deletes a column, and it returns the deleted column. The cell shows the column `e` that `pop` returned.
+    """)
+    return
+
+
+@app.cell
+def _(df_deleted):
+    df_popped = df_deleted.copy()
+    popped_column = df_popped.pop('e')
+    popped_column
+    return df_popped, popped_column
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    After `pop`, the table no longer has column `e`.
+    """)
+    return
+
+
+@app.cell
+def _(df_popped):
+    df_popped
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `drop` returns another DataFrame without column `d`.
+    """)
+    return
+
+
+@app.cell
+def _(df_popped):
+    df_popped.drop(columns=['d'])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `drop` without `inplace=True` does not change the table it was called on. `df_popped` still has column `d`.
+    """)
+    return
+
+
+@app.cell
+def _(df_popped):
+    df_popped
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    With `inplace=True`, `drop` changes the table itself and returns nothing.
+    """)
+    return
+
+
+@app.cell
+def _(df_popped):
+    df_dropped = df_popped.copy()
+    df_dropped.drop(columns=['d'], inplace=True)
+    df_dropped
+    return (df_dropped,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `rename` changes the column names. This table, `df`, is used in the rest of the lesson.
+    """)
+    return
+
+
+@app.cell
+def _(df_dropped):
+    df = df_dropped.rename(columns={'a': 'A', 'b': 'B', 'c': 'C'})
     df
     return (df,)
 
@@ -344,15 +450,36 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `shape` is the number of rows and the number of columns. `info` reports the index, the column types, and the memory use. `describe` summarizes the numeric columns.
+    `shape` is the number of rows and the number of columns.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.shape)
+    df.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `info` reports the index, the column types, the non-null counts, and the memory use.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.info()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `describe` summarizes the numeric columns.
+    """)
     return
 
 
@@ -372,22 +499,23 @@ def _(mo):
     - `mean` and `median`: the average and the middle value
     - `mode`: the value that occurs most often
     - `std`: the standard deviation
+
+    `agg` computes several of them in one call. Each row of the result is one method, and each column is one column of `df`. `count` is smaller where a column has missing values.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print('mean')
-    print(df.mean())
-    print('\ncount')
-    print(df.count())
-    print('\nmin')
-    print(df.min())
-    print('\nmax')
-    print(df.max())
-    print('\nmedian')
-    print(df.median())
+    df.agg(['mean', 'count', 'min', 'max', 'median'])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `mode` returns the most frequent value of each column. Compare it with the table:
+    """)
     return
 
 
@@ -406,15 +534,41 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `round` rounds a number to the given number of decimals. The default number of decimals is 0, so the result is the nearest integer.
+    `std` is the standard deviation of each column.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df.std())
-    print(round(df.std(), 2))
+    df.std()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `round` rounds a number to the given number of decimals. Here the standard deviations are rounded to 2 decimals.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    round(df.std(), 2)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The default number of decimals is 0, so the result is the nearest integer.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     round(df.std())
     return
 
@@ -422,19 +576,41 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `sum` adds the values in each column. `cumsum` is the cumulative sum: each row includes the rows above it. `prod` multiplies the values in each column.
+    `sum` adds the values in each column. Missing values are skipped.
     """)
     return
 
 
 @app.cell
 def _(df):
-    print(df)
-    print('\nsum')
-    print(df.sum())
-    print('\ncumulative sum')
-    print(df.cumsum())
-    print('\nproduct')
+    df.sum()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `cumsum` is the cumulative sum: each row includes the rows above it. A missing value stays missing, and the sum continues after it.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.cumsum()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `prod` multiplies the values in each column.
+    """)
+    return
+
+
+@app.cell
+def _(df):
     df.prod()
     return
 

@@ -99,7 +99,6 @@ def _(headers, pd):
         names=headers,
         na_values='?',
     )
-    print(df_auto.shape)
     df_auto.head()
     return (df_auto,)
 
@@ -107,9 +106,21 @@ def _(headers, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `to_csv` writes the DataFrame to a file. The first save includes the index, so reading that file adds an extra unnamed column. That column is the old index.
+    `shape` is `(rows, columns)`. The automobile table has 205 rows and 26 columns.
+    """)
+    return
 
-    The second save passes `index=False`, and the following read does not have that extra column.
+
+@app.cell
+def _(df_auto):
+    df_auto.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `to_csv` writes the DataFrame to a file. This first save includes the index, so reading that file adds an extra column, `Unnamed: 0`. That column is the old index.
     """)
     return
 
@@ -118,14 +129,53 @@ def _(mo):
 def _(df_auto, pd):
     df_auto.to_csv('auto.csv')
     with_index = pd.read_csv('auto.csv')
-    print(with_index.shape)
-    print(with_index.head())
+    with_index.head()
+    return (with_index,)
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The extra column makes 27 columns instead of 26.
+    """)
+    return
+
+
+@app.cell
+def _(with_index):
+    with_index.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The second save passes `index=False`, and the following read does not have that extra column.
+    """)
+    return
+
+
+@app.cell
+def _(df_auto, pd, with_index):
+    with_index  # this save must run after the file with the index was read
     df_auto.to_csv('auto.csv', index=False)
     df2_auto = pd.read_csv('auto.csv')
-    print(df2_auto.shape)
     df2_auto.head()
-    return df2_auto, with_index
+    return (df2_auto,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The table has 26 columns again, the same shape as `df_auto`.
+    """)
+    return
+
+
+@app.cell
+def _(df2_auto):
+    df2_auto.shape
+    return
 
 
 @app.cell(hide_code=True)
@@ -149,7 +199,7 @@ def _(mo):
 
     The Higher Education Students Performance Evaluation dataset is [https://archive.ics.uci.edu/ml/datasets/Higher+Education+Students+Performance+Evaluation+Dataset](https://archive.ics.uci.edu/ml/datasets/Higher+Education+Students+Performance+Evaluation+Dataset).
 
-    The first read uses the default comma. The whole line lands in one column. The second read sets `sep=';'`.
+    The first read uses the default comma. The whole line lands in one column.
     """)
     return
 
@@ -160,9 +210,30 @@ def _(pd):
         'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
         na_values='?',
     )
-    print(df_hst_comma.shape)
     df_hst_comma.head()
     return (df_hst_comma,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The shape confirms it: there is only one column.
+    """)
+    return
+
+
+@app.cell
+def _(df_hst_comma):
+    df_hst_comma.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The second read sets `sep=';'`. Each value now has its own column.
+    """)
+    return
 
 
 @app.cell
@@ -172,9 +243,14 @@ def _(pd):
         sep=';',
         na_values='?',
     )
-    print(df_hst.shape)
     df_hst.head()
     return (df_hst,)
+
+
+@app.cell
+def _(df_hst):
+    df_hst.shape
+    return
 
 
 @app.cell
@@ -188,18 +264,23 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Read the local `auto.csv` file and print its shape and its first three rows.
+    The first cell reads the local `auto.csv` file and shows its first three rows. The second cell shows its shape. Change the number of rows in `head` and run the first cell again.
     """)
     return
 
 
 @app.cell
 def _(df2_auto, pd):
-    print('Rows in the saved automobile table:', len(df2_auto))
+    df2_auto  # read the file after it was saved without the index
     check = pd.read_csv('auto.csv')
-    print(check.shape)
     check.head(3)
     return (check,)
+
+
+@app.cell
+def _(check):
+    check.shape
+    return
 
 
 @app.cell(hide_code=True)
@@ -281,9 +362,6 @@ def _(StringIO, loadarff, payload, pd, status_code):
         for column in df.select_dtypes([object]).columns:
             if df[column].apply(lambda x: isinstance(x, bytes)).any():
                 df[column] = df[column].str.decode('utf-8')
-
-        print(df.head())
-        print(meta)
     else:
         df = pd.DataFrame()
         meta = None
@@ -294,7 +372,35 @@ def _(StringIO, loadarff, payload, pd, status_code):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The metadata knows the column names. `describe` summarizes the numeric columns.
+    The data section becomes the DataFrame:
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.head()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The header section becomes the metadata. It lists each attribute with its type, and the allowed values of each nominal attribute.
+    """)
+    return
+
+
+@app.cell
+def _(meta):
+    print(meta)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The metadata knows the column names:
     """)
     return
 
@@ -302,8 +408,16 @@ def _(mo):
 @app.cell
 def _(meta):
     column_names = meta.names()
-    print('Column Names:', column_names)
+    column_names
     return (column_names,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `describe` summarizes the numeric columns.
+    """)
+    return
 
 
 @app.cell
@@ -319,9 +433,7 @@ def _(mo):
 
     JavaScript Object Notation (JSON) is a common way to share data on the web.
 
-    `read_json` reads a JSON file and returns a DataFrame. This example uses a countries file from data.world. `to_json` writes that DataFrame to `countries.json` in this folder.
-
-    `describe` summarizes the numeric columns.
+    `read_json` reads a JSON file and returns a DataFrame. This example uses a countries file from data.world.
     """)
     return
 
@@ -329,14 +441,35 @@ def _(mo):
 @app.cell
 def _(pd):
     df_countries = pd.read_json('https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l')
-    print(df_countries.shape)
     df_countries.head()
     return (df_countries,)
 
 
 @app.cell
 def _(df_countries):
+    df_countries.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `describe` summarizes the numeric columns.
+    """)
+    return
+
+
+@app.cell
+def _(df_countries):
     df_countries.describe()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `to_json` writes that DataFrame to `countries.json` in this folder.
+    """)
     return
 
 
@@ -390,7 +523,7 @@ def _():
         meta_prefix='person_',
         record_prefix='car_',
     )
-    print(cars)
+    cars
     return json_normalize, data, cars
 
 
@@ -446,9 +579,14 @@ def _(pd):
         'https://archive.ics.uci.edu/ml/machine-learning-databases/00428/Immunotherapy.xlsx',
         engine='openpyxl',
     )
-    print(df_immuno.shape)
     df_immuno.head()
     return df_immuno, openpyxl
+
+
+@app.cell
+def _(df_immuno):
+    df_immuno.shape
+    return
 
 
 @app.cell

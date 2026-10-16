@@ -65,15 +65,41 @@ def _(np, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `lower` converts each string to lower case. `upper` converts each string to upper case. `swapcase` exchanges lower case and upper case.
+    `lower` converts each string to lower case. The missing value and the number `34` are not strings, so the result there is `NaN`.
     """)
     return
 
 
 @app.cell
 def _(text):
-    print(text.str.lower())
-    print(text.str.upper())
+    text.str.lower()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `upper` converts each string to upper case.
+    """)
+    return
+
+
+@app.cell
+def _(text):
+    text.str.upper()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `swapcase` exchanges lower case and upper case: `'Tommy'` becomes `'tOMMY'`.
+    """)
+    return
+
+
+@app.cell
+def _(text):
     text.str.swapcase()
     return
 
@@ -81,19 +107,69 @@ def _(text):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `islower` is `True` when every character in the string is lower case. `isupper` checks for upper case. `isnumeric` is `True` when every character is a digit.
-
-    Calling `lower` first, then `islower`, makes the alphabetic strings report `True`. The original Series is unchanged.
+    `islower` is `True` when every letter in the string is lower case. None of these strings is all lower case, and `'5678'` has no letters, so it is `False` as well.
     """)
     return
 
 
 @app.cell
 def _(text):
-    print(text.str.islower())
-    print(text.str.lower().str.islower())
-    print(text)
-    print(text.str.isupper())
+    text.str.islower()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Calling `lower` first, then `islower`, makes every string with letters report `True`.
+    """)
+    return
+
+
+@app.cell
+def _(text):
+    text.str.lower().str.islower()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `lower` returned a new Series. The original `text` is unchanged:
+    """)
+    return
+
+
+@app.cell
+def _(text):
+    text
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `isupper` checks for upper case. Only `'ALBERT@'` is `True`. The `@` is not a letter, so it does not matter.
+    """)
+    return
+
+
+@app.cell
+def _(text):
+    text.str.isupper()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `isnumeric` is `True` when every character is a digit. `'5678'` is `True`. The number `34` is not a string, so the result is `NaN`.
+    """)
+    return
+
+
+@app.cell
+def _(text):
     text.str.isnumeric()
     return
 
@@ -130,19 +206,41 @@ No. A `.str` method returns a new Series. `student_words` is still `Cat` and `DO
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `len` is the number of characters. Spaces and the newline count.
-
-    `strip` removes whitespace from both ends, including the newline. `'John\n'` becomes `'John'`.
-
-    `split(' ')` breaks each string at spaces. The result in each row is a list.
+    `len` is the number of characters. Spaces and the newline count: `'Tommy   '` has 8 characters, and `'John\n'` has 5.
     """)
     return
 
 
 @app.cell
 def _(text):
-    print(text.str.len())
-    print(text.str.strip())
+    text.str.len()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `strip` removes whitespace from both ends, including the newline. `'John\n'` becomes `'John'`.
+    """)
+    return
+
+
+@app.cell
+def _(text):
+    text.str.strip()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `split(' ')` breaks each string at spaces. The result in each row is a list. The extra spaces in `'Tommy   '` produce empty strings in the list.
+    """)
+    return
+
+
+@app.cell
+def _(text):
     text.str.split(' ')
     return
 
@@ -165,21 +263,70 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `contains` is `True` when the pattern occurs in the element. `replace` substitutes one substring for another. `repeat` repeats each element the given number of times. The Series still has the same number of rows. What changes is the length of each element.
+    `contains` is `True` when the pattern occurs in the element. Here the pattern is a space.
     """)
     return
 
 
 @app.cell
 def _(names):
-    print(names.str.contains(' '))
-    print(names.str.replace(' ', '_'))
-    print(names.str.repeat(2))
-    print(names.str.repeat(5))
-    print(len(names))
-    print(len(names.str.repeat(5)))
-    print(len(names[0]))
-    print(len(names.str.repeat(5)[0]))
+    names.str.contains(' ')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `replace` substitutes one substring for another. Every space becomes `_`.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.replace(' ', '_')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `repeat(2)` repeats each element two times.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.repeat(2)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `repeat` does not add rows. The Series still has 4 rows. What changes is the length of each element. `len` of the first element shows it:
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    len(names[0])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    After `repeat(5)`, the first element, `'Tom '`, has 4 × 5 = 20 characters.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    len(names.str.repeat(5)[0])
     return
 
 
@@ -187,21 +334,82 @@ def _(names):
 def _(mo):
     mo.md(r"""
     `count` is how many times the pattern appears in each element.
-
-    `startswith` is `True` when the element begins with the pattern. The check is case sensitive: `'w'` and `'W'` are different. `lower` followed by `startswith('w')` ignores that difference.
-
-    `endswith` is `True` when the element ends with the pattern.
     """)
     return
 
 
 @app.cell
 def _(names):
-    print(names.str.count('o'))
-    print(names.str.startswith(' '))
-    print(names.str.startswith('w'))
-    print(names.str.startswith('W'))
-    print(names.str.lower().str.startswith('w'))
+    names.str.count('o')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `startswith` is `True` when the element begins with the pattern. Only `' John'` begins with a space.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.startswith(' ')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The check is case sensitive. `'Will Smith'` begins with `'W'`, so `startswith('w')` is `False` for every element.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.startswith('w')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    With an upper case `'W'`, `'Will Smith'` is `True`.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.startswith('W')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `lower` followed by `startswith('w')` ignores the difference between `'w'` and `'W'`.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.lower().str.startswith('w')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `endswith` is `True` when the element ends with the pattern. Only `'Tom '` ends with a space.
+    """)
+    return
+
+
+@app.cell
+def _(names):
     names.str.endswith(' ')
     return
 
@@ -209,17 +417,41 @@ def _(names):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `find` returns the position of the first match. Positions start at 0. If the pattern is absent, `find` returns `-1`.
-
-    `findall` returns a list of every match in that element.
+    `find` returns the position of the first match. Positions start at 0. `'123'` has `'2'` at position 1. The other elements have no `'2'`, so `find` returns `-1`.
     """)
     return
 
 
 @app.cell
 def _(names):
-    print(names.str.find('2'))
-    print(names.str.find('ll'))
+    names.str.find('2')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `'Will Smith'` has `'ll'` at position 2.
+    """)
+    return
+
+
+@app.cell
+def _(names):
+    names.str.find('ll')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `findall` returns a list of every match in that element. An element with no match gets an empty list.
+    """)
+    return
+
+
+@app.cell
+def _(names):
     names.str.findall('ll')
     return
 
@@ -227,7 +459,7 @@ def _(names):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The same three methods on a Series of color names. `find('e')` is the first `'e'`. `findall('e')` collects every `'e'`. `endswith('e')` asks whether the name ends in `'e'`.
+    The same methods on a Series of color names:
     """)
     return
 
@@ -235,13 +467,36 @@ def _(mo):
 @app.cell
 def _(pd):
     colors = pd.Series(['red', 'orange', 'yellow', 'green', 'blue'])
-    print(colors)
-    # return the index of the first occurrence of the pattern
-    print(colors.str.find('e'))
-    # return all the 'e's
-    print(colors.str.findall('e'))
-    colors.str.endswith('e')
+    colors
     return (colors,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `findall('e')` collects every `'e'`. `'green'` has two.
+    """)
+    return
+
+
+@app.cell
+def _(colors):
+    colors.str.findall('e')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `endswith('e')` asks whether the name ends in `'e'`. Only `'orange'` and `'blue'` do.
+    """)
+    return
+
+
+@app.cell
+def _(colors):
+    colors.str.endswith('e')
+    return
 
 
 @app.cell(hide_code=True)

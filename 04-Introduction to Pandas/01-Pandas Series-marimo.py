@@ -20,10 +20,11 @@ def _(mo):
 
     ## Objectives
 
-    - Understand Pandas Series fundamentals and their advantages over NumPy arrays.
-    - Learn to create, manipulate, and access data in Series.
-    - Explore data types within Series and methods for data conversion.
+    - Understand what a Series adds to a NumPy array: a label for each value.
+    - Create a Series from an array, a dictionary, and a scalar.
+    - Choose a data type with `dtype` and convert it with `astype`.
     - Retrieve values with positions and with labels.
+    - Summarize a Series with methods such as `mean`, `agg`, and `value_counts`.
 
     ## Background
 
@@ -44,7 +45,7 @@ def _(mo):
     A Pandas Series is a one-dimensional array of indexed data.
     At the basic level, a Pandas Series is a NumPy array whose elements can be identified with labels rather than only with integer positions.
 
-    Create an empty Series:
+    Create an empty Series. The printed Series is empty, and its last line is the data type.
     """)
     return
 
@@ -61,7 +62,7 @@ def _(mo):
     mo.md(r"""
     Create a Series from an ndarray.
 
-    No index was passed, so Pandas assigns the positions `0` through `len(data) - 1`.
+    No index was passed, so Pandas assigns the positions `0` through `len(data) - 1`. The left column of the printed Series is that index. The right column is the values.
     """)
     return
 
@@ -77,7 +78,7 @@ def _(np, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Indexes can be letters, words, or any other type.
+    Indexes can be letters, words, or any other type. Here the same four values are labeled `a` through `d`.
     """)
     return
 
@@ -87,6 +88,14 @@ def _(data, pd):
     letter_index = pd.Series(data, index=['a', 'b', 'c', 'd'])
     print(letter_index)
     return (letter_index,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The labels can also be words. The values are the same. Only the labels change.
+    """)
+    return
 
 
 @app.cell
@@ -99,7 +108,7 @@ def _(data, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Creating a Series from a dictionary: the dictionary keys become the index.
+    Creating a Series from a dictionary: the dictionary keys become the index, and the dictionary values become the values.
     """)
     return
 
@@ -119,7 +128,7 @@ def _(mo):
 
     The index order you pass is kept. A label that is not a key in the dictionary is filled with `NaN` (`NaN` means *not a number*).
 
-    There is no entry `a` here, because `a` is not in the index. The index includes `f`, and `f` is not a key of `d1`, so that entry is `NaN`.
+    There is no entry `a` here, because `a` is not in the index. The index includes `f`, and `f` is not a key of `d1`, so that entry is `NaN`. The values become `float64`, because `NaN` is a float.
     """)
     return
 
@@ -151,7 +160,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Build a Series from `practice`. Use the index `['b', 'a', 'z']`. Which label becomes `NaN`?
+    The cell builds a Series from `practice` with the index `['b', 'a', 'z']`. Run it, then change the index and run it again. Which label becomes `NaN`, and what happens to the key `'c'`?
     """)
     return
 
@@ -166,85 +175,132 @@ def _(pd):
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+`'z'` becomes `NaN`, because it is not a key of `practice`. The key `'c'` is left out, because it is not in the index. The values are listed in the order of the index, so `'b'` comes before `'a'`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""
     ## Data types
 
-    When you construct a Series, Pandas chooses a data type. You can set another type with `dtype`. The values have to fit that type.
+    When you construct a Series, Pandas chooses a data type. These values are whole numbers, so the type is `int64`.
     """)
     return
 
 
 @app.cell
 def _(pd):
-    pd.Series([1, 2, 3, 4, 5])
-    return
-
-
-@app.cell
-def _(pd):
-    pd.Series([1, 2, 3, 4, 5], dtype='float')
+    print(pd.Series([1, 2, 3, 4, 5]))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The Series below is float because one of the values, `3.14`, is float.
-
-    `astype('int')` converts it to integer. The fractional part is truncated, not rounded.
+    You can set another type with `dtype`. The values have to fit that type. With `dtype='float'`, the same numbers are stored as `1.0`, `2.0`, and so on.
     """)
     return
 
 
 @app.cell
 def _(pd):
-    # replacing 3 for 3.14
+    print(pd.Series([1, 2, 3, 4, 5], dtype='float'))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    This Series is float because one of the values, `3.14`, is float. Every value is stored with the same type, so the whole numbers become floats too.
+    """)
+    return
+
+
+@app.cell
+def _(pd):
     s2 = pd.Series([1, 2, 3.14, 4, 5])
     print(s2)
-    print(s2.dtype)
-
-    s3 = s2.astype('int')
-    print(s3)
-    print(s3.dtype)
-
-    s3 = s3.astype('object')
-    print(s3)
-    print(s3.dtype)
-    return s3, s2
-
-
-@app.cell
-def _(pd):
-    s4 = pd.Series(['a', 'b', 'c', 'd', 'e'])
-    s4
-    return (s4,)
+    return (s2,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `s3` and `s4` are both stored as `object`.
+    `astype('int')` converts the Series to integer. The fractional part is truncated, not rounded: `3.14` becomes `3`.
+    """)
+    return
 
-    - `s3` can be converted to integer because its values are numbers.
-    - `s4` cannot be converted to integer because its values are letters.
 
-    The next cell converts `s3`. The cell after that tries to convert `s4` and prints the error.
+@app.cell
+def _(s2):
+    s3 = s2.astype('int')
+    print(s3)
+    return (s3,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `astype('object')` keeps the same numbers but stores them as general Python objects. The values look the same. The type in the last line changes.
     """)
     return
 
 
 @app.cell
 def _(s3):
-    s3.astype('int')
+    s3_object = s3.astype('object')
+    print(s3_object)
+    return (s3_object,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A Series of letters is also stored as `object`.
+    """)
+    return
+
+
+@app.cell
+def _(pd):
+    s4 = pd.Series(['a', 'b', 'c', 'd', 'e'])
+    print(s4)
+    return (s4,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `s3_object` and `s4` are both stored as `object`, but only one of them can become integer.
+
+    - `s3_object` can be converted, because its values are numbers.
+    - `s4` cannot be converted, because its values are letters.
+
+    The next cell converts `s3_object`.
+    """)
+    return
+
+
+@app.cell
+def _(s3_object):
+    s3_object.astype('int')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    This cell tries to convert `s4`, and it raises an error. The cells after it still run.
+    """)
     return
 
 
 @app.cell
 def _(s4):
-    try:
-        _ = s4.astype('int')  # letters cannot become integers
-    except ValueError as error:
-        print('ValueError:', error)
+    s4.astype('int')  # This will raise an error
     return
 
 
@@ -275,7 +331,7 @@ def _(mo):
 @app.cell
 def _():
     student_integers = None
-    student_integers
+    print(student_integers)
     return (student_integers,)
 
 
@@ -296,6 +352,8 @@ def _(mo):
     ## Accessing data
 
     `iloc` selects by position, starting at 0. A label selects by the index name. A slice written with labels includes the stop label. A slice written with positions does not include the stop position.
+
+    The examples use this Series:
     """)
     return
 
@@ -310,7 +368,7 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Retrieve the first element using `iloc`.
+    Retrieve the first element using `iloc`. Position `0` is the first element.
     """)
     return
 
@@ -324,7 +382,7 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Retrieve the first element using its index label.
+    Retrieve the same element using its index label.
     """)
     return
 
@@ -366,7 +424,7 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Retrieve the last three elements by position.
+    Retrieve the last three elements by position. A negative position counts from the end.
     """)
     return
 
@@ -394,7 +452,7 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Retrieve several elements. Pass a list of positions to `iloc`, or a list of labels to the index.
+    Retrieve several elements by passing a list of positions to `iloc`.
     """)
     return
 
@@ -402,6 +460,14 @@ def _(mo):
 @app.cell
 def _(s):
     s.iloc[[0, 2, 3]]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The same elements, selected with a list of labels.
+    """)
     return
 
 
@@ -414,17 +480,14 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    If a label is not in the index, Pandas raises `KeyError`. The next cell tries that label and prints the error.
+    If a label is not in the index, Pandas raises an exception. The next cell asks for the label `'f'`, and it raises that error.
     """)
     return
 
 
 @app.cell
 def _(s):
-    try:
-        _ = s['f']  # f is not a label in this Series
-    except KeyError as error:
-        print('KeyError:', error)
+    s['f']  # This will raise an error
     return
 
 
@@ -433,7 +496,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    From the Series `s`, select the labels `'a'` through `'c'` with a label slice, and the positions `0` and `2` with `iloc`. Replace the `None` values with your code. Does the label slice include `'c'`?
+    From the Series `s`, select the labels `'a'` through `'c'` with a label slice. Replace `None` with your code. Does the slice include `'c'`?
     """)
     return
 
@@ -442,10 +505,7 @@ def _(mo):
 def _():
     student_label_slice = None
     print(student_label_slice)
-
-    student_positions = None
-    student_positions
-    return student_label_slice, student_positions
+    return (student_label_slice,)
 
 
 @app.cell(hide_code=True)
@@ -453,9 +513,36 @@ def _(mo):
     mo.accordion({"Show answers": mo.md(r'''
 ```python
 student_label_slice = s[:'c']
+```
+Yes. A slice written with labels includes the stop label, so `'c'` is included.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    From the Series `s`, select the positions `0` and `2` with `iloc`. Replace `None` with your code. Which labels do those positions have?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_positions = None
+    print(student_positions)
+    return (student_positions,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
 student_positions = s.iloc[[0, 2]]
 ```
-Yes. A slice written with labels includes the stop label, so `'c'` is included. A position slice would have stopped before the end position.
+Position `0` is the label `'a'`, and position `2` is the label `'c'`. The result keeps those labels.
 ''')}, lazy=True)
     return
 
@@ -480,43 +567,105 @@ def _(np, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The index, the values, and the length:
+    `index` is the labels. No index was passed, so the labels are the positions 0 through 5.
     """)
     return
 
 
 @app.cell
 def _(numbers):
-    print(numbers.index)
-    print(numbers.values)
-    # getting the number of items in the series
-    print('size  =', numbers.size)
-    print('shape =', numbers.shape)
-    return
-
-
-@app.cell
-def _(numbers):
-    print('Number of unique elements =', numbers.nunique())
-    print('Unique elements =', numbers.unique())
-    return
-
-
-@app.cell
-def _(numbers):
-    print('Min    =', numbers.min())
-    print('Max    =', numbers.max())
-    print('Mean   =', numbers.mean())
-    print('Median =', numbers.median())
-    print('Sum    =', numbers.sum())
-    print('Non-missing values =', numbers.count())
+    numbers.index
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `agg` computes the same summaries in one call.
+    `values` is the data as a NumPy array, without the labels.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.values
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `size` is the number of elements. The missing value is counted.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.size
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `shape` is the same count written as a tuple. A Series has one dimension, so the tuple has one number.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.shape
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `nunique` is the number of distinct values. It leaves the missing value out, so the distinct values are 1, 2, and 3.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.nunique()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `unique` lists the distinct values in the order they first appear. Unlike `nunique`, it includes `nan`.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.unique()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `mean` skips the missing value. It adds the five values that are present and divides by 5: (1 + 2 + 3 + 1 + 3) / 5 = 2.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
+    numbers.mean()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `agg` computes several summaries in one call. The result is a Series with one row per summary. `count` is the number of values that are present, so it is 5, not 6.
     """)
     return
 
@@ -530,18 +679,41 @@ def _(numbers):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The two smallest values, the two largest values, and how many times each value occurs:
+    `nsmallest(2)` returns the two smallest values, with their labels. The value `1` appears at labels 0 and 3.
     """)
     return
 
 
 @app.cell
 def _(numbers):
-    # 2 smallest elements
     print(numbers.nsmallest(2))
-    # 2 largest elements
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `nlargest(2)` returns the two largest values. The value `3` appears at labels 2 and 4.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
     print(numbers.nlargest(2))
-    # number of times each element occurs
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `value_counts` counts how many times each value occurs. The most frequent values come first. The missing value is not counted.
+    """)
+    return
+
+
+@app.cell
+def _(numbers):
     numbers.value_counts()
     return
 
@@ -559,7 +731,7 @@ def _(mo):
 @app.cell
 def _():
     student_summaries = None
-    student_summaries
+    print(student_summaries)
     return (student_summaries,)
 
 
@@ -579,16 +751,14 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the numbers in `scores`, then print the minimum, the maximum, and `value_counts()`.
+    Change the numbers in `scores`, then run the cell. `value_counts` lists the most frequent value first.
     """)
     return
 
 
 @app.cell
 def _(pd):
-    scores = pd.Series([88, 76, 88, 91, 76])
-    print('Min =', scores.min())
-    print('Max =', scores.max())
+    scores = pd.Series([88, 76, 88, 91, 76, 88])
     scores.value_counts()
     return (scores,)
 
@@ -604,7 +774,7 @@ def _(mo):
     - Build it from an array, a dictionary, or a scalar. A label with no matching dictionary key is `NaN`.
     - `dtype` sets the type when the Series is created. `astype` converts it later. A float converted to integer is truncated.
     - `iloc` uses positions. A label, or a list of labels, uses the index. A missing label raises an error.
-    - `min`, `max`, `mean`, `agg`, `nsmallest`, `nlargest`, and `value_counts` summarize the values.
+    - `mean`, `agg`, `nunique`, `nsmallest`, `nlargest`, and `value_counts` summarize the values. Most of them skip missing values.
     """)
     return
 

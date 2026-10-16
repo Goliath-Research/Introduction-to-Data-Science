@@ -148,6 +148,40 @@ def _(df, plt):
     return
 
 
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Count the bills recorded for each day, then draw a horizontal bar chart titled "Bills by day". Replace the `None` values with your code. What does the length of each bar represent?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_day_counts = None
+    print("student_day_counts:", student_day_counts)
+    student_day_chart = None
+    print("student_day_chart:", student_day_chart)
+    return (student_day_counts, student_day_chart)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_day_counts = df["day"].value_counts()
+_figure, _axes = plt.subplots()
+student_day_chart = student_day_counts.plot(kind="barh", ax=_axes, title="Bills by day")
+```
+Each bar represents the number of recorded bills for that day, not its total bill amount.
+''')}, lazy=True)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -229,6 +263,40 @@ def _(day_time, plt):
     return
 
 
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Use `pd.crosstab` to count smoker categories within each day, then draw a stacked bar chart with unrotated labels. Replace the `None` values with your code. Does the total height show a count or a percentage?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_day_smoker = None
+    print("student_day_smoker:", student_day_smoker)
+    student_stacked_chart = None
+    print("student_stacked_chart:", student_stacked_chart)
+    return (student_day_smoker, student_stacked_chart)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_day_smoker = pd.crosstab(df["day"], df["smoker"])
+_figure, _axes = plt.subplots()
+student_stacked_chart = student_day_smoker.plot(kind="bar", stacked=True, rot=0, ax=_axes, title="Day and smoker")
+```
+The total height is the number of recorded bills for each day. `stacked=True` does not convert counts to percentages.
+''')}, lazy=True)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -301,6 +369,37 @@ def _(df, plt):
     bins = 10
     _figure, _axes = plt.subplots()
     df.total_bill.plot(kind="hist", bins=bins, title=f"Total Bill, {bins} bins", ax=_axes)
+    return
+
+
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Plot a histogram of `tip` with 20 bins. Replace `None` with your code. How does a histogram differ from a bar chart of category counts?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_histogram = None
+    print("student_tip_histogram:", student_tip_histogram)
+    return (student_tip_histogram,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+_figure, _axes = plt.subplots()
+student_tip_histogram = df["tip"].plot(kind="hist", bins=20, ax=_axes, title="Tips, 20 bins")
+```
+A histogram groups numeric values into intervals. A category bar chart compares separate categories. Changing the number of bins changes the summary, not the observations.
+''')}, lazy=True)
     return
 
 
@@ -399,6 +498,39 @@ def _(df, plt):
     return
 
 
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw box plots of `tip`, grouped by `time`. Replace `None` with your code. Which part of each box marks the median? Are separate points automatically data errors?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_boxplot = None
+    print("student_tip_boxplot:", student_tip_boxplot)
+    return (student_tip_boxplot,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+_figure, _axes = plt.subplots()
+student_tip_boxplot = df.boxplot(column="tip", by="time", ax=_axes)
+_figure.suptitle("")
+_axes.set_title("Tips by time")
+```
+The line inside each box marks the median. Separate points are flagged by the box-plot rule; they are not automatically errors.
+''')}, lazy=True)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -435,6 +567,37 @@ def _(df, plt):
     return
 
 
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a scatter plot with `size` on the horizontal axis and `tip` on the vertical axis. Replace `None` with your code. What does a point represent, and does a pattern establish causation?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_size_tip_scatter = None
+    print("student_size_tip_scatter:", student_size_tip_scatter)
+    return (student_size_tip_scatter,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+_figure, _axes = plt.subplots()
+student_size_tip_scatter = df.plot(x="size", y="tip", kind="scatter", ax=_axes, title="Tip and party size")
+```
+A point represents one recorded bill. Repeated party sizes can produce vertical groups of points. An association does not establish causation.
+''')}, lazy=True)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -447,6 +610,43 @@ def _(mo):
     - A histogram counts values in neighboring bins. A density curve smooths that shape. A box plot marks the median and the two quartiles.
     - A scatter plot uses two numeric columns. The pattern of the points is the relationship.
 
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. Which pandas method counts the observations in each category?
+    2. What does the total height of a stacked bar from a table of counts represent?
+    3. Does changing histogram bins change the original data?
+    4. Does the height of a density curve at one value give the probability of observing exactly that value?
+    5. What does the horizontal axis represent in the line and area plots shown here?
+    6. What do the box edges and the line inside the box represent?
+    7. Does a rising scatter pattern prove that one variable causes the other?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **`value_counts()`:** It counts the observations in each category.
+2. **The row total:** Each segment is one column's count, and the segments add to the total for that row category.
+3. **No:** It changes the grouping into intervals, not the observations.
+4. **No:** Density is not point probability. The area over an interval estimates the probability of values in that interval.
+5. **The DataFrame index:** For this dataset it follows the row order; it is not the sorted bill amount or necessarily elapsed time.
+6. **Quartiles and median:** The edges are the first and third quartiles. The line inside is the median.
+7. **No:** A scatter plot describes association; it does not establish causation.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 4.

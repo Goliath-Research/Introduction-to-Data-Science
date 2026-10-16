@@ -346,11 +346,7 @@ def _(data, plt):
     print("Values:", _values)
     print("Edges:", _edges)
     for _index, _patch in enumerate(_patches):
-        print(f"Patch {_index + 1}:")
-        print("  Height (Frequency):", _patch.get_height())
-        print("  Width (Bin size):", _patch.get_width())
-        print("  X (Bin start):", _patch.get_x())
-        print("  Y (Bottom of the bar):", _patch.get_y())
+        print(f"Patch {_index + 1}: Height (Frequency): {_patch.get_height():.3f}, Width (Bin size): {_patch.get_width():.3f}, X (Bin start): {_patch.get_x():.3f}")
     return _figure
 
 

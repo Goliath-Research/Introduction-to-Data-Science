@@ -144,8 +144,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_line_and_markers = None
-    student_line_and_markers
+    student_line_and_markers = None    
     return (student_line_and_markers,)
 
 
@@ -236,8 +235,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_bar_and_pie = None
-    student_bar_and_pie
+    student_bar_and_pie = None    
     return (student_bar_and_pie,)
 
 
@@ -424,8 +422,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_labeled_histogram = None
-    student_labeled_histogram
+    student_labeled_histogram = None    
     return (student_labeled_histogram,)
 
 
@@ -619,8 +616,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_hexbin = None
-    student_hexbin
+    student_hexbin = None    
     return (student_hexbin,)
 
 
@@ -685,8 +681,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_annotated_cosine = None
-    student_annotated_cosine
+    student_annotated_cosine = None  
     return (student_annotated_cosine,)
 
 
@@ -704,6 +699,7 @@ plt.annotate(
     arrowprops=dict(facecolor="black"),
 )
 plt.ylim(-1.5, 1.5)
+student_annotated_cosine
 ```
 `xy` is the point being marked. `xytext` is where the words sit. The arrow runs from the words to the point.
 ''')}, lazy=True)
@@ -714,9 +710,7 @@ plt.ylim(-1.5, 1.5)
 def _(mo):
     mo.md(r"""
     ## Conclusions
-
-    **Key takeaways:**
-
+    
     - Matplotlib enables extensive customization of plot elements, allowing modifications to line styles, colors, and markers that enhance readability and aesthetic appeal.
     A format string sets the color and the marker in one argument. Two `plot` calls can put a line and a marker on the same points.
     - `subplot(nrows, ncols, index)` picks one cell of a grid. `suptitle` names the whole figure.

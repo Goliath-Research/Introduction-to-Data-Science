@@ -563,7 +563,7 @@ def _(mo):
 @app.cell
 def _():
     tip_data = None
-    print("tip_data:\n", tip_data.head().round(3))
+    print("tip_data:\n", tip_data)
 
     student_tip_percentage_scatter = None
     student_tip_percentage_scatter
@@ -594,8 +594,6 @@ A point is one recorded bill. Larger bills tend to have a lower tip percentage. 
 def _(mo):
     mo.md(r"""
     ## Conclusions
-
-    **Key takeaways:**
 
     - `Series.plot` and `DataFrame.plot` draw the chart. `kind` selects bars, a pie, a histogram, a density curve, an area, a line, a box, or a scatter.
     - `value_counts` and `crosstab` build the tables those category charts display. `stacked=True` piles the columns of each row into one bar.

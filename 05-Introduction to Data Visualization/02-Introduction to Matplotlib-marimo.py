@@ -190,8 +190,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_two_lines = None
-    student_two_lines
+    student_two_lines = None    
     return (student_two_lines,)
 
 
@@ -278,8 +277,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_half_sine = None
-    student_half_sine
+    student_half_sine = None    
     return (student_half_sine,)
 
 
@@ -392,8 +390,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_error_bars = None
-    student_error_bars
+    student_error_bars = None    
     return (student_error_bars,)
 
 
@@ -548,8 +545,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_density_histogram = None
-    student_density_histogram
+    student_density_histogram = None    
     return (student_density_histogram,)
 
 
@@ -670,8 +666,6 @@ With `alpha` below 1, the second histogram does not hide the first. The region w
 def _(mo):
     mo.md(r"""
     ## Conclusions
-
-    **Key takeaways:**
 
     - A figure holds the picture. An axes is where `plot` draws. One axes can hold several lines.
     - `color`, `linestyle`, and a format string such as `'--g'` change the look of a line. `legend`, `title`, `xlim`, `ylim`, and `axis` describe and frame it.

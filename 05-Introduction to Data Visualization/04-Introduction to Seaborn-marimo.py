@@ -152,8 +152,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_day_smoker_counts = None
-    student_day_smoker_counts
+    student_day_smoker_counts = None    
     return (student_day_smoker_counts,)
 
 
@@ -252,7 +251,7 @@ def _(mo):
 
 @app.cell
 def _():
-    student_day_panels = None
+    student_day_panels = None    
     student_day_panels
     return (student_day_panels,)
 
@@ -475,6 +474,7 @@ def _(mo):
 
 @app.cell
 def _():
+    
     student_pair_grid = None
     student_pair_grid
     return (student_pair_grid,)
@@ -496,8 +496,6 @@ A diagonal panel shows the distribution of one column, drawn separately for smok
 def _(mo):
     mo.md(r"""
     ## Conclusions
-
-    **Key takeaways:**
 
     - Pass the DataFrame as `data` and the column names as `x`, `y`, and `hue`. `countplot` then counts a category, and `hue` splits the count.
     - `relplot` scatters two numeric columns. `col` and `row` make a panel per group. `hue` colors the points. `size` scales them.

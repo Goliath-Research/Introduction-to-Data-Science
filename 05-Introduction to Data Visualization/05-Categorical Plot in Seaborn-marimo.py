@@ -853,8 +853,6 @@ def _(mo):
     mo.md(r"""
     ## Conclusions
 
-    **Key takeaways:**
-
     - `catplot` chooses the chart with `kind`. The matching function, such as `boxplot` or `barplot`, draws that one chart on an axes.
     - A strip plot jitters points so they can be seen. A swarm plot places the same points so they do not overlap.
     - A box plot marks the quartiles. A boxen plot adds more quantiles. A violin plot adds the density, and `inner` chooses what sits inside it.

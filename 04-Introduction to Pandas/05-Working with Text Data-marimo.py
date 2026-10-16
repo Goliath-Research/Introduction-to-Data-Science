@@ -186,6 +186,7 @@ def _(mo):
 
 @app.cell
 def _():
+    
     student_lower = None
     student_lower
     return (student_lower,)

@@ -376,6 +376,7 @@ def _(mo):
 
 @app.cell
 def _():
+    
     student_with_total = None
     print(student_with_total)
 
@@ -390,6 +391,7 @@ def _(mo):
 ```python
 student_with_total = pd.DataFrame(records)
 student_with_total['total'] = student_with_total['a'] + student_with_total['b']
+
 student_dropped = student_with_total.drop(columns=['total'])
 ```
 No. Without `inplace=True`, `drop` returns a new DataFrame. `student_with_total` still has the column. A row where `b` is missing has `NaN` in `total`, because arithmetic with `NaN` is `NaN`.

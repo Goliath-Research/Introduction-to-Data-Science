@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "marimo",
+#     "openpyxl",
+#     "pandas",
+#     "scipy",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.24.2"

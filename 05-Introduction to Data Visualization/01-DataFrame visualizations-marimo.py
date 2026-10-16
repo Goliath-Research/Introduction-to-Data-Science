@@ -144,7 +144,7 @@ def _(mo):
 def _(df, plt):
     category = "time"
     _figure, _axes = plt.subplots()
-    df[category].value_counts().plot(kind="bar", ax=_axes, title=category)
+    df[category].value_counts().plot(kind="bar", rot=True,ax=_axes, title=category)
     return
 
 
@@ -164,6 +164,7 @@ def _(mo):
 def _():
     student_day_counts = None
     print("student_day_counts:", student_day_counts)
+
     student_day_chart = None
     student_day_chart
     return (student_day_counts, student_day_chart)
@@ -278,9 +279,10 @@ def _(mo):
 @app.cell
 def _():
     student_day_smoker = None
-    print("student_day_smoker:", student_day_smoker)
+    print("student_day_smoker:\n", student_day_smoker)
+
     student_stacked_chart = None
-    print("student_stacked_chart:", student_stacked_chart)
+    student_stacked_chart
     return (student_day_smoker, student_stacked_chart)
 
 
@@ -386,8 +388,9 @@ def _(mo):
 
 @app.cell
 def _():
+
     student_tip_histogram = None
-    print("student_tip_histogram:", student_tip_histogram)
+    student_tip_histogram
     return (student_tip_histogram,)
 
 
@@ -512,8 +515,9 @@ def _(mo):
 
 @app.cell
 def _():
+
     student_tip_boxplot = None
-    print("student_tip_boxplot:", student_tip_boxplot)
+    student_tip_boxplot
     return (student_tip_boxplot,)
 
 
@@ -523,8 +527,6 @@ def _(mo):
 ```python
 _figure, _axes = plt.subplots()
 student_tip_boxplot = df.boxplot(column="tip", by="time", ax=_axes)
-_figure.suptitle("")
-_axes.set_title("Tips by time")
 ```
 The line inside each box marks the median. Separate points are flagged by the box-plot rule; they are not automatically errors.
 ''')}, lazy=True)

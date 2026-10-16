@@ -858,7 +858,43 @@ def _(mo):
     - A box plot marks the quartiles. A boxen plot adds more quantiles. A violin plot adds the density, and `inner` chooses what sits inside it.
     - A count is how many rows. A point or a bar is a summary of the numbers, by default the mean. `estimator` can replace that summary with the median or the sum.
     - `hue`, `col`, and `row` split the chart by more categories. `split=True` gives each hue one half of a violin.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. Does `jitter` change the values being plotted?
+    2. What does a wide part of a swarm plot show?
+    3. What do the edges of a box and the line inside it represent?
+    4. What does the width of a violin at one amount represent?
+    5. What does a bar drawn with `estimator=np.sum` measure?
+    6. Why can that bar be tall on a day when a typical bill is not large?
+    7. What does `split=True` do to a violin that has a `hue`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **No:** It only shifts points sideways so points that share a category do not sit on one line.
+2. **Many observations:** The swarm is wide where many bills have amounts near that value.
+3. **The quartiles and the median:** The edges are the 25% and 75% points. The line is the median.
+4. **The density:** It is the estimated density of values near that amount. A wide part means many values close together.
+5. **The total:** The bar is the sum of the values in that category, not the mean or the median.
+6. **A busy day:** The sum grows with the number of rows, so many ordinary bills add up to a tall bar.
+7. **One half each:** Each value of the hue gets one side of the violin instead of a violin of its own.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 4.

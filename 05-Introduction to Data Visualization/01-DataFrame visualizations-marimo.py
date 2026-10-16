@@ -34,7 +34,7 @@ def _(mo):
 
     - Build a chart from a pandas Series or DataFrame with `plot`, and choose the chart with `kind`.
     - Compare categories with vertical bars, horizontal bars, pie charts, and stacked bars.
-    - Read the shape of a numeric column from a histogram, a density curve, an area plot, and a box plot.
+    - Read a numeric column with a histogram, a density curve, and a box plot, and draw its values in row order with an area plot and a line plot.
     - Show how two numeric columns move together with a scatter plot.
 
     ## Background

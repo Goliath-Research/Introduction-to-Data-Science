@@ -671,7 +671,43 @@ def _(mo):
     - `color`, `linestyle`, and a format string such as `'--g'` change the look of a line. `legend`, `title`, `xlim`, `ylim`, and `axis` describe and frame it.
     - `errorbar` draws a point and a bar. The returned container holds the data line, the caps, and the bar collections. `fmt`, `color`, and `ecolor` style those pieces separately.
     - `hist` returns the counts, the edges, and the patches. `bins`, `alpha`, and `density` change the bars. Several samples can share one axes when the bars are partly transparent.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What is the difference between a figure and an axes?
+    2. Why does the same sine curve look jagged with 10 points and smooth with 1000?
+    3. What does the format string `'--g'` set?
+    4. Does `xlim` delete the points that fall outside the range?
+    5. In `errorbar`, which argument colors the points, and which colors the bars?
+    6. What does `density=True` change in a histogram?
+    7. Why are overlapping histograms drawn with `alpha` below 1?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **The picture and the drawing region:** The figure is the whole picture. The axes is the region inside it where the data is drawn.
+2. **The number of points:** `plot` joins the points with straight segments. More points make those segments short enough to look like a curve.
+3. **A dashed green line:** The characters before the color letter set the line style, and the letter sets the color.
+4. **No:** It changes the visible range. The plotted data still contains those points.
+5. **`color` and `ecolor`:** `color` colors the points. `ecolor` colors the bars.
+6. **The vertical scale:** The shape of the bars stays the same. The heights are rescaled so the area of the bars is 1.
+7. **So one sample does not hide another:** A value below 1 lets the bars underneath show through where the samples overlap.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 4.

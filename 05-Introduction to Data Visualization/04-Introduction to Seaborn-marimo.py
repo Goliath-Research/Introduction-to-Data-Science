@@ -35,7 +35,7 @@ def _(mo):
     - Draw a statistical chart from a DataFrame by naming the columns.
     - Count a category, and split that count with `hue`.
     - Compare one relationship across groups with `col`, `row`, `hue`, and `size`.
-    - Read one numeric column with a histogram or a density curve, two columns with a joint plot, and every pair of columns with `pairplot`.
+    - Read one numeric column with a histogram or a density curve, two columns with a colored grid or a joint plot, and every pair of columns with `pairplot`.
 
     ## Background
 
@@ -501,7 +501,43 @@ def _(mo):
     - `relplot` scatters two numeric columns. `col` and `row` make a panel per group. `hue` colors the points. `size` scales them.
     - `displot` is a histogram by default, a density curve with `kind='kde'`, and a colored grid when both `x` and `y` are set.
     - `jointplot` adds the two margins of one pair. `pairplot` draws every pair.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does the height of a bar in `countplot` represent?
+    2. What is the difference between `hue` and `col`?
+    3. In this lesson's `relplot`, what does `size="size"` scale each point by?
+    4. What does `kde=True` add to a histogram?
+    5. When `displot` is given both `x` and `y`, what does the color of a rectangle represent?
+    6. What do the panels in the margins of a `jointplot` show?
+    7. What does a panel on the diagonal of a `pairplot` show?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **A count of rows:** It is how many rows have that category, not a sum of money.
+2. **Color and panels:** `hue` colors the groups inside one chart. `col` gives each group its own panel.
+3. **The party size:** The column named `size` is the number of people at the table, and each point is drawn larger or smaller by that number.
+4. **A density curve:** The bars stay, and a smooth estimate of the distribution is drawn over them.
+5. **A count:** It is the number of rows whose values fall in that rectangle.
+6. **Each column alone:** The center is the relationship of the two columns. Each margin is the distribution of one of them.
+7. **One column:** It is the distribution of that column. The other panels are the pairs.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 4.

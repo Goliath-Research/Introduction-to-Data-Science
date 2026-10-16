@@ -710,13 +710,48 @@ student_annotated_cosine
 def _(mo):
     mo.md(r"""
     ## Conclusions
-    
-    - Matplotlib enables extensive customization of plot elements, allowing modifications to line styles, colors, and markers that enhance readability and aesthetic appeal.
-    A format string sets the color and the marker in one argument. Two `plot` calls can put a line and a marker on the same points.
+
+    - A format string sets the color and the marker in one argument. Two `plot` calls can put a line and a marker on the same points.
     - `subplot(nrows, ncols, index)` picks one cell of a grid. `suptitle` names the whole figure.
     - `bins`, `facecolor`, and `alpha` change a histogram. `xlabel`, `ylabel`, `title`, and `text` write on it. A raw string between `$` signs is rendered as LaTeX.
     - `hist2d` and `hexbin` color a grid by how many points fall in each cell. `annotate` points at one place on a chart.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does the format string `'g^'` set?
+    2. What does the third number in `subplot(1, 2, 2)` select?
+    3. Does changing the number of histogram bins change the sample?
+    4. Are the coordinates passed to `plt.text` measured in pixels?
+    5. What does the color of a cell in `hist2d` or `hexbin` represent?
+    6. Does a smaller `gridsize` make the hexagons larger or smaller?
+    7. In `annotate`, what is the difference between `xy` and `xytext`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Green triangles:** The letter is the color and the symbol is the marker.
+2. **The second cell:** The index counts from 1, left to right and top to bottom, so 2 is the right-hand cell of one row.
+3. **No:** It changes how the same values are grouped into intervals.
+4. **No:** They are in the units of the data. The first number is a position on the horizontal axis and the second is a position on the vertical axis.
+5. **A count:** The color shows how many points fall in that cell.
+6. **Larger:** `gridsize` is how many hexagons fit across the grid, so fewer hexagons each cover more of it.
+7. **The point and the words:** `xy` is the point being marked. `xytext` is where the words sit. The arrow runs from the words to the point.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 4.

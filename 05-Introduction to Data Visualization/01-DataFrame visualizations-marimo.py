@@ -165,7 +165,7 @@ def _():
     student_day_counts = None
     print("student_day_counts:", student_day_counts)
     student_day_chart = None
-    print("student_day_chart:", student_day_chart)
+    student_day_chart
     return (student_day_counts, student_day_chart)
 
 

@@ -344,7 +344,7 @@ def _(data, plt):
     _figure = plt.figure()
     _values, _edges, _patches = plt.hist(data)
     print("Values:", _values)
-    print("Edges:", _edges)
+    print("Edges:", _edges.round(3))
     for _index, _patch in enumerate(_patches):
         print(f"Patch {_index + 1}: Height (Frequency): {_patch.get_height():.3f}, Width (Bin size): {_patch.get_width():.3f}, X (Bin start): {_patch.get_x():.3f}")
     return _figure

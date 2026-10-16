@@ -57,8 +57,8 @@ def _(pd):
 
 
 @app.cell
-def _(df):
-    df.head()
+def _(df, mo):
+    mo.Html(df.head().to_html())
     return
 
 
@@ -79,9 +79,9 @@ def _(mo):
 
 
 @app.cell
-def _(df):
+def _(df, mo):
     sex_counts = df.sex.value_counts()
-    print(sex_counts)
+    mo.Html(sex_counts.to_frame().to_html())
     return (sex_counts,)
 
 
@@ -168,9 +168,9 @@ def _(mo):
 
 
 @app.cell
-def _(df, pd):
+def _(df, mo, pd):
     sex_smoker = pd.crosstab(df.sex, df.smoker)
-    print(sex_smoker)
+    mo.Html(sex_smoker.to_html())
     return (sex_smoker,)
 
 
@@ -199,9 +199,9 @@ def _(mo):
 
 
 @app.cell
-def _(df, pd):
+def _(df, mo, pd):
     day_time = pd.crosstab(df.day, df.time)
-    print(day_time)
+    mo.Html(day_time.to_html())
     return (day_time,)
 
 

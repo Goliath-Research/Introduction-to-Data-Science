@@ -65,8 +65,8 @@ def _(sns):
 
 
 @app.cell
-def _(tips):
-    tips.head()
+def _(mo, tips):
+    mo.Html(tips.head().to_html())
     return
 
 

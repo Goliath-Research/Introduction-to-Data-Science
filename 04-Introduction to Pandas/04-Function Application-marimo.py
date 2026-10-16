@@ -103,6 +103,34 @@ def _(add2, df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Use `pipe` and `add2` to add 5 to every value of `df`. Replace `None` with your code. Does `df` itself change?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_piped = None
+    student_piped
+    return (student_piped,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_piped = df.pipe(add2, 5)
+```
+No. `pipe` returns a new DataFrame. The cell that prints `df` after the pipe still shows the original numbers.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Row or column wise function application
 
     `apply` runs the function on each column. That is `axis=0`, and it is the default.
@@ -220,6 +248,34 @@ def _(df):
 @app.cell
 def _(df):
     df
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Use `apply` with `axis=1` to add the values in each row of `df`. Replace `None` with your code. What does `apply` pass to the function when `axis=1`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_row_sums = None
+    student_row_sums
+    return (student_row_sums,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_row_sums = df.apply(lambda row: row.sum(), axis=1)
+```
+One row. The default, `axis=0`, would pass one column at a time instead.
+''')}, lazy=True)
     return
 
 
@@ -374,7 +430,35 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the lambda so that it adds the two columns instead of subtracting them.
+    Sort `unsorted_df` by the column `A`. Replace `None` with your code. Does `unsorted_df` stay in its original order?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_sorted = None
+    student_sorted
+    return (student_sorted,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_sorted = unsorted_df.sort_values(by='A')
+```
+Yes. `sort_values` returns a new DataFrame. The original row order is unchanged.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    The lambda returns the range of each column, `max` minus `min`. Change it so each result is the sum of that column.
     """)
     return
 
@@ -399,7 +483,43 @@ def _(mo):
     - These methods return a new object. The original DataFrame stays as it was.
     - A DataFrame loop yields column names. `items`, `iterrows`, and `itertuples` yield the contents.
     - `sort_index` orders labels. `sort_values` orders rows by one or more columns.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does `pipe` pass to the function?
+    2. What does `apply` pass to the function by default?
+    3. What changes when `apply` is called with `axis=1`?
+    4. What does `map` pass to the function?
+    5. Do `pipe`, `apply`, and `map` change the original DataFrame?
+    6. What does a loop over a DataFrame yield?
+    7. Which method sorts rows by a column, and which sorts the labels?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **The whole DataFrame:** Extra arguments are written after the function, as in `df.pipe(add2, 5)`.
+2. **One column:** `axis=0` is the default, so the function sees one column at a time.
+3. **It receives a row:** The function is applied across each row instead of down each column.
+4. **One element:** `map` works on a DataFrame or on a Series, one value at a time.
+5. **No:** Each method returns a new object.
+6. **The column names:** `items`, `iterrows`, and `itertuples` are the methods that yield the contents.
+7. **`sort_values` and `sort_index`:** `sort_values` orders rows by one or more columns. `sort_index` orders the labels.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

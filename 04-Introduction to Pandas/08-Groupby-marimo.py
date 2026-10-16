@@ -165,6 +165,34 @@ def _(t):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Compute the sum of `Points` for each group in `t`. Replace `None` with your code. Does the result have one row per original row, or one row per team?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_team_points = None
+    student_team_points
+    return (student_team_points,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_team_points = t['Points'].sum()
+```
+One row per team. `t` is already grouped by `Team`, and `sum` reduces each group to one number.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Transformation
 
     `transform` returns a DataFrame with the same shape and the same index as the numeric columns it receives. The function `score` turns each group into a standardized value: the distance from that group's mean, divided by that group's standard deviation.
@@ -197,6 +225,34 @@ def _(t):
 @app.cell
 def _(t):
     t['Points'].transform(lambda x: x.mean())
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Use `transform` to write each team's mean `Points` onto every row of that team. Replace `None` with your code. Does the result have the same number of rows as the original table?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_team_means = None
+    student_team_means
+    return (student_team_means,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_team_means = t['Points'].transform(lambda x: x.mean())
+```
+Yes. `transform` keeps the original rows. Every row of a team shows that team's mean, so teammates share one number.
+''')}, lazy=True)
     return
 
 
@@ -249,6 +305,34 @@ def _(t):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Use `filter` to keep the teams that have exactly two rows. Replace `None` with your code. Are the dropped teams removed one row at a time, or as a whole group?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_two_years = None
+    student_two_years
+    return (student_two_years,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_two_years = t.filter(lambda x: len(x) == 2)
+```
+As a whole group. A team with any other number of rows is dropped entirely. The rows that remain keep their original columns.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     In summary:
 
     - Use `aggregate`, or a shortcut such as `mean`, when you want one value for each group.
@@ -289,7 +373,43 @@ def _(mo):
     - Aggregation (`agg`, `sum`, `mean`, `median`) reduces each group to a summary.
     - `transform` keeps the original rows and index, and fills them with a group calculation.
     - `filter` keeps or drops entire groups. The rows that remain still have their original columns.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What are the three steps of a groupby operation?
+    2. What does an aggregation return for each group?
+    3. What is the difference between `sum` and `transform`?
+    4. Does `transform` keep the original index?
+    5. What does `filter` drop: selected rows inside a group, or a whole group?
+    6. What do `size` and `ngroups` report?
+    7. What does `get_group` return?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Split, apply, combine:** The rows are split into groups, a function is applied to each group, and the results are combined.
+2. **One summary:** `agg`, `sum`, `mean`, and `median` reduce a group to a summary instead of keeping its rows.
+3. **One value per group, or one value per row:** `sum` returns one number per team. `transform` writes a result back onto every original row.
+4. **Yes:** The result lines up with the rows that went in.
+5. **A whole group:** Every row of a group that fails the test is dropped. The rows that remain keep their original columns.
+6. **Rows in each group, and the number of groups:** `size` counts the rows. `ngroups` counts the groups.
+7. **One group:** You pass the group name, such as `'A'`, and get the rows in that group.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

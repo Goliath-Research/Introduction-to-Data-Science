@@ -205,6 +205,35 @@ def _(df2_auto, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Read the text `"a;b\n1;?\n3;4\n"` with `read_csv`. The separator is a semicolon, and `?` means missing. `StringIO` lets `read_csv` read a string as if it were a file. Replace `None` with your code. What does the `?` become?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_semicolon = None
+    student_semicolon
+    return (student_semicolon,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+from io import StringIO
+student_semicolon = pd.read_csv(StringIO("a;b\n1;?\n3;4\n"), sep=';', na_values='?')
+```
+`NaN`. `sep` tells Pandas where one column ends, and `na_values` names the text that should be missing data.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Reading data from an `.arff` file
 
     An ARFF file (Attribute-Relation File Format) is a text file from the Machine Learning Project at the University of Waikato. It has a header section and a data section.
@@ -368,6 +397,40 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Flatten `data` the same way the lesson does: the records are under `'cars'`, and the person fields are `name` and `age`. Use the prefixes `person_` and `car_`. Replace `None` with your code. Why are the prefixes needed?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_flat = None
+    student_flat
+    return (student_flat,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_flat = json_normalize(
+    data,
+    record_path='cars',
+    meta=['name', 'age'],
+    meta_prefix='person_',
+    record_prefix='car_',
+)
+```
+Both the person and the car have a field named `name`. The prefixes keep those two columns from being given the same name.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Reading data from a `.xlsx` file
 
     `read_excel` reads an Excel workbook and returns a DataFrame. This cell loads the Immunotherapy dataset, [https://archive.ics.uci.edu/ml/datasets/Immunotherapy+Dataset](https://archive.ics.uci.edu/ml/datasets/Immunotherapy+Dataset). `openpyxl` is the library Pandas uses to read `.xlsx` files.
@@ -397,6 +460,35 @@ def _(df_immuno):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Build a one-column DataFrame from `{'City': ['Rome', 'Oslo']}` and convert it to CSV text with `index=False`. Replace `None` with your code. Do the row numbers appear in that text?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_csv_text = None
+    print(student_csv_text)
+    return (student_csv_text,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_cities = pd.DataFrame({'City': ['Rome', 'Oslo']})
+student_csv_text = student_cities.to_csv(index=False)
+```
+No. `index=False` leaves the index out of the file. Without it, the row numbers are written as an extra column.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
@@ -406,7 +498,43 @@ def _(mo):
     - An ARFF file can be loaded with `loadarff` and turned into a DataFrame. Byte strings need to be decoded.
     - `read_json` and `to_json` handle JSON tables. `json_normalize` flattens nested records, and prefixes keep duplicate field names apart.
     - `read_excel` reads an `.xlsx` file. `describe` is a quick summary of the numeric columns after the load.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does `names` supply to `read_csv`?
+    2. What does `sep=';'` tell `read_csv`?
+    3. What does `na_values='?'` do?
+    4. What does `index=False` leave out of a CSV file?
+    5. What two parts does an ARFF file contain, and what has to be done to its text values?
+    6. What does `json_normalize` do to nested records?
+    7. Why does the cars example use `meta_prefix` and `record_prefix`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **The column headers:** The automobile file has no header row, so the names are passed in separately.
+2. **The separator:** A semicolon, rather than a comma, stands between the columns.
+3. **It marks missing data:** The character `?` becomes `NaN`.
+4. **The index:** The row labels are not written as an extra column.
+5. **A header and the data:** `loadarff` reads both. Text values arrive as byte strings and are decoded to ordinary text.
+6. **It flattens them:** Nested fields become columns of one table.
+7. **Both levels have a `name`:** The prefixes keep the person's name and the car's name in different columns.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

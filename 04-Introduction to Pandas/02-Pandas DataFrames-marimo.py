@@ -102,8 +102,22 @@ def _(mo):
 def _(pd):
     students_rows = [['John', 18], ['Anna', 17], ['Peter', 19]]
     from_rows = pd.DataFrame(students_rows, columns=['Name', 'Age'])
-    from_rows
+    print(from_rows)
     return students_rows, from_rows
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `print` shows the table as text. That is the default. `to_html` turns the same table into HTML, and `mo.Html` displays that HTML.
+    """)
+    return
+
+
+@app.cell
+def _(from_rows, mo):
+    mo.Html(from_rows.to_html())
+    return
 
 
 @app.cell(hide_code=True)
@@ -168,6 +182,34 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Build a DataFrame from `[{'a': 1}, {'a': 2, 'b': 3}]`. Replace `None` with your code. What value appears where the first dictionary has no key `'b'`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_missing_key = None
+    student_missing_key
+    return (student_missing_key,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_missing_key = pd.DataFrame([{'a': 1}, {'a': 2, 'b': 3}])
+```
+`NaN`. A key that is present in one dictionary and absent from another becomes a missing value.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Basic operations on DataFrames
 
     A new column is added by name. The calculation is done row by row.
@@ -214,6 +256,39 @@ def _(pd, records):
     df.rename(columns={'a': 'A', 'b': 'B', 'c': 'C'}, inplace=True)
     df
     return (df,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Start from `records` and add a column `total` equal to `a + b`. Then call `drop` on `total` without `inplace=True`. Replace the `None` values with your code. Does that `drop` remove `total` from the DataFrame you added it to?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_with_total = None
+    print(student_with_total)
+
+    student_dropped = None
+    student_dropped
+    return student_dropped, student_with_total
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_with_total = pd.DataFrame(records)
+student_with_total['total'] = student_with_total['a'] + student_with_total['b']
+student_dropped = student_with_total.drop(columns=['total'])
+```
+No. Without `inplace=True`, `drop` returns a new DataFrame. `student_with_total` still has the column. A row where `b` is missing has `NaN` in `total`, because arithmetic with `NaN` is `NaN`.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -369,6 +444,34 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
+    Compute the mean of each column of `df`. Replace `None` with your code. Are the missing values included in that mean?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_means = None
+    student_means
+    return (student_means,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_means = df.mean()
+```
+No. `mean` skips `NaN`. A column with missing values is averaged over the values that are present.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
     Add a column `NextYear` equal to `Age + 1`, then show the table.
     """)
     return
@@ -394,7 +497,43 @@ def _(mo):
     - Assign a column by name. `del` and `pop` remove a column immediately. `drop` returns a new DataFrame unless you pass `inplace=True`.
     - Arithmetic with `NaN` produces `NaN`.
     - `head`, `tail`, `shape`, `info`, and `describe` show what the table contains. `mean`, `min`, `max`, `sum`, `cumsum`, and `prod` summarize the columns.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. Can two columns of one DataFrame have different types?
+    2. What is the column name when a DataFrame is built from a list and no names are passed?
+    3. What fills a cell when one dictionary in a list of dictionaries lacks a key?
+    4. What is the result of arithmetic with `NaN`?
+    5. What is the difference between `drop` and `drop(..., inplace=True)`?
+    6. How many rows does `head` show when it is called with no argument?
+    7. Does `mean` include missing values?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Yes:** Each column has its own type. A name column can be text while an age column is numeric.
+2. **`0`:** Pandas assigns that name automatically.
+3. **`NaN`:** The row is kept, and the missing key becomes a missing value.
+4. **`NaN`:** Adding, subtracting, or otherwise calculating with a missing value gives a missing value.
+5. **A new table, or the same table:** `drop` returns another DataFrame and leaves the original unchanged. `inplace=True` changes the original.
+6. **Five:** `head(n)` shows `n` rows. With no argument, `n` is 5.
+7. **No:** The mean of a column uses the non-missing values.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

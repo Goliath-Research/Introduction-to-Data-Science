@@ -150,6 +150,34 @@ def _(labeled):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Use `set_index` to make `Name` the index of `labeled`. Do not pass `inplace=True`. Replace `None` with your code. Does `labeled` itself now use `Name` as its index?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_by_name = None
+    student_by_name
+    return (student_by_name,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_by_name = labeled.set_index('Name')
+```
+No. Without `inplace=True`, `set_index` returns a new DataFrame. `labeled` still has the index `a` through `g`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `reset_index` puts the current index back into a column and uses the default index `0, 1, 2, ...`.
 
     `drop=True` discards the old index instead of saving it as a column. `inplace=True` changes that DataFrame. The copy below is changed. `labeled` is not.
@@ -211,6 +239,34 @@ def _(df):
     print(df.Age.value_counts())
     print('\nIncluding missing values')
     df.Age.value_counts(dropna=False)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Count the distinct values of `df['Age']`, including the missing age. Replace `None` with your code. Does the default `value_counts` count that missing age?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_age_counts = None
+    student_age_counts
+    return (student_age_counts,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_age_counts = df['Age'].value_counts(dropna=False)
+```
+No. The default leaves missing values out. `dropna=False` adds a count for `NaN`. Anna is that one missing age.
+''')}, lazy=True)
     return
 
 
@@ -330,6 +386,34 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
+    From `labeled`, keep the labels `'a'` through `'c'` and the columns `Age` and `GPA`, using `loc`. Replace `None` with your code. Is the row labeled `'c'` included?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_first_students = None
+    student_first_students
+    return (student_first_students,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_first_students = labeled.loc[:'c', ['Age', 'GPA']]
+```
+Yes. A label slice includes the stop label. The matching position slice, `iloc[:3, [1, 2]]`, also keeps three rows, but it stops before position 3.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
     Change the stop label in `loc` and the stop position in `iloc`. Include `City` in the column list and run the cell again.
     """)
     return
@@ -358,7 +442,43 @@ def _(mo):
     - Assigning to `.index` replaces the row labels. `set_index` uses a column as the index. `reset_index` restores a default index. Without `inplace=True`, the original DataFrame is unchanged.
     - `value_counts` counts distinct values. `dropna=False` also counts missing values.
     - `[]` selects columns by name. `loc` selects by label and includes the stop label. `iloc` selects by position and excludes the stop position.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does `T` exchange?
+    2. Does assigning to `.index` change the values in the columns?
+    3. What does `set_index` do when `inplace` is not `True`?
+    4. What does `value_counts` leave out unless you pass `dropna=False`?
+    5. Does a slice of labels include the stop label?
+    6. Does a slice of positions include the stop position?
+    7. What do `size` and `shape` report?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Rows and columns:** After the transpose, the old column names are the row labels.
+2. **No:** It replaces the row labels. The column values stay in the same order.
+3. **It returns a new DataFrame:** The original table keeps its index.
+4. **Missing values:** The default counts only values that are present.
+5. **Yes:** `loc[:'c']` keeps the row labeled `'c'`.
+6. **No:** `iloc[:3]` keeps positions 0, 1, and 2.
+7. **Elements, and rows by columns:** `size` is the number of elements. `shape` is the pair `(rows, columns)`.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

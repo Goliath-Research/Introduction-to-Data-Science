@@ -21,7 +21,7 @@ def _(mo):
     ## Objectives
 
     - Stack and place DataFrames side by side with `concat`.
-    - Keep every row, or only the shared rows, with `join='outer'` and `join='inner'`.
+    - Keep every label, or only the shared labels, with `join='outer'` and `join='inner'`.
     - Combine DataFrames on a column with `merge`, using inner, outer, left, and right joins.
     - Combine DataFrames on their index with `join`.
 
@@ -171,6 +171,34 @@ def _(df1, df4, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Place `df1` and `df4` side by side with `concat`, keeping only the shared index labels. Replace `None` with your code. What fills a cell when `join` is `'outer'` instead?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_shared = None
+    student_shared
+    return (student_shared,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_shared = pd.concat([df1, df4], axis=1, join='inner')
+```
+`NaN`. An outer concatenation keeps every index label, and a label that is missing from one table has missing cells.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Merge
 
     `merge` matches rows by a column. `how` chooses which rows to keep:
@@ -270,6 +298,34 @@ def _(customers, pd, states):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Merge `customers` and `states` on `Customer_id`, keeping only keys that appear in both tables. Replace `None` with your code. Which rows does `how='left'` keep that this merge drops?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_inner = None
+    student_inner
+    return (student_inner,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_inner = pd.merge(customers, states, on='Customer_id', how='inner')
+```
+Rows of `customers` whose `Customer_id` is not in `states`. A left merge keeps every customer. An inner merge keeps only the matches.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Join
 
     `join` combines columns by the index. It is a convenient way to place two DataFrames side by side when their indexes are the keys.
@@ -327,6 +383,34 @@ def _(left, right):
     print(left.join(right, how='inner'))
     # the same as above, but with the order of dataframes reversed (right columns come first)
     right.join(left, how='inner')
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Join `left` to the matching rows of `right` with `how='inner'`. Replace `None` with your code. Which labels does this result share with `left.join(right)` when `how` is left at its default?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_index_join = None
+    student_index_join
+    return (student_index_join,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_index_join = left.join(right, how='inner')
+```
+The shared index labels. The default is a left join, so it also keeps labels that belong only to `left`, with `NaN` where `right` has no match.
+''')}, lazy=True)
     return
 
 
@@ -444,7 +528,43 @@ def _(mo):
     - `join='inner'` keeps shared labels. `join='outer'` keeps every label and fills the gaps with `NaN`.
     - `merge` matches a column. `how` is `inner`, `outer`, `left`, or `right`. `left_on` and `right_on` name the keys when the columns differ.
     - `join` matches the index. The DataFrame before the dot supplies the rows that a left join keeps.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What is the default direction of `concat`?
+    2. What does `axis=1` change?
+    3. What does `join='inner'` keep, and what does `join='outer'` put in the gaps?
+    4. What does `keys` add to a concatenation?
+    5. Which argument of `merge` chooses inner, outer, left, or right?
+    6. When do you use `left_on` and `right_on` instead of `on`?
+    7. What does `join` match, and whose rows does the default join keep?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Down the rows:** `axis=0` stacks the tables.
+2. **The tables sit side by side:** Rows are aligned by the index.
+3. **Shared labels, and `NaN`:** An inner join keeps labels that appear in both tables. An outer join keeps every label and fills a missing side with `NaN`.
+4. **An outer index:** `loc` can then select one of the original blocks.
+5. **`how`:** `inner` keeps matching keys, `outer` keeps every key, and `left` or `right` keeps one side.
+6. **When the key columns have different names:** `on` is for a shared column name.
+7. **The index:** The default is a left join, so the DataFrame before the dot supplies the rows that are kept.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

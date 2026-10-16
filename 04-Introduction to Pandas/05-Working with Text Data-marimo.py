@@ -101,6 +101,35 @@ def _(text):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Make a Series from `['Cat', 'DOG']` and convert it to lower case. Replace `None` with your code. Does `lower` change the Series you started with?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_lower = None
+    student_lower
+    return (student_lower,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_words = pd.Series(['Cat', 'DOG'])
+student_lower = student_words.str.lower()
+```
+No. A `.str` method returns a new Series. `student_words` is still `Cat` and `DOG`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `len` is the number of characters. Spaces and the newline count.
 
     `strip` removes whitespace from both ends, including the newline. `'John\n'` becomes `'John'`.
@@ -218,6 +247,34 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    On the Series `colors`, find the first `'e'` in each name. Replace `None` with your code. What does a result of `-1` mean, and what is the result for `'red'`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_first_e = None
+    student_first_e
+    return (student_first_e,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_first_e = colors.str.find('e')
+```
+`-1` means there is no `'e'`. `'red'` has one, at position 1. Positions start at 0.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `get_dummies` builds one column per distinct value. A row has `1` in the column that matches its value and `0` in the others. This is also called one-hot encoding.
     """)
     return
@@ -241,6 +298,34 @@ def _(pd):
     sex = pd.Series(['Male', 'Female'])
     sex.str.get_dummies()
     return (sex,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Turn `['Yes', 'No', 'Yes']` into indicator columns with `get_dummies`. Replace `None` with your code. What does a `1` in a column mean?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_indicators = None
+    student_indicators
+    return (student_indicators,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_indicators = pd.Series(['Yes', 'No', 'Yes']).str.get_dummies()
+```
+The row has that value. Each distinct string gets its own column, and the other column in that row is `0`.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -273,7 +358,43 @@ def _(mo):
     - `contains`, `startswith`, and `endswith` answer a yes-or-no question. `count`, `find`, and `findall` locate a pattern.
     - `replace` substitutes text. `repeat` repeats each element without adding rows.
     - `get_dummies` turns each distinct string into its own indicator column.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. How do you call a string method on a Series?
+    2. Does `lower` change the original Series?
+    3. What does `strip` remove, and from where?
+    4. What does `split(' ')` put in each row?
+    5. What does `find` return when the pattern is absent?
+    6. What is the difference between `find` and `findall`?
+    7. What does a `1` mean in the table returned by `get_dummies`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **Through `.str`:** For example, `text.str.lower()`.
+2. **No:** It returns a new Series. A missing value stays missing.
+3. **Whitespace at both ends:** Spaces and a trailing newline are removed. Characters in the middle stay.
+4. **A list:** The string is broken at each space.
+5. **`-1`:** A non-negative number is the position of the first match, starting at 0.
+6. **The first match, or every match:** `find` returns one position. `findall` returns a list of the matches.
+7. **The row has that value:** The other indicator columns in that row are `0`.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

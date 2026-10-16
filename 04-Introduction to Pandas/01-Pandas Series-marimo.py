@@ -265,6 +265,34 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Build a Series from `[1.9, 2.1, 3.8]` and convert it to integer with `astype`. Replace `None` with your code. Is `1.9` rounded to 2, or is the fractional part dropped?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_integers = None
+    student_integers
+    return (student_integers,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_integers = pd.Series([1.9, 2.1, 3.8]).astype('int')
+```
+The fractional part is dropped. `1.9` becomes `1`, not `2`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Accessing data
 
     `iloc` selects by position, starting at 0. A label selects by the index name. A slice written with labels includes the stop label. A slice written with positions does not include the stop position.
@@ -403,6 +431,38 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    From the Series `s`, select the labels `'a'` through `'c'` with a label slice, and the positions `0` and `2` with `iloc`. Replace the `None` values with your code. Does the label slice include `'c'`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_label_slice = None
+    print(student_label_slice)
+
+    student_positions = None
+    student_positions
+    return student_label_slice, student_positions
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_label_slice = s[:'c']
+student_positions = s.iloc[[0, 2]]
+```
+Yes. A slice written with labels includes the stop label, so `'c'` is included. A position slice would have stopped before the end position.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Other useful options
 
     This Series repeats some values and includes one missing value, `np.nan`.
@@ -491,6 +551,34 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
+    Use `agg` on `numbers` to compute `min`, `max`, and `count` in one call. Replace `None` with your code. Does `count` include the missing value?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_summaries = None
+    student_summaries
+    return (student_summaries,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_summaries = numbers.agg(['min', 'max', 'count'])
+```
+No. `count` is the number of non-missing values. The `NaN` in `numbers` is left out, so the count is 5 rather than 6.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
     Change the numbers in `scores`, then print the minimum, the maximum, and `value_counts()`.
     """)
     return
@@ -517,7 +605,43 @@ def _(mo):
     - `dtype` sets the type when the Series is created. `astype` converts it later. A float converted to integer is truncated.
     - `iloc` uses positions. A label, or a list of labels, uses the index. A missing label raises an error.
     - `min`, `max`, `mean`, `agg`, `nsmallest`, `nlargest`, and `value_counts` summarize the values.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What does a Series have that a NumPy array does not?
+    2. What appears in a Series when the index names a key that is not in the dictionary?
+    3. What does `astype('int')` do to the fractional part of a float?
+    4. What is the difference between `iloc` and a label such as `s['a']`?
+    5. Does a slice written with labels include the stop label?
+    6. What happens if you select a label that is not in the index?
+    7. Does `count` include missing values?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **A label for each value:** A NumPy array is reached by position. A Series is reached by position or by its index label.
+2. **`NaN`:** The label is kept, and the value is missing.
+3. **It drops it:** The conversion truncates. It does not round.
+4. **Position and name:** `iloc` counts from 0. The label uses the index name, whatever position that name has.
+5. **Yes:** A slice written with positions does not include the stop position.
+6. **`KeyError`:** Pandas does not invent a value for a missing label.
+7. **No:** `count` is the number of values that are present.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 3.

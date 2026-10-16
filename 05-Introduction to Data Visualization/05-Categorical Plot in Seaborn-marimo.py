@@ -164,6 +164,36 @@ def _(sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a strip plot of `tip` by `time`, with `"Dinner"` first and `"Lunch"` second, and the jitter turned off. Title it "Tip by time". Replace `None` with your code. Does turning the jitter off change the data?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_time_strip = None
+    student_time_strip
+    return (student_time_strip,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_time_strip = sns.catplot(
+    data=tips, x="time", y="tip", order=["Dinner", "Lunch"], jitter=False
+).set(title="Tip by time")
+```
+No. The jitter only moves points sideways for display. With it off, tips of the same amount sit on top of each other and are harder to count.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Swarm plot
 
     A swarm plot also puts points on a category axis. Instead of a random shift, it nudges points apart until they do not overlap. The width of the swarm shows how many bills sit near that amount. A wide swarm is a dense part of the data.
@@ -362,6 +392,41 @@ def _(category_order, plt, sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a violin plot of `tip` by `day`, using `category_order`, with the quartile lines inside. Title it "Tip by Day". Replace `None` with your code. What does the width of a violin at one tip amount represent?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_violin = None
+    student_tip_violin
+    return (student_tip_violin,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_tip_violin = sns.catplot(
+    data=tips,
+    x="day",
+    y="tip",
+    kind="violin",
+    inner="quartiles",
+    order=category_order,
+).set(title="Tip by Day")
+```
+The width is the estimated density of tips near that amount on that day. A wide part means many tips close to that value.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Count plot
 
     `kind='count'` drops `y`. There is nothing to measure except how many rows fall in each category. The bar height is that count. Putting the category on `y` makes the bars horizontal. `countplot` is the axes-level version.
@@ -490,6 +555,42 @@ def _(category_order, np, plt, sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a point plot of the median `tip` for each `day`, using `category_order`, with no line joining the points. Title it "Median of Tip by Day". Replace `None` with your code. Does a point show one bill or a summary of many bills?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_median_tip_points = None
+    student_median_tip_points
+    return (student_median_tip_points,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_median_tip_points = sns.catplot(
+    data=tips,
+    x="day",
+    y="tip",
+    kind="point",
+    estimator=np.median,
+    linestyle="none",
+    order=category_order,
+).set(title="Median of Tip by Day")
+```
+A summary of many bills. Each point is the median tip of every bill on that day. The bar around it shows the uncertainty of that median.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Bar plot
 
     `kind='bar'` draws the mean of `total_bill` for each day. The black line at the top of a bar is a 95% confidence interval for that mean. `errorbar=None` removes those lines.
@@ -549,6 +650,42 @@ def _(category_order, plt, sns, tips):
         x="day", y="total_bill", data=tips, order=category_order, ax=_axes
     ).set(title="Mean of Total Bill by Day")
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a bar plot of the sum of `tip` for each `day`, using `category_order`, with no error bars. Title it "Sum of Tip by Day". Replace `None` with your code. Why can a day have a tall bar even when its typical tip is small?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_sum_bars = None
+    student_tip_sum_bars
+    return (student_tip_sum_bars,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_tip_sum_bars = sns.catplot(
+    data=tips,
+    x="day",
+    y="tip",
+    kind="bar",
+    estimator=np.sum,
+    errorbar=None,
+    order=category_order,
+).set(title="Sum of Tip by Day")
+```
+A sum grows with the number of bills. A busy day adds up many tips, so its bar is tall even when each tip is ordinary.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -673,6 +810,42 @@ def _(category_order, sns, tips):
         order=category_order,
         hue="smoker",
     ).set(title=kind)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a box plot of `tip` by `day`, using `category_order`, split by `sex` with `hue`, and with one panel per `time`. Replace `None` with your code. Why are some days empty in the Lunch panel?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_boxes = None
+    student_tip_boxes
+    return (student_tip_boxes,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_tip_boxes = sns.catplot(
+    data=tips,
+    x="day",
+    y="tip",
+    kind="box",
+    order=category_order,
+    hue="sex",
+    col="time",
+)
+```
+The table has no lunch bills on Saturday or Sunday. A panel can only draw a box where there are rows.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)

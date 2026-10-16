@@ -143,6 +143,36 @@ def _(plt, sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a count plot of `day`, with each bar split by `smoker`, titled "Bills by day and smoker". Replace `None` with your code. Does the height of a bar show a number of bills or an amount of money?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_day_smoker_counts = None
+    student_day_smoker_counts
+    return (student_day_smoker_counts,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+_figure, _axes = plt.subplots()
+student_day_smoker_counts = sns.countplot(data=tips, x="day", hue="smoker", ax=_axes)
+_axes.set_title("Bills by day and smoker")
+```
+A number of bills. `countplot` counts rows. It does not add up `total_bill`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Relationship plots
 
     `relplot` draws the relationship between two numeric columns. The default is a scatter plot: one point per row.
@@ -213,6 +243,34 @@ def _(sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a `relplot` of `total_bill` and `tip` with one panel per `day`, and color the points by `time`. Replace `None` with your code. Which bills does each panel contain?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_day_panels = None
+    student_day_panels
+    return (student_day_panels,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_day_panels = sns.relplot(data=tips, x="total_bill", y="tip", col="day", hue="time")
+```
+Each panel contains only the bills from one day. Within a panel, the colors separate lunch from dinner.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## One numeric column
 
     `displot` draws a distribution. With one column, `x`, the default is a histogram: values fall into bins, and the bar height is the count.
@@ -276,6 +334,34 @@ def _(sns, tips):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a histogram of `tip` with 20 bins and a density curve on top, with one panel per `sex`. Replace `None` with your code. What does the curve show that the bars do not?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_tip_distribution = None
+    student_tip_distribution
+    return (student_tip_distribution,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_tip_distribution = sns.displot(data=tips, x="tip", col="sex", bins=20, kde=True)
+```
+The curve is a smooth estimate of the distribution. It does not depend on where the bin edges fall.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Two numeric columns
 
     Passing both `x` and `y` to `displot` bins the plane into rectangles and colors each rectangle by the count. `cbar=True` adds the color scale.    
@@ -303,6 +389,34 @@ def _(sns, tips):
     sns.displot(
         data=tips, x="total_bill", y="tip", col="time", row="sex", hue="smoker"
     )
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a two-dimensional `displot` of `total_bill` and `size`, with the color scale. Replace `None` with your code. What does the color of a rectangle represent?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_bill_size_grid = None
+    student_bill_size_grid
+    return (student_bill_size_grid,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_bill_size_grid = sns.displot(data=tips, x="total_bill", y="size", cbar=True)
+```
+The color is the number of bills that fall in that rectangle. The color scale on the side translates each color into a count.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -347,6 +461,35 @@ def _(mo):
 def _(sns, tips):
     column = "total_bill"
     sns.displot(data=tips, x=column, kind="kde")
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a `pairplot` of `total_bill`, `tip`, and `size`, colored by `smoker`. Replace `None` with your code. What does a panel on the diagonal show?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_pair_grid = None
+    student_pair_grid
+    return (student_pair_grid,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+_pair_data = tips[["total_bill", "tip", "size", "smoker"]]
+student_pair_grid = sns.pairplot(data=_pair_data, hue="smoker")
+```
+A diagonal panel shows the distribution of one column, drawn separately for smokers and non-smokers. The other panels show one pair of columns.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)

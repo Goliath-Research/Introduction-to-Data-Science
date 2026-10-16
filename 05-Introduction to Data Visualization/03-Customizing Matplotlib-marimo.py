@@ -135,6 +135,37 @@ def _(plt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Plot the horizontal values `[1, 2, 3, 4]` and the vertical values `[4, 1, 3, 2]` twice on the same figure: once as a black line (`"k"`) and once as red circles (`"ro"`). Add the title "Line and markers". Replace `None` with your code. What happens if you pass only the vertical values?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_line_and_markers = None
+    student_line_and_markers
+    return (student_line_and_markers,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_line_and_markers = plt.figure()
+plt.plot([1, 2, 3, 4], [4, 1, 3, 2], "k")
+plt.plot([1, 2, 3, 4], [4, 1, 3, 2], "ro")
+plt.title("Line and markers")
+```
+With one list, Matplotlib uses the positions 0, 1, 2, 3 as the horizontal values. The same shape is drawn one step to the left.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Subplots
 
     `plt.subplot(nrows, ncols, index)` selects one cell of a grid and makes it the current axes.
@@ -191,6 +222,39 @@ def _(names, plt, values):
     plt.pie(values, labels=names)
     plt.suptitle("Bar, Scatter, Line, and Pie Charts (2x2 Matrix)")
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a figure with one row of two charts: a bar chart of `names` and `values` on the left, and a pie chart on the right. Title the whole figure "Bar and pie". Replace `None` with your code. What does the third number in `subplot(1, 2, 2)` select?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_bar_and_pie = None
+    student_bar_and_pie
+    return (student_bar_and_pie,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_bar_and_pie = plt.figure(figsize=(10, 4))
+plt.subplot(1, 2, 1)
+plt.bar(names, values)
+plt.subplot(1, 2, 2)
+plt.pie(values, labels=names)
+plt.suptitle("Bar and pie")
+```
+The third number is the index of the cell. It counts from 1, left to right, so `2` is the right-hand chart.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -346,6 +410,39 @@ def _(plt, x):
         fontdict={"size": 12, "weight": "bold", "color": "darkred"},
     )
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw a histogram of `x` with 30 bins. Label the axes "Value" and "Count", put the title "Normal sample" on the left, and write `"n = 10000"` at `(120, 800)` with `plt.text`. Replace `None` with your code. Are the coordinates of `plt.text` measured in pixels or in the units of the data?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_labeled_histogram = None
+    student_labeled_histogram
+    return (student_labeled_histogram,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_labeled_histogram = plt.figure()
+plt.hist(x, bins=30)
+plt.xlabel("Value")
+plt.ylabel("Count")
+plt.title("Normal sample", loc="left")
+plt.text(120, 800, "n = 10000")
+```
+In the units of the data. `120` is a value on the horizontal axis and `800` is a count on the vertical axis.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -513,6 +610,37 @@ def _(plt, point_x, point_y):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a `hexbin` of `point_x` and `point_y` with `gridsize=15` and the `"Oranges"` color map, and add the title "hexbin, gridsize=15". Replace `None` with your code. Does a smaller `gridsize` give larger or smaller hexagons?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_hexbin = None
+    student_hexbin
+    return (student_hexbin,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_hexbin = plt.figure()
+plt.grid(False)
+plt.hexbin(point_x, point_y, gridsize=15, cmap="Oranges")
+plt.title("hexbin, gridsize=15")
+```
+Larger. `gridsize` is the number of hexagons across the grid, so fewer hexagons must each cover more of it.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Annotations with arrows
 
     `text` only writes words. `annotate` writes words and can draw an arrow from the words to a point.
@@ -543,6 +671,43 @@ def _(np, plt):
     plt.ylim(-2, 2)
     plt.show()
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Plot `cos(x)` for 100 points from 0 to 2π. Use `annotate` to draw a black arrow to the minimum, `(np.pi, -1)`, from the words "minimum" placed at `(4, -0.5)`. Set the vertical range to -1.5 through 1.5. Replace `None` with your code. Which argument is the point being marked, and which is where the words sit?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_annotated_cosine = None
+    student_annotated_cosine
+    return (student_annotated_cosine,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_annotated_cosine = plt.figure()
+_wave_x = np.linspace(0, 2 * np.pi, 100)
+plt.plot(_wave_x, np.cos(_wave_x))
+plt.annotate(
+    "minimum",
+    xy=(np.pi, -1),
+    xytext=(4, -0.5),
+    arrowprops=dict(facecolor="black"),
+)
+plt.ylim(-1.5, 1.5)
+```
+`xy` is the point being marked. `xytext` is where the words sit. The arrow runs from the words to the point.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)

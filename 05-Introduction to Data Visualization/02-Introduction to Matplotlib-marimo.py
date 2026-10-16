@@ -181,6 +181,38 @@ def _(np, plt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Plot `sin(x)` as a dashed red line and `cos(x)` as a dotted blue line on the same axes, with a legend. Use 1000 points from 0 to 10. Replace `None` with your code. Which argument gives each line its name in the legend?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_two_lines = None
+    student_two_lines
+    return (student_two_lines,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_two_lines, _axes = plt.subplots()
+_x = np.linspace(0, 10, 1000)
+_axes.plot(_x, np.sin(_x), "--r", label="sin(x)")
+_axes.plot(_x, np.cos(_x), ":b", label="cos(x)")
+_axes.legend()
+```
+`label` names each line. `legend` draws the box, and it reads the names from the `plot` calls.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Limits, title, and a shorter call
 
     `plt.xlim` and `plt.ylim` set the visible range of each axis. `plt.axis([xmin, xmax, ymin, ymax])` sets both at once. `plt.title` adds the title.
@@ -232,6 +264,38 @@ def _(np, plt):
     plt.legend()
     plt.title("From 0 to 2 pi, in one call each")
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Plot `sin(x)` for 100 points from 0 to 2π (`2 * np.pi`). Use `plt.xlim` to show only the first half, from 0 to π, and add the title "First half of a sine wave". Replace `None` with your code. Does `xlim` remove the points outside that range from the data?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_half_sine = None
+    student_half_sine
+    return (student_half_sine,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_half_sine = plt.figure()
+_x = np.linspace(0, 2 * np.pi, 100)
+plt.plot(_x, np.sin(_x))
+plt.xlim(0, np.pi)
+plt.title("First half of a sine wave")
+```
+No. `xlim` changes the visible range of the axis. The array `_x` still holds all 100 points.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -314,6 +378,36 @@ def _(dy, plt, x, y):
     plt.errorbar(x, y, yerr=dy, fmt="o", color="black", ecolor="lightgray")
     plt.title("Black points, light gray bars")
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw error bars for the same `x`, `y`, and `dy`, with green squares (`fmt="s"`), orange bars, and caps of length 3. Replace `None` with your code. Which argument colors the bars, and which colors the points?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_error_bars = None
+    student_error_bars
+    return (student_error_bars,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_error_bars = plt.figure()
+plt.errorbar(x, y, yerr=dy, fmt="s", color="green", ecolor="orange", capsize=3)
+plt.title("Green squares, orange bars")
+```
+`ecolor` colors the bars. `color` colors the points. `capsize` gives the caps a length, so they become visible.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)
@@ -445,6 +539,36 @@ def _(data, plt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Draw a purple histogram of `data` with 25 bins and `density=True`. Replace `None` with your code. Does `density=True` change the shape of the bars or only the vertical scale?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_density_histogram = None
+    student_density_histogram
+    return (student_density_histogram,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_density_histogram = plt.figure()
+plt.hist(data, bins=25, color="purple", density=True)
+plt.title("25 bins, density=True")
+```
+Only the vertical scale. The bins are the same, so the shape is the same. The heights are rescaled so the total area of the bars is 1.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Several histograms
 
     `np.random.normal(center, spread, count)` draws `count` values from a bell curve. The three samples below have different centers and different spreads.
@@ -508,6 +632,38 @@ def _(plt, x1, x2, x3):
     plt.legend()
     plt.title("Same bins, with a legend")
     return _figure
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Draw the histograms of `x1` and `x3` on the same axes, with 30 bins, `alpha=0.4`, and a legend. Replace `None` with your code. Why does an `alpha` below 1 help when two histograms overlap?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_overlap = None
+    student_overlap
+    return (student_overlap,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_overlap = plt.figure()
+plt.hist(x1, bins=30, alpha=0.4, label="x1")
+plt.hist(x3, bins=30, alpha=0.4, label="x3")
+plt.legend()
+plt.title("x1 and x3")
+```
+With `alpha` below 1, the second histogram does not hide the first. The region where the two samples overlap shows through as a mix of both colors.
+''')}, lazy=True)
+    return
 
 
 @app.cell(hide_code=True)

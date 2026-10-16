@@ -563,7 +563,7 @@ def _(mo):
 @app.cell
 def _():
     tip_data = None
-    print("tip_data:\n", tip_data)
+    print("tip_data:\n", tip_data.head().round(3))
 
     student_tip_percentage_scatter = None
     student_tip_percentage_scatter
@@ -575,8 +575,7 @@ def _(mo):
     mo.accordion({"Show answers": mo.md(r'''
 ```python
 tip_data = df.assign(
-    tip_percentage=df["tip"] / df["total_bill"] * 100
-)
+    tip_percentage=df["tip"] / df["total_bill"] * 100)
 _figure, _axes = plt.subplots()
 student_tip_percentage_scatter = tip_data.plot(
     x="total_bill",
@@ -584,8 +583,7 @@ student_tip_percentage_scatter = tip_data.plot(
     kind="scatter",
     alpha=0.6,
     ax=_axes,
-    title="Tip percentage and total bill",
-)
+    title="Tip percentage and total bill")
 ```
 A point is one recorded bill. Larger bills tend to have a lower tip percentage. The plot shows that association. It does not explain why the relationship occurs.
 ''')}, lazy=True)

@@ -177,7 +177,7 @@ def _(names, plt, values):
 
 @app.cell
 def _(names, plt, values):
-    _figure = plt.figure(figsize=(8, 8))
+    _figure = plt.figure(figsize=(10, 6))
     plt.subplot(221)
     plt.bar(names, values, alpha=0.8)
     plt.axis([-1, 3, 0, 31])

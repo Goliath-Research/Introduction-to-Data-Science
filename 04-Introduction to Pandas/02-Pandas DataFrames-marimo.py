@@ -236,10 +236,10 @@ def _(mo):
 
 
 @app.cell
-def _(df_d):
+def _(df_d, mo):
     df_e = df_d.copy()
     df_e['e'] = df_e['a'] - df_e['c']
-    df_e
+    mo.Html(df_e.to_html())
     return (df_e,)
 
 
@@ -252,10 +252,10 @@ def _(mo):
 
 
 @app.cell
-def _(df_e):
+def _(df_e, mo):
     df_f = df_e.copy()
     df_f['f'] = 5
-    df_f
+    mo.Html(df_f.to_html())
     return (df_f,)
 
 
@@ -268,10 +268,10 @@ def _(mo):
 
 
 @app.cell
-def _(df_f):
+def _(df_f, mo):
     df_deleted = df_f.copy()
     del df_deleted['f']
-    df_deleted
+    mo.Html(df_deleted.to_html())
     return (df_deleted,)
 
 

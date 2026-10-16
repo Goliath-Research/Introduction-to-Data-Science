@@ -390,7 +390,7 @@ def _():
 
 
 @app.cell
-def _(N, np, pd):
+def _(N, mo, np, pd):
     draft = pd.DataFrame({
         'A': pd.date_range(start='2021-02-15', periods=N, freq='D'),
         'B': np.linspace(0, stop=N - 1, num=N),
@@ -398,7 +398,7 @@ def _(N, np, pd):
         'D': np.random.choice(['Low', 'Medium', 'High'], N).tolist(),
         'E': np.random.normal(100, 10, size=(N)).tolist(),
     })
-    draft.head()
+    mo.Html(draft.head().to_html())
     return (draft,)
 
 

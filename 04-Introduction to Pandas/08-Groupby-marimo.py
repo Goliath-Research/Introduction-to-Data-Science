@@ -243,8 +243,8 @@ def _(t):
 
 
 @app.cell
-def _(t):
-    t[['Rank', 'Points']].agg(['size', 'mean', 'sum'])
+def _(mo, t):
+    mo.Html(t[['Rank', 'Points']].agg(['size', 'mean', 'sum']).to_html())
     return
 
 

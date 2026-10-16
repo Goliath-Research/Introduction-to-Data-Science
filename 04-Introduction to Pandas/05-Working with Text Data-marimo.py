@@ -537,7 +537,7 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(mo, pd):
     country = pd.Series([
         'USA',
         'Colombia',
@@ -545,7 +545,7 @@ def _(pd):
         'Rep. Dominicana',
         'Puerto Rico',
     ])
-    country.str.get_dummies()
+    mo.Html(country.str.get_dummies().to_html())
     return (country,)
 
 

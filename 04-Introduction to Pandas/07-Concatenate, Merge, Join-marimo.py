@@ -136,8 +136,8 @@ def _(pd):
 
 
 @app.cell
-def _(df1, df4, pd):
-    pd.concat([df1, df4])
+def _(df1, df4, mo, pd):
+    mo.Html(pd.concat([df1, df4]).to_html())
     return
 
 
@@ -150,9 +150,9 @@ def _(mo):
 
 
 @app.cell
-def _(df1, df4, pd):
+def _(df1, df4, mo, pd):
     res2 = pd.concat([df1, df4], axis=1)
-    res2
+    mo.Html(res2.to_html())
     return (res2,)
 
 
@@ -165,8 +165,8 @@ def _(mo):
 
 
 @app.cell
-def _(res2):
-    res2.reset_index()
+def _(mo, res2):
+    mo.Html(res2.reset_index().to_html())
     return
 
 
@@ -179,8 +179,8 @@ def _(mo):
 
 
 @app.cell
-def _(res2):
-    res2.reset_index(drop=True)
+def _(mo, res2):
+    mo.Html(res2.reset_index(drop=True).to_html())
     return
 
 
@@ -193,8 +193,8 @@ def _(mo):
 
 
 @app.cell
-def _(df1, df4, pd):
-    pd.concat([df1, df4], axis=1, join='inner')
+def _(df1, df4, mo, pd):
+    mo.Html(pd.concat([df1, df4], axis=1, join='inner').to_html())
     return
 
 
@@ -207,8 +207,8 @@ def _(mo):
 
 
 @app.cell
-def _(df1, df4, pd):
-    pd.concat([df1, df4], axis=1, join='outer')
+def _(df1, df4, mo, pd):
+    mo.Html(pd.concat([df1, df4], axis=1, join='outer').to_html())
     return
 
 
@@ -527,10 +527,10 @@ def _(pd):
 
 
 @app.cell
-def _(itemsByOrder, orders, pd):
+def _(itemsByOrder, mo, orders, pd):
     # Perform a left join
     left_orders = pd.merge(orders, itemsByOrder, how='left', left_on='ID', right_on='OrderID')
-    left_orders
+    mo.Html(left_orders.to_html())
     return (left_orders,)
 
 
@@ -543,10 +543,10 @@ def _(mo):
 
 
 @app.cell
-def _(itemsByOrder, orders, pd):
+def _(itemsByOrder, mo, orders, pd):
     # The correct join should be inner (we only want orders that have items)
     merged_df = pd.merge(orders, itemsByOrder, how='inner', left_on='ID', right_on='OrderID')
-    merged_df
+    mo.Html(merged_df.to_html())
     return (merged_df,)
 
 

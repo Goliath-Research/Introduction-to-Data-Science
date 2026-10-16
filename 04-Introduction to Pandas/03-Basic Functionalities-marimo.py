@@ -108,8 +108,8 @@ def _(mo):
 
 
 @app.cell
-def _(df):
-    df.T
+def _(df, mo):
+    mo.Html(df.T.to_html())
     return
 
 

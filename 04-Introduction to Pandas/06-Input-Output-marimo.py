@@ -92,14 +92,14 @@ def _():
 
 
 @app.cell
-def _(headers, pd):
+def _(headers, mo, pd):
     df_auto = pd.read_csv(
         'https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',
         header=None,
         names=headers,
         na_values='?',
     )
-    df_auto.head()
+    mo.Html(df_auto.head().to_html())
     return (df_auto,)
 
 
@@ -126,10 +126,10 @@ def _(mo):
 
 
 @app.cell
-def _(df_auto, pd):
+def _(df_auto, mo, pd):
     df_auto.to_csv('auto.csv')
     with_index = pd.read_csv('auto.csv')
-    with_index.head()
+    mo.Html(with_index.head().to_html())
     return (with_index,)
 
 
@@ -156,11 +156,11 @@ def _(mo):
 
 
 @app.cell
-def _(df_auto, pd, with_index):
+def _(df_auto, mo, pd, with_index):
     with_index  # this save must run after the file with the index was read
     df_auto.to_csv('auto.csv', index=False)
     df2_auto = pd.read_csv('auto.csv')
-    df2_auto.head()
+    mo.Html(df2_auto.head().to_html())
     return (df2_auto,)
 
 
@@ -187,8 +187,8 @@ def _(mo):
 
 
 @app.cell
-def _(df_auto):
-    df_auto.describe()
+def _(df_auto, mo):
+    mo.Html(df_auto.describe().to_html())
     return
 
 
@@ -237,13 +237,13 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(mo, pd):
     df_hst = pd.read_csv(
         'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
         sep=';',
         na_values='?',
     )
-    df_hst.head()
+    mo.Html(df_hst.head().to_html())
     return (df_hst,)
 
 
@@ -254,8 +254,8 @@ def _(df_hst):
 
 
 @app.cell
-def _(df_hst):
-    df_hst.describe()
+def _(df_hst, mo):
+    mo.Html(df_hst.describe().to_html())
     return
 
 
@@ -270,10 +270,10 @@ def _(mo):
 
 
 @app.cell
-def _(df2_auto, pd):
+def _(df2_auto, mo, pd):
     df2_auto  # read the file after it was saved without the index
     check = pd.read_csv('auto.csv')
-    check.head(3)
+    mo.Html(check.head(3).to_html())
     return (check,)
 
 
@@ -378,8 +378,8 @@ def _(mo):
 
 
 @app.cell
-def _(df):
-    df.head()
+def _(df, mo):
+    mo.Html(df.head().to_html())
     return
 
 
@@ -421,8 +421,8 @@ def _(mo):
 
 
 @app.cell
-def _(df):
-    df.describe()
+def _(df, mo):
+    mo.Html(df.describe().to_html())
     return
 
 
@@ -439,9 +439,9 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(mo, pd):
     df_countries = pd.read_json('https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l')
-    df_countries.head()
+    mo.Html(df_countries.head().to_html())
     return (df_countries,)
 
 
@@ -460,8 +460,8 @@ def _(mo):
 
 
 @app.cell
-def _(df_countries):
-    df_countries.describe()
+def _(df_countries, mo):
+    mo.Html(df_countries.describe().to_html())
     return
 
 
@@ -572,14 +572,14 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(mo, pd):
     import openpyxl
 
     df_immuno = pd.read_excel(
         'https://archive.ics.uci.edu/ml/machine-learning-databases/00428/Immunotherapy.xlsx',
         engine='openpyxl',
     )
-    df_immuno.head()
+    mo.Html(df_immuno.head().to_html())
     return df_immuno, openpyxl
 
 
@@ -590,8 +590,8 @@ def _(df_immuno):
 
 
 @app.cell
-def _(df_immuno):
-    df_immuno.describe()
+def _(df_immuno, mo):
+    mo.Html(df_immuno.describe().to_html())
     return
 
 

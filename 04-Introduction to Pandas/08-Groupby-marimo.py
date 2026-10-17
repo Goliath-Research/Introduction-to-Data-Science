@@ -55,7 +55,7 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(mo, pd):
     data = {
         'Team': ['A', 'A', 'B', 'B', 'C', 'C', 'C', 'C', 'A', 'D', 'D', 'A'],
         'Rank': [1, 2, 2, 3, 3, 4, 1, 1, 2, 4, 1, 2],
@@ -63,7 +63,7 @@ def _(pd):
         'Points': [876, 789, 863, 673, 741, 812, 756, 788, 694, 701, 804, 690],
     }
     df = pd.DataFrame(data)
-    df
+    mo.Html(df.to_html())
     return df, data
 
 
@@ -188,11 +188,12 @@ def _(mo):
 
 
 @app.cell
-def _(df):
+def _(df, mo):
     t = df.groupby('Team')
-    for name, group in t:
-        print(name)
-        print(group)
+    mo.vstack([
+        mo.vstack([mo.md(f'`{name}`'), mo.Html(group.to_html())])
+        for name, group in t
+    ])
     return (t,)
 
 
@@ -205,8 +206,8 @@ def _(mo):
 
 
 @app.cell
-def _(t):
-    t.get_group('A')
+def _(mo, t):
+    mo.Html(t.get_group('A').to_html())
     return
 
 
@@ -219,8 +220,8 @@ def _(mo):
 
 
 @app.cell
-def _(t):
-    t.get_group('D')
+def _(mo, t):
+    mo.Html(t.get_group('D').to_html())
     return
 
 
@@ -412,27 +413,27 @@ def _(t):
 
 
 @app.cell
-def _(t):
-    t.filter(lambda x: len(x) == 2)
+def _(mo, t):
+    mo.Html(t.filter(lambda x: len(x) == 2).to_html())
     return
 
 
 @app.cell
-def _(t):
-    t.filter(lambda x: x['Points'].min() > 700)
+def _(mo, t):
+    mo.Html(t.filter(lambda x: x['Points'].min() > 700).to_html())
     return
 
 
 @app.cell
-def _(t):
-    t.filter(lambda x: x['Rank'].max() == 4)
+def _(mo, t):
+    mo.Html(t.filter(lambda x: x['Rank'].max() == 4).to_html())
     return
 
 
 @app.cell
-def _(t):
+def _(mo, t):
     filtered = t.filter(lambda x: x['Year'].count() == 2)
-    filtered
+    mo.Html(filtered.to_html())
     return (filtered,)
 
 

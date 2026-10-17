@@ -67,6 +67,24 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Why this notebook uses local data files
+
+    A Jupyter notebook runs Python on your computer, so Python can request a file directly from the UCI or Data.World website. An embedded marimo notebook runs Python in the browser through WebAssembly. The browser protects the user by blocking requests to sites that do not give the page permission to read their files. This browser rule is called **CORS**.
+
+    For that reason, the working examples below read copies stored in this notebook's `public` folder. This also makes the lesson faster and reproducible if a source website is unavailable. The direct web version that works in Jupyter, or in marimo with a local Python kernel, is kept as `#` comments beside each example.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    data_dir = mo.notebook_location() / "public"
+    return (data_dir,)
+
+
 @app.cell
 def _(pd):
     # Controlling the number of columns a DataFrame shows
@@ -102,9 +120,16 @@ def _():
 
 
 @app.cell
-def _(headers, mo, pd):
+def _(data_dir, headers, mo, pd):
+    # Jupyter or marimo with a local Python kernel:
+    # df_auto = pd.read_csv(
+    #     'https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',
+    #     header=None,
+    #     names=headers,
+    #     na_values='?',
+    # )
     df_auto = pd.read_csv(
-        'https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',
+        str(data_dir / 'imports-85.data'),
         header=None,
         names=headers,
         na_values='?',
@@ -215,9 +240,14 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(data_dir, pd):
+    # Jupyter or marimo with a local Python kernel:
+    # df_hst_comma = pd.read_csv(
+    #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
+    #     na_values='?',
+    # )
     df_hst_comma = pd.read_csv(
-        'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
+        str(data_dir / 'DATA.csv'),
         na_values='?',
     )
     df_hst_comma.head()
@@ -247,9 +277,15 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pd):
+def _(data_dir, mo, pd):
+    # Jupyter or marimo with a local Python kernel:
+    # df_hst = pd.read_csv(
+    #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
+    #     sep=';',
+    #     na_values='?',
+    # )
     df_hst = pd.read_csv(
-        'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
+        str(data_dir / 'DATA.csv'),
         sep=';',
         na_values='?',
     )
@@ -329,53 +365,45 @@ def _(mo):
 
     An ARFF file (Attribute-Relation File Format) is a text file from the Machine Learning Project at the University of Waikato. It has a header section and a data section.
 
-    `scipy.io.arff.loadarff` reads both sections. The Student Academics file is downloaded from [https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff](https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff). The download uses `urlopen` from Python's standard library. Text values arrive as byte strings, so each text column is decoded to ordinary text.
+    `scipy.io.arff.loadarff` reads both sections. The Student Academics file comes from [https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff](https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff). Text values arrive as byte strings, so each text column is decoded to ordinary text.
     """)
     return
 
 
 @app.cell
 def _():
-    # For reading an arff file, we need to import
-    from io import StringIO
-    from urllib.request import urlopen
     from scipy.io.arff import loadarff
 
-    return StringIO, loadarff, urlopen
+    return (loadarff,)
 
 
 @app.cell
-def _(urlopen):
-    # Fetch the content from the URL
+def _(data_dir):
+    # Jupyter or marimo with a local Python kernel:
+    # from io import StringIO
+    # from urllib.request import urlopen
+    #
+    # with urlopen(stAcademic_url) as downloaded:
+    #     status_code = downloaded.status
+    #     payload = downloaded.read()
+    #
+    # arff_content = payload.decode('utf-8')
+    # arff_data = StringIO(arff_content)
+    # arff_rows, meta = loadarff(arff_data)
     stAcademic_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff'
-    with urlopen(stAcademic_url) as downloaded:
-        status_code = downloaded.status
-        payload = downloaded.read()
-    return payload, status_code, stAcademic_url
+    arff_path = data_dir / 'Sapfile1.arff'
+    return arff_path, stAcademic_url
 
 
 @app.cell
-def _(StringIO, loadarff, payload, pd, status_code):
-    # Check if the request was successful
-    if status_code == 200:
-        # Parse the ARFF data
-        arff_content = payload.decode('utf-8')
-        arff_data = StringIO(arff_content)
+def _(arff_path, loadarff, pd):
+    arff_rows, meta = loadarff(str(arff_path))
+    df = pd.DataFrame(arff_rows)
 
-        # Get the data and metadata
-        arff_rows, meta = loadarff(arff_data)
-
-        # Convert to Pandas DataFrame
-        df = pd.DataFrame(arff_rows)
-
-        # Decode byte strings if necessary
-        for column in df.select_dtypes([object]).columns:
-            if df[column].apply(lambda x: isinstance(x, bytes)).any():
-                df[column] = df[column].str.decode('utf-8')
-    else:
-        df = pd.DataFrame()
-        meta = None
-        print(f'Failed to download the file: {status_code}')
+    # Decode byte strings if necessary
+    for column in df.select_dtypes([object]).columns:
+        if df[column].apply(lambda x: isinstance(x, bytes)).any():
+            df[column] = df[column].str.decode('utf-8')
     return df, meta
 
 
@@ -449,8 +477,12 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pd):
-    df_countries = pd.read_json('https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l')
+def _(data_dir, mo, pd):
+    # Jupyter or marimo with a local Python kernel:
+    # df_countries = pd.read_json(
+    #     'https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l'
+    # )
+    df_countries = pd.read_json(str(data_dir / 'countries.json'))
     mo.Html(df_countries.head().to_html())
     return (df_countries,)
 
@@ -582,11 +614,16 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pd):
+def _(data_dir, mo, pd):
     import openpyxl
 
+    # Jupyter or marimo with a local Python kernel:
+    # df_immuno = pd.read_excel(
+    #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00428/Immunotherapy.xlsx',
+    #     engine='openpyxl',
+    # )
     df_immuno = pd.read_excel(
-        'https://archive.ics.uci.edu/ml/machine-learning-databases/00428/Immunotherapy.xlsx',
+        str(data_dir / 'Immunotherapy.xlsx'),
         engine='openpyxl',
     )
     mo.Html(df_immuno.head().to_html())

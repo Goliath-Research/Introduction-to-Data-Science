@@ -36,7 +36,14 @@ def _(mo):
 
     ## Background
 
-    Pandas can load a file into a DataFrame and write a DataFrame back out. The cells that use a web address need a network connection. Saving `auto.csv` and `countries.json` writes those files in this folder.
+    Data rarely starts inside Python. It is stored in files: a spreadsheet, a text table, a file exported by another program. Before you can analyze it, you must **read** it into a DataFrame. After you clean or transform it, you often **write** it back to a file to share it or use it later.
+
+    Pandas has one reading function and one writing function for each common format. They all follow the same pattern:
+
+    - `pd.read_csv`, `pd.read_json`, `pd.read_excel` read a file and return a DataFrame.
+    - `df.to_csv`, `df.to_json`, `df.to_excel` write a DataFrame to a file.
+
+    Each format has its own details. A CSV file may use another separator, may have no header row, or may mark missing values with a symbol. This lesson shows how to handle those details for CSV, ARFF, JSON, and Excel files.
 
     ## Datasets Used
 
@@ -72,9 +79,12 @@ def _(mo):
     mo.md(r"""
     ## Why this notebook uses local data files
 
-    A Jupyter notebook runs Python on your computer, so Python can request a file directly from the UCI or Data.World website. An embedded marimo notebook runs Python in the browser through WebAssembly. The browser protects the user by blocking requests to sites that do not give the page permission to read their files. This browser rule is called **CORS**.
+    Pandas can read a file directly from a web address, such as a dataset on the UCI website. Whether that works depends on **where Python is running**.
 
-    For that reason, the working examples below read copies stored in this notebook's `public` folder. This also makes the lesson faster and reproducible if a source website is unavailable. The direct web version that works in Jupyter, or in marimo with a local Python kernel, is kept as `#` comments beside each example.
+    - **On your computer.** A Python script or a notebook running on your machine can download the file directly.
+    - **Inside a web browser.** This notebook can run inside a web page. The browser only lets a page download files from websites that allow it. This security rule is called **CORS**. The UCI and Data.World websites do not allow it, so the browser blocks the download.
+
+    For that reason, this lesson reads copies of the datasets saved in the `public` folder next to the notebook. Those copies work in both places. The original code that reads from the web is kept as `#` comments above each example, so you can use it when Python runs on your computer.
     """)
     return
 
@@ -83,13 +93,6 @@ def _(mo):
 def _(mo):
     data_dir = mo.notebook_location() / "public"
     return (data_dir,)
-
-
-@app.cell
-def _(pd):
-    # Controlling the number of columns a DataFrame shows
-    pd.set_option('display.max_columns', 8)
-    return
 
 
 @app.cell(hide_code=True)
@@ -121,7 +124,7 @@ def _():
 
 @app.cell
 def _(data_dir, headers, mo, pd):
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # df_auto = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',
     #     header=None,
@@ -241,7 +244,7 @@ def _(mo):
 
 @app.cell
 def _(data_dir, pd):
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # df_hst_comma = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
     #     na_values='?',
@@ -278,7 +281,7 @@ def _(mo):
 
 @app.cell
 def _(data_dir, mo, pd):
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # df_hst = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
     #     sep=';',
@@ -379,7 +382,7 @@ def _():
 
 @app.cell
 def _(data_dir):
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # from io import StringIO
     # from urllib.request import urlopen
     #
@@ -478,7 +481,7 @@ def _(mo):
 
 @app.cell
 def _(data_dir, mo, pd):
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # df_countries = pd.read_json(
     #     'https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l'
     # )
@@ -617,7 +620,7 @@ def _(mo):
 def _(data_dir, mo, pd):
     import openpyxl
 
-    # Jupyter or marimo with a local Python kernel:
+    # Reading from the web (works when Python runs on your computer):
     # df_immuno = pd.read_excel(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00428/Immunotherapy.xlsx',
     #     engine='openpyxl',

@@ -91,8 +91,18 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    data_dir = mo.notebook_location() / "public"
-    return (data_dir,)
+    import sys
+
+    def lesson_file(name):
+        # On your computer, this is a folder next to the notebook.
+        # In the browser, marimo serves that same folder at /public/.
+        if sys.platform == "emscripten":
+            from js import location
+
+            return f"{str(location.origin).rstrip('/')}/public/{name}"
+        return str(mo.notebook_location() / "public" / name)
+
+    return (lesson_file,)
 
 
 @app.cell(hide_code=True)
@@ -123,7 +133,7 @@ def _():
 
 
 @app.cell
-def _(data_dir, headers, mo, pd):
+def _(headers, lesson_file, mo, pd):
     # Reading from the web (works when Python runs on your computer):
     # df_auto = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data',
@@ -132,7 +142,7 @@ def _(data_dir, headers, mo, pd):
     #     na_values='?',
     # )
     df_auto = pd.read_csv(
-        str(data_dir / 'imports-85.data'),
+        lesson_file('imports-85.data'),
         header=None,
         names=headers,
         na_values='?',
@@ -243,14 +253,14 @@ def _(mo):
 
 
 @app.cell
-def _(data_dir, pd):
+def _(lesson_file, pd):
     # Reading from the web (works when Python runs on your computer):
     # df_hst_comma = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
     #     na_values='?',
     # )
     df_hst_comma = pd.read_csv(
-        str(data_dir / 'DATA.csv'),
+        lesson_file('DATA.csv'),
         na_values='?',
     )
     df_hst_comma.head()
@@ -280,7 +290,7 @@ def _(mo):
 
 
 @app.cell
-def _(data_dir, mo, pd):
+def _(lesson_file, mo, pd):
     # Reading from the web (works when Python runs on your computer):
     # df_hst = pd.read_csv(
     #     'https://archive.ics.uci.edu/ml/machine-learning-databases/00623/DATA.csv',
@@ -288,7 +298,7 @@ def _(data_dir, mo, pd):
     #     na_values='?',
     # )
     df_hst = pd.read_csv(
-        str(data_dir / 'DATA.csv'),
+        lesson_file('DATA.csv'),
         sep=';',
         na_values='?',
     )
@@ -381,7 +391,7 @@ def _():
 
 
 @app.cell
-def _(data_dir):
+def _(lesson_file):
     # Reading from the web (works when Python runs on your computer):
     # from io import StringIO
     # from urllib.request import urlopen
@@ -394,7 +404,7 @@ def _(data_dir):
     # arff_data = StringIO(arff_content)
     # arff_rows, meta = loadarff(arff_data)
     stAcademic_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff'
-    arff_path = data_dir / 'Sapfile1.arff'
+    arff_path = lesson_file('Sapfile1.arff')
     return arff_path, stAcademic_url
 
 
@@ -480,12 +490,12 @@ def _(mo):
 
 
 @app.cell
-def _(data_dir, mo, pd):
+def _(lesson_file, mo, pd):
     # Reading from the web (works when Python runs on your computer):
     # df_countries = pd.read_json(
     #     'https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l'
     # )
-    df_countries = pd.read_json(str(data_dir / 'countries.json'))
+    df_countries = pd.read_json(lesson_file('countries.json'))
     mo.Html(df_countries.head().to_html())
     return (df_countries,)
 
@@ -617,7 +627,7 @@ def _(mo):
 
 
 @app.cell
-def _(data_dir, mo, pd):
+def _(lesson_file, mo, pd):
     import openpyxl
 
     # Reading from the web (works when Python runs on your computer):
@@ -626,7 +636,7 @@ def _(data_dir, mo, pd):
     #     engine='openpyxl',
     # )
     df_immuno = pd.read_excel(
-        str(data_dir / 'Immunotherapy.xlsx'),
+        lesson_file('Immunotherapy.xlsx'),
         engine='openpyxl',
     )
     mo.Html(df_immuno.head().to_html())

@@ -20,6 +20,7 @@ def _(mo):
     ## Objectives
 
     - Reshape and flatten an array without changing its values.
+    - Loop over the elements or the rows of an array.
     - Concatenate and split arrays along rows or columns.
     - Search for values with `where` and sort with `sort`.
 
@@ -40,6 +41,8 @@ def _(mo):
     ## Reshape and flatten
 
     `reshape` gives an array a new shape. The number of elements must stay the same, and the original array is not replaced. `flatten` returns a 1-D copy.
+
+    The examples use `grid`, which has 3 rows and 4 columns.
     """)
     return
 
@@ -47,19 +50,92 @@ def _(mo):
 @app.cell
 def _(np):
     grid = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
-    print("original", grid.shape, "ndim", grid.ndim)
     print(grid)
-
-    as_four_by_three = grid.reshape(4, 3)
-    as_two_by_six = grid.reshape(2, 6)
-    as_row = grid.reshape(1, 12)
-    as_column = grid.reshape(12, 1)
-    print("4 x 3:\n", as_four_by_three)
-    print("2 x 6:\n", as_two_by_six)
-    print("1 x 12:\n", as_row)
-    print("12 x 1:\n", as_column)
-    print("original is still", grid.shape)
     return (grid,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Its shape is `(3, 4)`, so it has 3 × 4 = 12 elements.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print("shape", grid.shape, "ndim", grid.ndim, "size", grid.size)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The same 12 values in 4 rows and 3 columns. The values are read row by row and refilled row by row.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print(grid.reshape(4, 3))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    2 rows and 6 columns.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print(grid.reshape(2, 6))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    1 row and 12 columns. The result is still 2-D, so it has two pairs of brackets.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print(grid.reshape(1, 12))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    12 rows and 1 column.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print(grid.reshape(12, 1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `reshape` returned new arrays. `grid` still has its original shape.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    print(grid.shape)
+    return
 
 
 @app.cell(hide_code=True)
@@ -76,13 +152,34 @@ def _(grid):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `reshape(12)` gives a 1-D array with shape `(12,)`.
+    """)
+    return
+
+
 @app.cell
 def _(grid):
     flat_reshape = grid.reshape(12)
+    print(flat_reshape, flat_reshape.shape)
+    return (flat_reshape,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `flatten()` gives the same values and the same shape. It always returns a copy, so changing it never changes `grid`.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
     flat_copy = grid.flatten()
-    print("reshape(12):", flat_reshape, flat_reshape.shape)
-    print("flatten():  ", flat_copy, flat_copy.shape)
-    return flat_copy, flat_reshape
+    print(flat_copy, flat_copy.shape)
+    return
 
 
 @app.cell(hide_code=True)
@@ -107,22 +204,59 @@ def _(np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Iterating
+    ### Try it yourself
 
-    A loop over a 1-D array yields elements. A loop over a 2-D array yields rows.
+    Reshape `np.arange(6)` into 3 rows and 2 columns. Replace `None` with your code. Which values are in the last row?
     """)
     return
 
 
 @app.cell
-def _(flat_reshape, grid):
-    print("1-D:")
+def _():
+    student_reshaped = None
+    print(student_reshaped)
+    return (student_reshaped,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_reshaped = np.arange(6).reshape(3, 2)
+```
+The last row is `[4, 5]`. The values 0 to 5 fill the rows in order: `[0, 1]`, `[2, 3]`, `[4, 5]`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Iterating
+
+    A loop over a 1-D array yields one element at a time.
+    """)
+    return
+
+
+@app.cell
+def _(flat_reshape):
     for item in flat_reshape:
         print(item)
+    return
 
-    print("2-D rows:")
-    paired = grid.reshape(2, 6)
-    for row in paired:
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A loop over a 2-D array yields one row at a time. Here `grid` is reshaped into 2 rows of 6, so the loop runs twice.
+    """)
+    return
+
+
+@app.cell
+def _(grid):
+    for row in grid.reshape(2, 6):
         print(row)
     return
 
@@ -132,9 +266,7 @@ def _(mo):
     mo.md(r"""
     ## Concatenation
 
-    `concatenate` joins arrays. `+` adds them element by element; it does not join them.
-
-    A 2-D array has rows and columns, so you choose the axis. `axis=0` stacks rows. That is also the default. `axis=1` stacks columns. `vstack` and `hstack` do the same job when the arrays do not have the same number of dimensions.
+    `concatenate` joins arrays. `+` adds them element by element; it does not join them. The two examples use these arrays.
     """)
     return
 
@@ -143,54 +275,114 @@ def _(mo):
 def _(np):
     ones_vector = np.array([1, 1, 1])
     twos_vector = np.array([2, 2, 2])
-    print("concatenate:", np.concatenate([ones_vector, twos_vector]))
-    print("plus:       ", ones_vector + twos_vector)
+    print(ones_vector, twos_vector)
+    return ones_vector, twos_vector
 
-    zeros_block = np.zeros((2, 2))
-    ones_block = np.ones((2, 2))
-    # axis=0 is the default: the blocks are stacked as extra rows.
-    by_rows = np.concatenate([zeros_block, ones_block])
-    by_rows_explicit = np.concatenate([zeros_block, ones_block], axis=0)
-    by_columns = np.concatenate([zeros_block, ones_block], axis=1)
-    print("default axis:\n", by_rows, by_rows.shape)
-    print("axis 0:\n", by_rows_explicit, by_rows_explicit.shape)
-    print("axis 1:\n", by_columns, by_columns.shape)
 
-    top_row = np.array([1, 2, 3])
-    lower_rows = np.array([[4, 4, 4], [5, 5, 5]])
-    extra_column = np.array([[8], [8]])
-    print("vstack:\n", np.vstack([top_row, lower_rows]))
-    print("hstack:\n", np.hstack([lower_rows, extra_column]))
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `concatenate` places the second array after the first. The result has 6 elements.
+    """)
+    return
+
+
+@app.cell
+def _(np, ones_vector, twos_vector):
+    print(np.concatenate([ones_vector, twos_vector]))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Splitting
+    `+` adds each pair of elements. The result has 3 elements.
+    """)
+    return
 
-    `split` is the reverse of concatenation. An integer divides the array into equal parts. A list of indexes gives the cut positions. `vsplit` cuts rows and `hsplit` cuts columns.
+
+@app.cell
+def _(ones_vector, twos_vector):
+    print(ones_vector + twos_vector)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Choosing the axis
+
+    A 2-D array has rows and columns, so you choose the axis. `axis=0` stacks rows. That is also the default. `axis=1` stacks columns. The examples join a 2 × 2 block of zeros and a 2 × 2 block of ones.
+
+    With the default axis, the ones are added as extra rows. The result is 4 × 2.
     """)
     return
 
 
 @app.cell
 def _(np):
-    sequence = np.arange(9)
-    left, middle, right = np.split(sequence, 3)
-    print(sequence)
-    print(left, middle, right)
+    zeros_block = np.zeros((2, 2))
+    ones_block = np.ones((2, 2))
+    print(np.concatenate([zeros_block, ones_block]))
+    return ones_block, zeros_block
 
-    first, second, third = np.split(sequence, [2, 6])
-    print("cuts at 2 and 6:", first, second, third)
 
-    block = np.arange(16).reshape((4, 4))
-    upper, lower = np.vsplit(block, 2)
-    left_half, right_half = np.hsplit(block, 2)
-    print("upper:\n", upper)
-    print("lower:\n", lower)
-    print("left:\n", left_half)
-    print("right:\n", right_half)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `axis=0` gives the same result, because it is the default.
+    """)
+    return
+
+
+@app.cell
+def _(np, ones_block, zeros_block):
+    print(np.concatenate([zeros_block, ones_block], axis=0))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `axis=1` adds the ones as extra columns. The result is 2 × 4.
+    """)
+    return
+
+
+@app.cell
+def _(np, ones_block, zeros_block):
+    print(np.concatenate([zeros_block, ones_block], axis=1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `vstack` and `hstack` do the same job when the arrays do not have the same number of dimensions. `vstack` places a 1-D row on top of a 2-D array.
+    """)
+    return
+
+
+@app.cell
+def _(np):
+    top_row = np.array([1, 2, 3])
+    lower_rows = np.array([[4, 4, 4], [5, 5, 5]])
+    print(np.vstack([top_row, lower_rows]))
+    return (lower_rows,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `hstack` places a column on the right of the array. The column is written as 2 rows of 1 value.
+    """)
+    return
+
+
+@app.cell
+def _(lower_rows, np):
+    extra_column = np.array([[8], [8]])
+    print(np.hstack([lower_rows, extra_column]))
     return
 
 
@@ -216,11 +408,161 @@ def _(np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Splitting
+
+    `split` is the reverse of concatenation. An integer divides the array into equal parts. A list of indexes gives the cut positions. `vsplit` cuts rows and `hsplit` cuts columns.
+
+    The examples start with the numbers 0 to 8.
+    """)
+    return
+
+
+@app.cell
+def _(np):
+    sequence = np.arange(9)
+    print(sequence)
+    return (sequence,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `split(sequence, 3)` gives 3 equal parts of 3 values.
+    """)
+    return
+
+
+@app.cell
+def _(np, sequence):
+    left, middle, right = np.split(sequence, 3)
+    print(left, middle, right)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `split(sequence, [2, 6])` cuts before position 2 and before position 6. The parts have 2, 4, and 3 values.
+    """)
+    return
+
+
+@app.cell
+def _(np, sequence):
+    first, second, third = np.split(sequence, [2, 6])
+    print(first, second, third)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The 2-D examples use a 4 × 4 block with the numbers 0 to 15.
+    """)
+    return
+
+
+@app.cell
+def _(np):
+    block = np.arange(16).reshape((4, 4))
+    print(block)
+    return (block,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `vsplit(block, 2)` cuts the rows in half. `upper` is the first two rows.
+    """)
+    return
+
+
+@app.cell
+def _(block, np):
+    upper, lower = np.vsplit(block, 2)
+    print(upper)
+    return (lower,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `lower` is the last two rows.
+    """)
+    return
+
+
+@app.cell
+def _(lower):
+    print(lower)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `hsplit(block, 2)` cuts the columns in half. `left_half` is the first two columns.
+    """)
+    return
+
+
+@app.cell
+def _(block, np):
+    left_half, right_half = np.hsplit(block, 2)
+    print(left_half)
+    return (right_half,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `right_half` is the last two columns.
+    """)
+    return
+
+
+@app.cell
+def _(right_half):
+    print(right_half)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Split `np.arange(10)` at positions 3 and 7. Replace `None` with your code. How many parts do you get, and how many values are in each part?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_parts = None
+    print(student_parts)
+    return (student_parts,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_parts = np.split(np.arange(10), [3, 7])
+```
+Two cut positions give three parts: `[0, 1, 2]`, `[3, 4, 5, 6]`, and `[7, 8, 9]`. They have 3, 4, and 3 values.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Search
 
-    `where(condition)` returns a tuple. The first item is the array of indexes where the condition is true. `nditer` walks those indexes one by one, so each match can be printed with its value. An empty index array means there was no match.
+    `where(condition)` returns a tuple. The first item is the array of indexes where the condition is true. An empty index array means there was no match.
 
-    `%` is the remainder after floor division. A value is odd when that remainder is 1.
+    The examples search this array.
     """)
     return
 
@@ -228,37 +570,114 @@ def _(mo):
 @app.cell
 def _(np):
     values = np.array([-5, 6, 4, 4, 1, 0, -6])
+    print(values)
+    return (values,)
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `where(values == 1)` returns a tuple that holds one array of indexes.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
     index_one = np.where(values == 1)
-    print("equal to 1:", index_one)
-    print("positions:", index_one[0])
-    for position in np.nditer(index_one):
-        print("index:", int(position), "value:", values[position])
+    print(index_one)
+    return (index_one,)
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `[0]` takes that array out of the tuple. The value 1 is at position 4.
+    """)
+    return
+
+
+@app.cell
+def _(index_one):
+    print(index_one[0])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `nditer` walks those indexes one by one, so each match can be printed with its value.
+    """)
+    return
+
+
+@app.cell
+def _(index_one, np, values):
+    for position_one in np.nditer(index_one):
+        print("index:", int(position_one), "value:", values[position_one])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The value 4 appears twice, at positions 2 and 3.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
     index_four = np.where(values == 4)
-    print("equal to 4:", index_four)
-    print("positions:", index_four[0])
-    for position in np.nditer(index_four):
-        print("index:", int(position), "value:", values[position])
+    for position_four in np.nditer(index_four):
+        print("index:", int(position_four), "value:", values[position_four])
+    return
 
-    index_nine = np.where(values == 9)
-    if index_nine[0].size == 0:
-        print("equal to 9: no match")
-    else:
-        print("equal to 9:", index_nine)
-        for position in np.nditer(index_nine):
-            print("index:", int(position), "value:", values[position])
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The value 9 is not in the array, so the index array is empty.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
+    print(np.where(values == 9)[0])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%` is the remainder after floor division. A value is odd when that remainder is 1. The only odd value here is 1.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
     # An odd integer leaves a remainder of 1 when divided by 2.
     index_odd = np.where(values % 2 == 1)
-    print("odd positions:", index_odd[0])
-    for position in np.nditer(index_odd):
-        print("index:", int(position), "value:", values[position])
+    for position_odd in np.nditer(index_odd):
+        print("index:", int(position_odd), "value:", values[position_odd])
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `values > 0` finds the positive values. 0 is not positive, so it is not included.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
     index_positive = np.where(values > 0)
-    print("positive positions:", index_positive[0])
-    for position in np.nditer(index_positive):
-        print("index:", int(position), "value:", values[position])
+    for position_positive in np.nditer(index_positive):
+        print("index:", int(position_positive), "value:", values[position_positive])
     return
 
 
@@ -268,6 +687,8 @@ def _(mo):
     ## Sort
 
     `np.sort` returns a sorted copy. The original array stays unchanged. The default axis sorts each row. `axis=0` sorts each column.
+
+    The first example sorts 10 random integers.
     """)
     return
 
@@ -276,16 +697,93 @@ def _(mo):
 def _(np):
     np.random.seed(0)
     random_values = np.random.randint(10, size=10)
-    print("original:", random_values)
-    print("sorted:  ", np.sort(random_values))
-    print("original after sort:", random_values)
+    print(random_values)
+    return (random_values,)
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The sorted copy, from smallest to largest.
+    """)
+    return
+
+
+@app.cell
+def _(np, random_values):
+    print(np.sort(random_values))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The original array is still in its first order.
+    """)
+    return
+
+
+@app.cell
+def _(random_values):
+    print(random_values)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    For a 2-D array, `np.sort` sorts each row on its own.
+    """)
+    return
+
+
+@app.cell
+def _(np):
     paired_rows = np.array([[3, 2, 5], [7, 0, 1]])
-    print("sort rows:\n", np.sort(paired_rows))
+    print(np.sort(paired_rows))
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The next examples use this 3 × 3 array.
+    """)
+    return
+
+
+@app.cell
+def _(np):
     column_major = np.array([[1, 0, 2], [5, 6, 4], [3, -1, 6]])
-    print("sort rows:\n", np.sort(column_major))
-    print("sort columns:\n", np.sort(column_major, axis=0))
+    print(column_major)
+    return (column_major,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The default sorts each row.
+    """)
+    return
+
+
+@app.cell
+def _(column_major, np):
+    print(np.sort(column_major))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `axis=0` sorts each column, from top to bottom.
+    """)
+    return
+
+
+@app.cell
+def _(column_major, np):
+    print(np.sort(column_major, axis=0))
     return
 
 
@@ -310,14 +808,80 @@ def _(np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Sort each column of `np.array([[4, 1], [2, 3]])`. Replace `None` with your code. Which value ends up at the top of the first column?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_sorted = None
+    print(student_sorted)
+    return (student_sorted,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_sorted = np.sort(np.array([[4, 1], [2, 3]]), axis=0)
+```
+The result is `[[2, 1], [4, 3]]`. The first column was 4 and 2, so 2 moves to the top. The second column, 1 and 3, was already sorted.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
 
-    - `reshape` keeps the same values and requires a compatible size.
-    - `concatenate` joins arrays. `+` adds them.
+    - `reshape` keeps the same values and requires a compatible size. `flatten` returns a 1-D copy.
+    - A loop over a 1-D array yields elements. A loop over a 2-D array yields rows.
+    - `concatenate` joins arrays. `+` adds them. `axis=0` adds rows and `axis=1` adds columns.
+    - `split`, `vsplit`, and `hsplit` cut an array into parts.
     - `where` finds indexes. `np.sort` returns a new sorted array.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. Can an array with 12 elements be reshaped to `(5, 2)`?
+    2. Does `reshape` change the shape of the original array?
+    3. What is the difference between `np.concatenate([a, b])` and `a + b`?
+    4. Which axis adds the second array as extra columns?
+    5. What does `np.split(np.arange(8), 4)` return?
+    6. What does `np.where(values == 9)[0]` return when 9 is not in `values`?
+    7. Does `np.sort(x)` change `x`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **No:** `(5, 2)` holds 10 elements, not 12. NumPy raises a `ValueError`.
+2. **No:** It returns a new array with the new shape. The original keeps its shape.
+3. **Joining versus adding:** `concatenate` places `b` after `a`. `+` adds each pair of elements.
+4. **`axis=1`:** `axis=0`, the default, adds extra rows.
+5. **Four parts of two values:** `[0, 1]`, `[2, 3]`, `[4, 5]`, and `[6, 7]`.
+6. **An empty array:** There are no positions where the condition is true.
+7. **No:** `np.sort` returns a sorted copy. The original keeps its order.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media. Chapter 2.

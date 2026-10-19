@@ -102,9 +102,9 @@ def _(mo):
 
 
 @app.cell
-def _(frames, pd):
+def _(frames, mo, pd):
     res1 = pd.concat(frames, keys=['a', 'b', 'c'])
-    res1
+    mo.Html(res1.to_html())
     return (res1,)
 
 

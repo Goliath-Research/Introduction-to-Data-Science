@@ -84,23 +84,20 @@ def _(mo):
     - **On your computer.** A Python script or a notebook running on your machine can download the file directly.
     - **Inside a web browser.** This notebook can run inside a web page. The browser only lets a page download files from websites that allow it. This security rule is called **CORS**. The UCI and Data.World websites do not allow it, so the browser blocks the download.
 
-    For that reason, this lesson reads copies of the datasets saved in the `public` folder next to the notebook. Those copies work in both places. The original code that reads from the web is kept as `#` comments above each example, so you can use it when Python runs on your computer.
+    For that reason, this lesson reads copies of the datasets stored in the course repository on GitHub, in the `public` folder next to this notebook. GitHub allows browser pages to read its files, so those copies work in both places. The original code that reads from the UCI and Data.World websites is kept as `#` comments above each example, so you can use it when Python runs on your computer.
     """)
     return
 
 
 @app.cell
-def _(mo):
-    import sys
+def _():
+    data_url = (
+        'https://raw.githubusercontent.com/Goliath-Research/'
+        'Introduction-to-Data-Science/main/04-Introduction%20to%20Pandas/public/'
+    )
 
     def lesson_file(name):
-        # On your computer, this is a folder next to the notebook.
-        # In the browser, marimo serves that same folder at /public/.
-        if sys.platform == "emscripten":
-            from js import location
-
-            return f"{str(location.origin).rstrip('/')}/public/{name}"
-        return str(mo.notebook_location() / "public" / name)
+        return data_url + name
 
     return (lesson_file,)
 
@@ -378,39 +375,34 @@ def _(mo):
 
     An ARFF file (Attribute-Relation File Format) is a text file from the Machine Learning Project at the University of Waikato. It has a header section and a data section.
 
-    `scipy.io.arff.loadarff` reads both sections. The Student Academics file comes from [https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff](https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff). Text values arrive as byte strings, so each text column is decoded to ordinary text.
+    `scipy.io.arff.loadarff` reads both sections. The Student Academics file comes from [https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff](https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff). `loadarff` cannot open a web address, so the file is first downloaded with `urlopen` from Python's standard library, and its text is passed to `loadarff` through `StringIO`. Text values arrive as byte strings, so each text column is decoded to ordinary text.
     """)
     return
 
 
 @app.cell
 def _():
+    from io import StringIO
+    from urllib.request import urlopen
     from scipy.io.arff import loadarff
 
-    return (loadarff,)
+    return StringIO, loadarff, urlopen
 
 
 @app.cell
-def _(lesson_file):
+def _(lesson_file, urlopen):
     # Reading from the web (works when Python runs on your computer):
-    # from io import StringIO
-    # from urllib.request import urlopen
-    #
-    # with urlopen(stAcademic_url) as downloaded:
-    #     status_code = downloaded.status
-    #     payload = downloaded.read()
-    #
-    # arff_content = payload.decode('utf-8')
-    # arff_data = StringIO(arff_content)
-    # arff_rows, meta = loadarff(arff_data)
-    stAcademic_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff'
-    arff_path = lesson_file('Sapfile1.arff')
-    return arff_path, stAcademic_url
+    # stAcademic_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff'
+    stAcademic_url = lesson_file('Sapfile1.arff')
+    with urlopen(stAcademic_url) as downloaded:
+        payload = downloaded.read()
+    return payload, stAcademic_url
 
 
 @app.cell
-def _(arff_path, loadarff, pd):
-    arff_rows, meta = loadarff(str(arff_path))
+def _(StringIO, loadarff, payload, pd):
+    arff_data = StringIO(payload.decode('utf-8'))
+    arff_rows, meta = loadarff(arff_data)
     df = pd.DataFrame(arff_rows)
 
     # Decode byte strings if necessary

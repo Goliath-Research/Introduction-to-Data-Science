@@ -128,7 +128,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The `else` block on a `while` loop runs once when the condition becomes `False`. It also runs when the condition is `False` before the first pass. It does not run when the loop exits with `break`.
+    The `else` block on a `while` loop runs once when the condition becomes `False`.
     """)
     return
 
@@ -141,6 +141,14 @@ def _():
         else_i += 1
     else:
         print(f"i = {else_i} is no longer less than 5")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The `else` block also runs when the condition is `False` before the first pass. It does not run when the loop exits with `break`.
+    """)
     return
 
 
@@ -178,21 +186,49 @@ def _():
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A tuple works the same way. Each pass assigns the next fruit.
+    """)
+    return
+
+
 @app.cell
 def _():
     fruits = ("guava", "mango", "cherry", "pear")
     for fruit in fruits:
         print(fruit)
-    print()
+    return (fruits,)
 
-    # range(len(fruits)) produces the indexes 0, 1, 2, and 3.
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `range(len(fruits))` produces the indexes `0`, `1`, `2`, and `3`. The index then reads the fruit.
+    """)
+    return
+
+
+@app.cell
+def _(fruits):
     for position in range(len(fruits)):
         print(position, fruits[position])
-    print()
+    return
 
-    # enumerate() produces each index together with the item.
-    for position, fruit in enumerate(fruits):
-        print(position, fruit)
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `enumerate()` produces each index together with the item, so you do not need `range`.
+    """)
+    return
+
+
+@app.cell
+def _(fruits):
+    for enum_position, enum_fruit in enumerate(fruits):
+        print(enum_position, enum_fruit)
     return
 
 
@@ -214,7 +250,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `break` stops the loop before the remaining items. `continue` skips one item and keeps going. In the second cell, every name is printed except `Mary`.
+    `break` stops the loop before the remaining items. The names after `"Mary"` are not printed.
     """)
     return
 
@@ -226,6 +262,14 @@ def _():
         if person == "Mary":
             break
         print(person)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `continue` skips one item and keeps going. Every name is printed except `"Mary"`.
+    """)
     return
 
 
@@ -262,27 +306,14 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `range(stop)` produces `0, 1, ..., stop - 1`. `range(start, stop)` starts at `start` and still excludes `stop`. `range(start, stop, step)` adds `step` each time. `step` may be negative, which counts down. The stop value is still excluded.
+    `range(stop)` produces `0, 1, ..., stop - 1`. `range(5)` stops before `5`.
     """)
     return
 
 
 @app.cell
 def _():
-    print("range(5)")
     for value in range(5):
-        print(value)
-    print("range(2, 5)")
-    for value in range(2, 5):
-        print(value)
-    print("range(2, 10, 2)")
-    for value in range(2, 10, 2):
-        print(value)
-    print("range(3, 45, 10)")
-    for value in range(3, 45, 10):
-        print(value)
-    print("range(20, 10, -2)")
-    for value in range(20, 10, -2):
         print(value)
     return
 
@@ -290,7 +321,67 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The `else` block of a `for` loop runs when the loop finishes the sequence. Python keeps the last value of the loop name after the loop ends.
+    `range(start, stop)` starts at `start` and still excludes `stop`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for value_from_two in range(2, 5):
+        print(value_from_two)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `range(start, stop, step)` adds `step` each time.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for even_value in range(2, 10, 2):
+        print(even_value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A step of `10` jumps from `3` and stops before `45`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for stepped in range(3, 45, 10):
+        print(stepped)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A negative step counts down. The stop value is still excluded, so `10` is not printed.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for downward in range(20, 10, -2):
+        print(downward)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The `else` block of a `for` loop runs when the loop finishes the sequence.
     """)
     return
 
@@ -301,7 +392,19 @@ def _():
         print(finished)
     else:
         print("Finally done!")
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Python keeps the last value of the loop name after the loop ends.
+    """)
+    return
+
+
+@app.cell
+def _():
     for kept in range(5):
         print(kept)
     else:
@@ -314,7 +417,7 @@ def _(mo):
     mo.md(r"""
     ### Nested loops
 
-    A loop may contain another loop. The inner loop runs all of its passes for each pass of the outer loop. The first cell adds every item in a list of lists. The second cell prints every pair from two dice.
+    A loop may contain another loop. The inner loop runs all of its passes for each pass of the outer loop. This cell adds every item in a list of lists.
     """)
     return
 
@@ -330,7 +433,15 @@ def _():
     for row in matrix:
         for element in row:
             total_sum += element
-    print(f"The sum of all elements in the matrix is: {total_sum}")
+    print(total_sum)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The second cell prints every pair from two dice. The inner loop runs six times for each value of the outer loop.
+    """)
     return
 
 
@@ -363,7 +474,7 @@ def _(mo):
     mo.md(r"""
     ### Looping over a dictionary
 
-    A `for` loop over a dictionary assigns the keys, not the values. Use the key to read the value, or loop over `keys()` and `values()` directly.
+    A `for` loop over a dictionary assigns the keys, not the values.
     """)
     return
 
@@ -371,19 +482,53 @@ def _(mo):
 @app.cell
 def _():
     codes = {1: "a", 2: "b", 3: "c"}
-    print(type(codes))
-    print("keys from the dictionary:")
     for key in codes:
         print(key)
-    print("values looked up by key:")
-    for key in codes:
-        print(codes[key])
-    print("keys():")
-    for key in codes.keys():
-        print(key)
-    print("values():")
-    for key in codes.values():
-        print(key)
+    return (codes,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Use the key to read the value.
+    """)
+    return
+
+
+@app.cell
+def _(codes):
+    for lookup_key in codes:
+        print(codes[lookup_key])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `keys()` produces the keys directly.
+    """)
+    return
+
+
+@app.cell
+def _(codes):
+    for named_key in codes.keys():
+        print(named_key)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `values()` produces the values, without the keys.
+    """)
+    return
+
+
+@app.cell
+def _(codes):
+    for code_value in codes.values():
+        print(code_value)
     return
 
 
@@ -410,6 +555,36 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Add the integers produced by `range(4)`. Replace `None` with your code. Does `range(4)` include `4`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_total = None
+    print(student_total)
+    return (student_total,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_total = 0
+for student_number in range(4):
+    student_total += student_number
+```
+The total is `6`, from `0 + 1 + 2 + 3`. `range(4)` stops before `4`.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
@@ -419,7 +594,43 @@ def _(mo):
     - `break` leaves the loop. `continue` skips the rest of the current pass. `pass` is an empty body.
     - `else` on a loop runs when the loop ends without `break`.
     - Looping over a dictionary visits the keys. A loop may contain another loop.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. When does a `while` loop run its body?
+    2. What happens if the `while` condition never becomes false?
+    3. What does `break` do?
+    4. What does `continue` do?
+    5. Which integers does `range(2, 6)` produce?
+    6. When does a loop's `else` block run?
+    7. What does a `for` loop assign when the sequence is a dictionary?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **While the condition is true:** The condition is checked before each pass.
+2. **The loop does not end:** The value tested by the condition has to change.
+3. **It leaves the loop:** The remaining passes do not run.
+4. **It skips the rest of the current pass:** The loop then starts the next pass.
+5. **`2`, `3`, `4`, and `5`:** The start is included and the stop is excluded.
+6. **When the loop ends without `break`:** It also runs if the body never runs.
+7. **The keys:** Use the key, or `values()`, to reach the values.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.

@@ -39,9 +39,7 @@ def _(mo):
     mo.md(r"""
     ## Creating sets
 
-    `set()` builds an empty set. `{}` does not: those brackets build an empty dictionary. A set with items is written as `{value, value, ...}`.
-
-    You can add and remove items. You cannot change an item by index, because a set has no indexes. The printed order may differ from the order you wrote.
+    `set()` builds an empty set. Its type is `set`.
     """)
     return
 
@@ -49,21 +47,65 @@ def _(mo):
 @app.cell
 def _():
     empty_set = set()
-    print("empty set:", empty_set, "->", type(empty_set))
+    print(empty_set, "->", type(empty_set))
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A set with items is written as `{value, value, ...}`. The printed order may differ from the order you wrote.
+    """)
+    return
+
+
+@app.cell
+def _():
     numbers = {1, 2, 3}
-    print("numbers:", numbers, "->", type(numbers))
+    print(numbers, "->", type(numbers))
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `{}` does not build an empty set. Those brackets build an empty dictionary.
+    """)
+    return
+
+
+@app.cell
+def _():
     empty_braces = {}
-    print("empty braces:", empty_braces, "->", type(empty_braces))
+    print(empty_braces, "->", type(empty_braces))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `in` asks whether a value is in the set. `"banana"` is present.
+    """)
     return
 
 
 @app.cell
 def _():
     fruit = {"guava", "banana", "cherry"}
-    print(fruit)
     print("banana" in fruit)
+    return (fruit,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `"mango"` is not present.
+    """)
+    return
+
+
+@app.cell
+def _(fruit):
     print("mango" in fruit)
     return
 
@@ -73,9 +115,7 @@ def _(mo):
     mo.md(r"""
     ## Adding and removing items
 
-    `add()` inserts one item. `update()` inserts every item from another collection. Adding a value that is already present leaves the set unchanged. `len()` returns how many items the set holds.
-
-    `remove()` deletes an item and raises an error if the item is absent. `discard()` deletes an item and does nothing if the item is absent. `clear()` removes every item. `del` deletes the name.
+    `add()` inserts one item. You cannot change an item by index, because a set has no indexes.
     """)
     return
 
@@ -83,34 +123,126 @@ def _(mo):
 @app.cell
 def _():
     basket = {"guava", "banana", "cherry"}
-    basket.add("mango")
-    print("after add:", basket)
+    with_mango = basket.copy()
+    with_mango.add("mango")
+    print(with_mango)
+    return (with_mango,)
 
-    basket.update(["orange", "grapes"])
-    print("after update:", basket)
 
-    basket.add("mango")
-    print("mango was already present:", basket)
-    print("length:", len(basket))
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `update()` inserts every item from another collection.
+    """)
+    return
 
-    basket.remove("banana")
-    print("after remove banana:", basket)
 
-    basket.discard("banana")
-    print("discard of a missing item:", basket)
+@app.cell
+def _(with_mango):
+    with_more = with_mango.copy()
+    with_more.update(["orange", "grapes"])
+    print(with_more)
+    return (with_more,)
 
-    basket.discard("mango")
-    print("after discard mango:", basket)
 
-    basket.clear()
-    print("after clear:", basket)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Adding a value that is already present leaves the set unchanged.
+    """)
+    return
+
+
+@app.cell
+def _(with_more):
+    still_once = with_more.copy()
+    still_once.add("mango")
+    print(still_once)
+    return (still_once,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `len()` returns how many items the set holds.
+    """)
+    return
+
+
+@app.cell
+def _(still_once):
+    print(len(still_once))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Run the next cell to see the error from `remove()` when the item is not in the set.
+    `remove()` deletes an item.
+    """)
+    return
+
+
+@app.cell
+def _(still_once):
+    without_banana = still_once.copy()
+    without_banana.remove("banana")
+    print(without_banana)
+    return (without_banana,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `discard()` deletes an item and does nothing if the item is absent. `"banana"` is already gone, so the set stays the same.
+    """)
+    return
+
+
+@app.cell
+def _(without_banana):
+    after_discard = without_banana.copy()
+    after_discard.discard("banana")
+    print(after_discard)
+    return (after_discard,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `discard("mango")` removes mango, because it is present.
+    """)
+    return
+
+
+@app.cell
+def _(after_discard):
+    without_mango = after_discard.copy()
+    without_mango.discard("mango")
+    print(without_mango)
+    return (without_mango,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `clear()` removes every item.
+    """)
+    return
+
+
+@app.cell
+def _(without_mango):
+    cleared = without_mango.copy()
+    cleared.clear()
+    print(cleared)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `remove()` raises an error if the item is absent. Run the next cell to see that error.
     """)
     return
 
@@ -125,7 +257,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Run the next cell to see the error from using a name after `del` deletes it.
+    `del` deletes the name. Run the next cell to see the error from using a name after `del` deletes it.
     """)
     return
 
@@ -143,7 +275,7 @@ def _(mo):
     mo.md(r"""
     ## Sets drop duplicates
 
-    A set may hold different types. Building a set from a list or a tuple keeps each value once, so the repeated `3` appears only once.
+    A set may hold different types.
     """)
     return
 
@@ -152,19 +284,43 @@ def _(mo):
 def _():
     mixed = {"John", 20, True, 30.33, "male"}
     print(mixed, "->", type(mixed))
-
-    number_list = [2, 3, 3, 4.0, "Peter"]
-    print("from a list:", set(number_list))
-
-    number_tuple = (2, 3, 3, 4.0, "Peter")
-    print("from a tuple:", set(number_tuple))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A set cannot contain a mutable item such as a list or a dictionary. A tuple is allowed, because a tuple cannot change. Run the next cell to see the error from adding a list.
+    Building a set from a list keeps each value once, so the repeated `3` appears only once.
+    """)
+    return
+
+
+@app.cell
+def _():
+    number_list = [2, 3, 3, 4.0, "Peter"]
+    print(set(number_list))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The same conversion works for a tuple.
+    """)
+    return
+
+
+@app.cell
+def _():
+    number_tuple = (2, 3, 3, 4.0, "Peter")
+    print(set(number_tuple))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A set cannot contain a mutable item such as a list or a dictionary. Run the next cell to see the error from adding a list.
     """)
     return
 
@@ -173,6 +329,14 @@ def _(mo):
 def _():
     list_target = {"John", 20, True, 30.33, "male"}
     list_target.add([2, 3, 3, 4.0, "Peter"])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A tuple is allowed, because a tuple cannot change.
+    """)
     return
 
 
@@ -189,11 +353,7 @@ def _(mo):
     mo.md(r"""
     ## Set operations
 
-    `union()` returns the items that appear in either set. `intersection()` returns the items that appear in both. `difference()` returns the items that appear in the first set and not in the second. `symmetric_difference()` returns the items that appear in one set but not in both.
-
-    Union, intersection, and symmetric difference give the same items if you swap the two sets. Difference does not: `A - B` is not the same as `B - A`.
-
-    The symmetric difference is the union minus the intersection.
+    `union()` returns the items that appear in either set. The examples use `{1, 2, 3}` and `{3, 4, 5}`.
     """)
     return
 
@@ -202,22 +362,135 @@ def _(mo):
 def _():
     set1 = {1, 2, 3}
     set2 = {3, 4, 5}
-
     union = set1.union(set2)
-    print("union:", union)
-    print("union swapped:", set2.union(set1))
+    print(union)
+    return set1, set2, union
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Union gives the same items if you swap the two sets.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set2.union(set1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `intersection()` returns the items that appear in both. The only shared item is `3`.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
     intersection = set1.intersection(set2)
-    print("intersection:", intersection)
-    print("intersection swapped:", set2.intersection(set1))
+    print(intersection)
+    return (intersection,)
 
-    print("set1 - set2:", set1.difference(set2))
-    print("set2 - set1:", set2.difference(set1))
 
-    print("symmetric:", set1.symmetric_difference(set2))
-    print("symmetric swapped:", set2.symmetric_difference(set1))
-    print("union minus intersection:", union.difference(intersection))
-    print("same result with - :", union - intersection)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Swapping the sets does not change the intersection.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set2.intersection(set1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `difference()` returns the items that appear in the first set and not in the second. `set1 - set2` is `{1, 2}`.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set1.difference(set2))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Difference depends on the order. `set2 - set1` is `{4, 5}`.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set2.difference(set1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `symmetric_difference()` returns the items that appear in one set but not in both.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set1.symmetric_difference(set2))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Swapping the sets gives the same items.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set2.symmetric_difference(set1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The symmetric difference is the union minus the intersection.
+    """)
+    return
+
+
+@app.cell
+def _(intersection, union):
+    print(union.difference(intersection))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The operator `-` is another way to write `difference()`.
+    """)
+    return
+
+
+@app.cell
+def _(intersection, union):
+    print(union - intersection)
     return
 
 
@@ -244,6 +517,37 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Build a set from `[1, 1, 2, 3, 3]` and store how many items it has. Replace each `None` with your code. Why is the length smaller than 5?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_unique = None
+    student_count = None
+    print(student_unique)
+    print(student_count)
+    return student_count, student_unique
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_unique = set([1, 1, 2, 3, 3])
+student_count = len(student_unique)
+```
+The length is `3`. A set keeps each value only once, so the repeated `1` and the repeated `3` do not create extra items.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
@@ -253,7 +557,43 @@ def _(mo):
     - `remove()` raises an error when the item is missing. `discard()` does not.
     - A set cannot hold a list. It can hold a tuple. `set()` applied to a list or tuple drops duplicates.
     - Union, intersection, difference, and symmetric difference combine two sets. Difference depends on which set comes first.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. What is the difference between `set()` and `{}`?
+    2. Can you read a set item with an index?
+    3. What happens when you add a value that is already in the set?
+    4. How does `discard()` differ from `remove()` when the item is absent?
+    5. What does `set([1, 1, 2])` contain?
+    6. Can a set contain a list?
+    7. Is `A.difference(B)` the same as `B.difference(A)`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **A set and a dictionary:** `set()` is an empty set. `{}` is an empty dictionary.
+2. **No:** A set is unordered, so it has no indexes.
+3. **Nothing:** The set keeps that value only once.
+4. **`discard()` does nothing:** `remove()` raises an error.
+5. **`{1, 2}`:** The repeated `1` is dropped.
+6. **No:** A list can change. A tuple can be an item, because a tuple cannot change.
+7. **No:** Difference keeps items from the first set only. The order matters.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.

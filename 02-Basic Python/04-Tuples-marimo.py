@@ -39,7 +39,7 @@ def _(mo):
     mo.md(r"""
     ## Creating tuples
 
-    A tuple is written with parentheses `()`. A tuple with one item needs a trailing comma. Without that comma, the parentheses only group a value, and the result is not a tuple.
+    A tuple is written with parentheses `()`. An empty tuple has no items.
     """)
     return
 
@@ -47,21 +47,44 @@ def _(mo):
 @app.cell
 def _():
     empty_tuple = ()
-    print("empty:", empty_tuple, "->", type(empty_tuple))
-
-    one_item = (4,)
-    print("one item:", one_item, "->", type(one_item))
-
-    # Parentheses without a comma do not make a tuple.
-    not_a_tuple = (4)
-    print("no comma:", not_a_tuple, "->", type(not_a_tuple))
+    print(empty_tuple, "->", type(empty_tuple))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The items in a tuple do not have to share a type. `len()` returns how many items it holds. An index reads one item, using the same positions as a list: the first item is `0`.
+    A tuple with one item needs a trailing comma.
+    """)
+    return
+
+
+@app.cell
+def _():
+    one_item = (4,)
+    print(one_item, "->", type(one_item))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Parentheses without a comma do not make a tuple. `(4)` is just the integer `4`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    not_a_tuple = (4)
+    print(not_a_tuple, "->", type(not_a_tuple))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The items in a tuple do not have to share a type. This tuple mixes integers, strings, and a float.
     """)
     return
 
@@ -70,12 +93,62 @@ def _(mo):
 def _():
     record = (0, "one", "two", 3, 4, 5.5)
     print(record)
-    print("type:", type(record))
-    print("length:", len(record))
-    print("item 0:", record[0], "->", type(record[0]))
-    print("item 1:", record[1], "->", type(record[1]))
-    print("item 2:", record[2], "->", type(record[2]))
-    print("item 5:", record[5], "->", type(record[5]))
+    return (record,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `len()` returns how many items it holds.
+    """)
+    return
+
+
+@app.cell
+def _(record):
+    print(len(record))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    An index reads one item, using the same positions as a list. The first item is `0`, and it is an integer.
+    """)
+    return
+
+
+@app.cell
+def _(record):
+    print(record[0], "->", type(record[0]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Item 1 is a string.
+    """)
+    return
+
+
+@app.cell
+def _(record):
+    print(record[1], "->", type(record[1]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The last item is a float.
+    """)
+    return
+
+
+@app.cell
+def _(record):
+    print(record[5], "->", type(record[5]))
     return
 
 
@@ -84,7 +157,7 @@ def _(mo):
     mo.md(r"""
     ## Tuples are immutable
 
-    You cannot replace an item, and a tuple has no `append()` method. Run each of the next two cells to see the error.
+    You cannot replace an item. Run the next cell to see the error.
     """)
     return
 
@@ -93,6 +166,14 @@ def _(mo):
 def _():
     assign_target = (0, "one", "two", 3, 4, 5.5)
     assign_target[2] = 2
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A tuple has no `append()` method. Run the next cell to see that error.
+    """)
     return
 
 
@@ -106,7 +187,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    When a new item is required, convert the tuple to a list, change the list, and convert the list back. `tuple()` and `list()` each build a new sequence. The original tuple is unchanged until you assign the new tuple to the name.
+    When a new item is required, convert the tuple to a list. `list()` builds a new list. The tuple itself is unchanged.
     """)
     return
 
@@ -115,13 +196,38 @@ def _(mo):
 def _():
     source_tuple = (0, "one", "two", 3, 4, 5.5)
     as_list = list(source_tuple)
-    print("as a list:", as_list, "->", type(as_list))
+    print(as_list, "->", type(as_list))
+    return (as_list,)
 
-    as_list.append(6)
-    print("after append:", as_list)
 
-    updated_tuple = tuple(as_list)
-    print("as a tuple:", updated_tuple, "->", type(updated_tuple))
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The list can be changed. `append(6)` adds `6` at the end.
+    """)
+    return
+
+
+@app.cell
+def _(as_list):
+    appended_list = as_list.copy()
+    appended_list.append(6)
+    print(appended_list)
+    return (appended_list,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `tuple()` converts the list back. The result is a new tuple.
+    """)
+    return
+
+
+@app.cell
+def _(appended_list):
+    updated_tuple = tuple(appended_list)
+    print(updated_tuple, "->", type(updated_tuple))
     return
 
 
@@ -131,6 +237,8 @@ def _(mo):
     ## Slicing
 
     A slice uses the same rule as a list or a string. `tuple[start:stop]` includes `start` and excludes `stop`.
+
+    `[1:4]` starts at `"one"` and stops before `3`.
     """)
     return
 
@@ -138,9 +246,35 @@ def _(mo):
 @app.cell
 def _():
     slice_tuple = (0, "one", "two", 3, 4, 5.5, 6)
-    print("from 1 to 4:", slice_tuple[1:4])
-    print("first three:", slice_tuple[:3])
-    print("from index 4:", slice_tuple[4:])
+    print(slice_tuple[1:4])
+    return (slice_tuple,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `[:3]` is the first three items.
+    """)
+    return
+
+
+@app.cell
+def _(slice_tuple):
+    print(slice_tuple[:3])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `[4:]` starts at index 4 and continues through the end.
+    """)
+    return
+
+
+@app.cell
+def _(slice_tuple):
+    print(slice_tuple[4:])
     return
 
 
@@ -149,7 +283,7 @@ def _(mo):
     mo.md(r"""
     ## Tuple operations
 
-    `len()` returns the number of items. `+` builds a new tuple and does not change the tuples you add. `in` asks whether a value is an item. `count()` returns how many times a value appears. `index()` returns the first position of a value, and raises an error when the value is absent.
+    `len()` returns the number of items. An empty tuple has length 0.
     """)
     return
 
@@ -157,28 +291,129 @@ def _(mo):
 @app.cell
 def _():
     length_empty = ()
-    length_one = (4,)
-    length_record = (0, "one", "two", 3, 4, 5.5, 6)
-
-    print("len empty:", len(length_empty))
-    print("len one item:", len(length_one))
-    print("len record:", len(length_record))
-    print()
-
-    combined = length_one + length_record
-    print("concatenated:", combined)
-    print("3 in record:", 3 in length_record)
-    print("10 in record:", 10 in length_record)
-    print("count of 4:", combined.count(4))
-    print("index of 4:", combined.index(4))
-    print("index of 'one':", combined.index("one"))
+    print(len(length_empty))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Run the next cell to see the error from `index()` when the value is not in the tuple.
+    A one-item tuple has length 1.
+    """)
+    return
+
+
+@app.cell
+def _():
+    length_one = (4,)
+    print(len(length_one))
+    return (length_one,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    This record has 7 items.
+    """)
+    return
+
+
+@app.cell
+def _():
+    length_record = (0, "one", "two", 3, 4, 5.5, 6)
+    print(len(length_record))
+    return (length_record,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `+` builds a new tuple and does not change the tuples you add.
+    """)
+    return
+
+
+@app.cell
+def _(length_one, length_record):
+    combined = length_one + length_record
+    print(combined)
+    return (combined,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `in` asks whether a value is an item. `3` is in the record.
+    """)
+    return
+
+
+@app.cell
+def _(length_record):
+    print(3 in length_record)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `10` is not in the record.
+    """)
+    return
+
+
+@app.cell
+def _(length_record):
+    print(10 in length_record)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `count()` returns how many times a value appears. `4` appears twice in the concatenated tuple: once from the one-item tuple, and once from the record.
+    """)
+    return
+
+
+@app.cell
+def _(combined):
+    print(combined.count(4))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `index()` returns the first position of a value. The first `4` is at index 0.
+    """)
+    return
+
+
+@app.cell
+def _(combined):
+    print(combined.index(4))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `"one"` is at index 2.
+    """)
+    return
+
+
+@app.cell
+def _(combined):
+    print(combined.index("one"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `index()` raises an error when the value is absent. Run the next cell to see that error.
     """)
     return
 
@@ -195,7 +430,7 @@ def _(mo):
     mo.md(r"""
     ### Nested tuples
 
-    A tuple may contain another tuple. The outer tuple below has three items: two strings, and one tuple. A second index reads an item inside the inner tuple. `-1` still means the last item of the sequence you index.
+    A tuple may contain another tuple. The outer tuple below has three items: two strings, and one tuple.
     """)
     return
 
@@ -205,14 +440,76 @@ def _():
     inner = (4, 0, "one", "two", 3, 4, 5.5, 6)
     nested = ("123", "hello", inner)
     print(nested)
-    print("length:", len(nested))
-    print("item 0:", type(nested[0]))
-    print("item 1:", type(nested[1]))
-    print("item 2:", type(nested[2]))
-    print("inner tuple:", nested[2])
-    print("item 'two':", nested[2][3])
-    print("last inner item:", nested[2][7])
-    print("last inner item again:", nested[2][-1])
+    return (nested,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The length is 3, not the length of the inner tuple.
+    """)
+    return
+
+
+@app.cell
+def _(nested):
+    print(len(nested))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Item 0 is a string.
+    """)
+    return
+
+
+@app.cell
+def _(nested):
+    print(type(nested[0]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Item 2 is the inner tuple.
+    """)
+    return
+
+
+@app.cell
+def _(nested):
+    print(type(nested[2]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A second index reads an item inside the inner tuple. Index 3 of the inner tuple is `"two"`.
+    """)
+    return
+
+
+@app.cell
+def _(nested):
+    print(nested[2][3])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `-1` still means the last item of the sequence you index. The last item of the inner tuple is `6`.
+    """)
+    return
+
+
+@app.cell
+def _(nested):
+    print(nested[2][-1])
     return
 
 
@@ -238,6 +535,34 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Build a tuple that contains only the number `7`. Replace `None` with your code. Why is the comma required?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_one = None
+    print(student_one)
+    return (student_one,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_one = (7,)
+```
+Without the comma, `(7)` is the integer `7`. The comma tells Python that the parentheses hold a tuple.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
@@ -247,7 +572,43 @@ def _(mo):
     - Indexes and slices follow the same rules as lists. You cannot assign to an index or call `append()`.
     - To add an item, convert to a list, change the list, and convert back with `tuple()`.
     - `count()` and `index()` search the items. A tuple may contain another tuple.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. How is a tuple different from a list?
+    2. What is `(4)`?
+    3. What does a trailing comma do in `(4,)`?
+    4. Can you assign a new value to `record[0]`?
+    5. How do you add an item to the data in a tuple?
+    6. What does `index()` do when the value is absent?
+    7. What is the length of `("123", "hello", (1, 2))`?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **A tuple cannot be changed:** Both are ordered. A list is mutable, and a tuple is immutable.
+2. **The integer `4`:** Parentheses without a comma only group a value.
+3. **It makes a one-item tuple:** The comma is what creates the tuple.
+4. **No:** Replacing an item raises a `TypeError`.
+5. **Convert it to a list:** Change the list, then convert it back with `tuple()`.
+6. **It raises an error:** It does not return `-1`.
+7. **`3`:** The inner tuple is one item of the outer tuple.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.

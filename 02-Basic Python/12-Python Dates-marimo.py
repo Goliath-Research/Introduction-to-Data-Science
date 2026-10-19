@@ -6,9 +6,10 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+    import datetime as dt
     import marimo as mo
 
-    return (mo,)
+    return dt, mo
 
 
 @app.cell(hide_code=True)
@@ -45,20 +46,122 @@ def _(mo):
 
 
 @app.cell
-def _():
-    import datetime as dt
-
+def _(dt):
     current = dt.datetime.now()
     print(current)
+    return (current,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The type is `datetime`.
+    """)
+    return
+
+
+@app.cell
+def _(current):
     print(type(current))
-    print("year:", current.year)
-    print("month:", current.month)
-    print("day:", current.day)
-    print("hour:", current.hour)
-    print("minute:", current.minute)
-    print("second:", current.second)
-    print("microsecond:", current.microsecond)
-    return (current, dt)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `year` is the four-digit year.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.year)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `month` is a number from 1 to 12.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.month)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `day` is the day of the month.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.day)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `hour` uses a 24-hour clock.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.hour)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `minute` and `second` are the rest of the time. This is the minute.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.minute)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    This is the second.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.second)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `microsecond` is the fraction of the second. One second is 1,000,000 microseconds.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.microsecond)
+    return
 
 
 @app.cell(hide_code=True)
@@ -85,27 +188,211 @@ def _(mo):
     | `%M` | Minute, 00-59 |
     | `%S` | Second, 00-59 |
     | `%f` | Microsecond, 000000-999999 |
+
+    `%Y` is the year in four digits.
     """)
     return
 
 
 @app.cell
 def _(current):
-    print("year:", current.strftime("%Y"))
-    print("year, short:", current.strftime("%y"))
-    print("month name:", current.strftime("%B"))
-    print("month, short:", current.strftime("%b"))
-    print("month number:", current.strftime("%m"))
-    print("weekday:", current.strftime("%A"))
-    print("weekday, short:", current.strftime("%a"))
-    print("weekday number:", current.strftime("%w"))
-    print("day of year:", current.strftime("%j"))
-    print("hour 00-23:", current.strftime("%H"))
-    print("hour 01-12:", current.strftime("%I"))
-    print("AM/PM:", current.strftime("%p"))
-    print("minute:", current.strftime("%M"))
-    print("second:", current.strftime("%S"))
-    print("microsecond:", current.strftime("%f"))
+    print(current.strftime("%Y"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%y` is the year in two digits.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%y"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%B` is the full month name.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%B"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%b` is the short month name.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%b"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%m` is the month number, from `01` to `12`.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%m"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%A` is the full weekday name.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%A"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%a` is the short weekday name.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%a"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%w` is the weekday number. `0` is Sunday.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%w"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%j` is the day of the year, from `001` to `366`.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%j"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%H` is the hour on a 24-hour clock.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%H"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%I` is the hour on a 12-hour clock.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%I"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%p` is `AM` or `PM`.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%p"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%M` is the minute.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%M"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%S` is the second.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%S"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%f` is the microsecond.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%f"))
     return
 
 
@@ -114,7 +401,7 @@ def _(mo):
     mo.md(r"""
     ## Creating a date or a time
 
-    `datetime(year, month, day)` builds a datetime. The time defaults to midnight. `date(year, month, day)` builds a date with no time. `time(hour, minute, second)` builds a time with no date.
+    `datetime(year, month, day)` builds a datetime. The time defaults to midnight.
     """)
     return
 
@@ -122,7 +409,33 @@ def _(mo):
 @app.cell
 def _(dt):
     print(dt.datetime(2022, 1, 1))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `date(year, month, day)` builds a date with no time.
+    """)
+    return
+
+
+@app.cell
+def _(dt):
     print(dt.date(2022, 4, 4))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `time(hour, minute, second)` builds a time with no date.
+    """)
+    return
+
+
+@app.cell
+def _(dt):
     print(dt.time(5, 20, 21))
     return
 
@@ -130,7 +443,7 @@ def _(dt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Subtracting two `date` objects returns the time between them. `.days` is that interval as a number of days.
+    Subtracting two `date` objects returns the time between them. This is the starting date.
     """)
     return
 
@@ -138,10 +451,36 @@ def _(mo):
 @app.cell
 def _(dt):
     day1 = dt.date(2022, 5, 5)
+    print(day1)
+    return (day1,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `date.today()` reads the computer's clock.
+    """)
+    return
+
+
+@app.cell
+def _(dt):
     today = dt.date.today()
-    print("day1:", day1)
-    print("today:", today)
-    print("Number of days elapsed from May 5, 2022:", (today - day1).days)
+    print(today)
+    return (today,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `.days` is the interval as a number of days.
+    """)
+    return
+
+
+@app.cell
+def _(day1, today):
+    print((today - day1).days)
     return
 
 
@@ -166,6 +505,34 @@ def _(dt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Try it yourself
+
+    Find the number of days from January 1, 2022 to January 10, 2022. Replace `None` with your code. Is the start date counted in that number?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_span = None
+    print(student_span)
+    return (student_span,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_span = (dt.date(2022, 1, 10) - dt.date(2022, 1, 1)).days
+```
+The result is `9`. Subtraction gives the days between the two dates. January 1 is the starting point, so it is not an extra day in the count.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Conclusions
 
     **Key takeaways:**
@@ -174,7 +541,43 @@ def _(mo):
     - A datetime object stores the year, month, day, hour, minute, second, and microsecond as separate attributes.
     - `strftime()` formats those parts as text. Each `%` code selects one part.
     - `datetime()`, `date()`, and `time()` build objects from numbers you choose. Subtracting two dates gives the days between them.
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Check your understanding
+
+    1. Which module provides `date` and `datetime`?
+    2. What does `datetime.now()` return?
+    3. Which attribute is the day of the month?
+    4. What does `%Y` format?
+    5. What does `%B` format?
+    6. What time does `datetime(2022, 1, 1)` use when you pass only the date?
+    7. What does subtracting two dates give you?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r"""
+1. **`datetime`:** A date is not a built-in type such as `int` or `str`.
+2. **The current date and time:** It reads the computer's clock.
+3. **`day`:** `month` is the month number, and `year` is the year.
+4. **The year in four digits:** `%y` uses two digits.
+5. **The full month name:** `%b` is the short name, and `%m` is the number.
+6. **Midnight:** The hour, minute, and second default to `0`.
+7. **The days between them:** `.days` is that interval as an integer.
+""")}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## References
 
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.

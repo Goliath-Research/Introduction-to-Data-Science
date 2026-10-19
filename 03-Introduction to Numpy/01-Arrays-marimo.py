@@ -252,7 +252,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Build a 2-D array with 2 rows and 4 columns, using any numbers you like. Replace `None` with your code. What are its `shape` and its `size`?
+    Build a 2-D array with 2 rows and 4 columns, using any numbers you like. Replace each `None` with your code. What are its `shape` and its `size`?
     """)
     return
 
@@ -260,8 +260,12 @@ def _(mo):
 @app.cell
 def _():
     student_table = None
+    student_shape = None
+    student_size = None
     print(student_table)
-    return (student_table,)
+    print(student_shape)
+    print(student_size)
+    return student_shape, student_size, student_table
 
 
 @app.cell(hide_code=True)
@@ -269,7 +273,8 @@ def _(mo):
     mo.accordion({"Show answers": mo.md(r'''
 ```python
 student_table = np.array([[1, 2, 3, 4], [5, 6, 7, 8]])
-print(student_table.shape, student_table.size)
+student_shape = student_table.shape
+student_size = student_table.size
 ```
 The shape is `(2, 4)`: 2 rows and 4 columns. The size is 8, because 2 × 4 = 8 elements.
 ''')}, lazy=True)

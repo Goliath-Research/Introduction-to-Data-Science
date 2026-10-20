@@ -591,7 +591,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `limit` and predict the printed numbers. The output updates when you edit the value.
+    Change `limit` and predict the printed numbers before you run the cell.
     """)
     return
 

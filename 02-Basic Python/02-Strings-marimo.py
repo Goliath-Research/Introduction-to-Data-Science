@@ -230,7 +230,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_word` and watch the output update. The cell prints the first character and the length.
+    Change `your_word`, then run the cell. Print the first character and the length.
     """)
     return
 
@@ -376,7 +376,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the slice bounds and predict the printed text. The output updates when you leave the cell.
+    Change the slice bounds and predict the printed text before you run the cell.
     """)
     return
 
@@ -721,7 +721,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Edit the name and age and watch the sentence update.
+    Edit the name and age, then run the cell.
     """)
     return
 

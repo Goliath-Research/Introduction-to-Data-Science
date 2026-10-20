@@ -242,7 +242,7 @@ def _(without_mango):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `remove()` raises an error if the item is absent. The next cell raises `KeyError` on purpose.
+    `remove()` raises an error if the item is absent. Run the next cell to see that error.
     """)
     return
 
@@ -258,7 +258,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` deletes the name. The next cell raises `NameError` on purpose.
+    `del` deletes the name. Run the next cell to see the error from using a name after `del` deletes it.
     """)
     return
 
@@ -337,7 +337,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A set cannot contain an unhashable item such as a list or a dictionary. The next cell raises `TypeError` on purpose.
+    A set cannot contain an unhashable item such as a list or a dictionary. Run the next cell to see the error from adding a list.
     """)
     return
 
@@ -547,9 +547,17 @@ def _(set1):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    The next exercise lists `"Lima"` twice. A set keeps that city once.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
-    Add another city to `visited`, then print whether `"Paris"` is in the set. Notice `"Lima"` is written twice. The set keeps it once.
+    Add another city to `visited`, then print whether `"Paris"` is in the set.
     """)
     return
 

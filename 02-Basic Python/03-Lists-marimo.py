@@ -270,7 +270,7 @@ def _(indexed_values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An index must refer to an item that exists. The next cell raises `IndexError` on purpose.
+    An index must refer to an item that exists. Run the next cell to see the error raised by an index past the end of the list.
     """)
     return
 
@@ -288,7 +288,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `practice_list` and the indexes and watch the output update. Predict the printed items before you edit.
+    Change `practice_list` and the indexes, then run the cell. Predict the printed items before you run it.
     """)
     return
 

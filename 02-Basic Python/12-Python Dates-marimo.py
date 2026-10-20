@@ -540,7 +540,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `birthday` to a date you choose and watch the output update.
+    Change `birthday` to a date you choose, then run the cell.
     """)
     return
 

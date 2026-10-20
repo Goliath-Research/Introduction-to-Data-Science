@@ -175,7 +175,7 @@ def _(mo):
     mo.md(r"""
     ## Tuples are immutable
 
-    You cannot replace an item. Run the next cell to see the error.
+    You cannot replace an item in a tuple, so the next cell raises a `TypeError` on purpose.
     """)
     return
 
@@ -191,7 +191,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A tuple has no `append()` method. Run the next cell to see that error.
+    A tuple has no `append()` method, so the next cell raises an `AttributeError` on purpose.
     """)
     return
 
@@ -433,7 +433,7 @@ def _(combined):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `index()` raises an error when the value is absent. Run the next cell to see that error.
+    `index()` raises a `ValueError` when the value is absent, so the next cell raises that error on purpose.
     """)
     return
 

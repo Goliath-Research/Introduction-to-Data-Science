@@ -270,7 +270,7 @@ def _(indexed_values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An index must refer to an item that exists. Run the next cell to see the error raised by an index past the end of the list.
+    An index must refer to an item that exists. The next cell uses an index past the end of the list, so it raises an `IndexError` on purpose.
     """)
     return
 

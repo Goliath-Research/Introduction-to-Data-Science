@@ -176,7 +176,7 @@ def _(aged):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A dictionary is not a sequence of positions. Python tries to use the slice itself as a key, so you get `KeyError` (`TypeError` on older versions). Run the next cell to see that error.
+    A dictionary is not a sequence of positions. Python tries to use the slice itself as a key, so the next cell raises a `KeyError` on purpose (`TypeError` on older versions).
     """)
     return
 
@@ -421,7 +421,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` can also delete the name. In these notebooks that name lives only in this cell. Run the next cell to see the error from using a name after it has been deleted.
+    `del` can also delete the name. In these notebooks that name lives only in this cell. The next cell uses the name after deleting it, so it raises a `NameError` on purpose.
     """)
     return
 

@@ -19,8 +19,8 @@ def _(mo):
 
     ## Objectives
 
-    - Summarize an array with `min`, `max`, `sum`, and `cumsum`.
-    - Add, subtract, and multiply arrays element by element, and multiply matrices with `dot`.
+    - Summarize an array with `min`, `max`, `sum`, `mean`, and `cumsum`, and locate the largest value with `argmax`.
+    - Add, subtract, and multiply arrays element by element, and multiply matrices with `dot` or `@`.
     - Use universal functions and broadcasting, including trigonometry and logarithms.
 
     ## Background
@@ -37,9 +37,9 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Unary reductions
+    ## Reductions and running totals
 
-    `max`, `min`, and `sum` reduce an array to a smaller result. `axis=1` works across each row. `axis=0` works down each column. `cumsum` keeps a running total.
+    `max`, `min`, `sum`, and `mean` reduce an array to a smaller result. `argmax` returns the position of the largest value. `axis=1` works across each row. `axis=0` works down each column. `cumsum` keeps a running total.
 
     The examples use this table with 2 rows and 3 columns.
     """)
@@ -140,6 +140,48 @@ def _(values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    `mean` is the average of every element: 21 / 6 = 3.5.
+    """)
+    return
+
+
+@app.cell
+def _(values):
+    print(values.mean())
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `mean(axis=0)` returns the average of each column: one result per column.
+    """)
+    return
+
+
+@app.cell
+def _(values):
+    print(values.mean(axis=0))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `argmax` returns the position of the largest value. Here that value is 6, at position 5, counting row by row from 0.
+    """)
+    return
+
+
+@app.cell
+def _(values):
+    print(values.argmax())
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `cumsum(axis=1)` keeps a running total across each row. The last value in each row is the row sum.
     """)
     return
@@ -230,7 +272,7 @@ def _(mo):
     ## Binary operators
 
     `+`, `-`, and `*` combine arrays element by element. The shapes must either match or be compatible for broadcasting.
-    `dot` is matrix multiplication: the number of columns in the first array must equal the number of rows in the second.
+    `dot` is matrix multiplication: the number of columns in the first array must equal the number of rows in the second. `@` does the same multiplication.
 
     The examples use these two 2 × 2 arrays, `left` and `right`.
     """)
@@ -305,6 +347,20 @@ def _(left, right):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    `left @ right` gives the same result as `left.dot(right)`.
+    """)
+    return
+
+
+@app.cell
+def _(left, right):
+    print(left @ right)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `wider` has 2 rows and 3 columns. `left` has 2 columns, which matches the 2 rows of `wider`, so `dot` works.
     """)
     return
@@ -345,8 +401,10 @@ def _(mo):
     | `-` | `np.negative` | unary negation |
     | `*` | `np.multiply` | multiplication |
     | `/` | `np.divide` | division |
+    | `//` | `np.floor_divide` | floor division |
     | `**` | `np.power` | exponentiation |
     | `%` | `np.mod` | remainder |
+    | `abs()` | `np.absolute` | absolute value |
 
     `np.add` gives the same result as `left + right`.
     """)
@@ -564,6 +622,20 @@ def _(sequence):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    A 1-D array of 3 values is added to each row of the 2 × 3 table `values`, because the last sizes match.
+    """)
+    return
+
+
+@app.cell
+def _(np, values):
+    print(values + np.array([10, 20, 30]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     `.T` swaps rows and columns. This array has 2 rows and 3 columns.
     """)
     return
@@ -705,9 +777,9 @@ def _(mo):
 
 @app.cell
 def _(np):
-    powers_of_ten = np.array([1, 2, 10, 100])
-    print(powers_of_ten)
-    return (powers_of_ten,)
+    log_inputs = np.array([1, 2, 10, 100])
+    print(log_inputs)
+    return (log_inputs,)
 
 
 @app.cell(hide_code=True)
@@ -719,8 +791,8 @@ def _(mo):
 
 
 @app.cell
-def _(np, powers_of_ten):
-    print(np.round(np.log2(powers_of_ten), 2))
+def _(log_inputs, np):
+    print(np.round(np.log2(log_inputs), 2))
     return
 
 
@@ -733,8 +805,8 @@ def _(mo):
 
 
 @app.cell
-def _(np, powers_of_ten):
-    print(np.round(np.log(powers_of_ten), 2))
+def _(log_inputs, np):
+    print(np.round(np.log(log_inputs), 2))
     return
 
 
@@ -747,8 +819,8 @@ def _(mo):
 
 
 @app.cell
-def _(np, powers_of_ten):
-    print(np.round(np.log10(powers_of_ten), 2))
+def _(log_inputs, np):
+    print(np.round(np.log10(log_inputs), 2))
     return
 
 
@@ -759,9 +831,9 @@ def _(mo):
 
     **Key takeaways:**
 
-    - `axis` chooses whether a reduction runs across rows or down columns.
-    - `+` and `*` are element by element. `dot` is matrix multiplication.
-    - Ufuncs and broadcasting apply one operation to a whole array.
+    - `axis` chooses whether a reduction runs across rows or down columns. `mean` is an average. `argmax` returns the position of the largest value.
+    - `+` and `*` are element by element. `dot` and `@` are matrix multiplication.
+    - Ufuncs and broadcasting apply one operation to a whole array. A 1-D array can be added to each row when the last sizes match.
     - `.T` transposes an array. `sin`, `cos`, and `log` are element-wise too.
     """)
     return

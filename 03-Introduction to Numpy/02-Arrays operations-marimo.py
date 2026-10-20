@@ -260,7 +260,7 @@ def _(cube):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An integer array cannot store a float. NumPy truncates the value instead of changing the dtype, so `3.1415` is stored as `3`.
+    An integer array cannot store a float. NumPy truncates the value instead of changing the dtype, so `3.1415` is stored as `3`. Values that cannot be converted, such as `np.nan`, raise an error.
     """)
     return
 
@@ -585,7 +585,7 @@ def _(mo):
     mo.md(r"""
     ## Views and copies
 
-    A NumPy slice is a **view**: it looks at the same data as the original array. Changing the slice changes the original. That is useful with a large array, because you can work on one piece without copying the whole array. A Python list slice is a copy. Call `.copy()` when the NumPy slice must be independent.
+    A NumPy slice is a **view**: it looks at the same data as the original array. Changing the slice changes the original. That is useful with a large array, because you can work on one piece without copying the whole array. A Python list slice is a copy. Call `.copy()` when the NumPy slice must be independent. The next lesson shows that `reshape` is a view too.
 
     This section uses its own array, `original`. `view` is its top-left 2 × 2 corner. The first element of the view is set to 100.
     """)
@@ -703,7 +703,7 @@ def _(mo):
 
     - `ndim`, `shape`, and `size` describe an array of any dimension.
     - Comma indexing reads one element. Negative indexes count from the end.
-    - An integer array truncates a float assigned into it.
+    - An integer array truncates a float assigned into it. Values that cannot be converted, such as `np.nan`, raise an error.
     - Slices read a range: the start is included and the stop is excluded. A negative step reverses.
     - A NumPy slice is a view. `.copy()` makes a separate array.
     """)

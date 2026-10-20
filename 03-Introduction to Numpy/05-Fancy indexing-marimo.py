@@ -241,7 +241,7 @@ def _(selected, start_values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Add 20 to the same positions. 100 becomes 120.
+    Add 20 to the same positions. 100 becomes 120. If an index is repeated, `+=` still adds only once.
     """)
     return
 
@@ -268,6 +268,22 @@ def _(plus_twenty, selected):
     values[selected] -= 125
     print(values)
     return (values,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Reading with a fancy index returns a copy, unlike a slice. `picked` is a copy of the selected values. Setting its first element to -1 does not change `start_values`.
+    """)
+    return
+
+
+@app.cell
+def _(selected, start_values):
+    picked = start_values[selected]
+    picked[0] = -1
+    print(start_values)
+    return
 
 
 @app.cell(hide_code=True)
@@ -419,7 +435,7 @@ def _(mo):
 @app.cell
 def _(letters, np):
     _distinct, counts = np.unique(letters, return_counts=True)
-    print(dict(zip(_distinct, counts)))
+    print(dict(zip(_distinct.tolist(), counts.tolist())))
     return
 
 
@@ -434,7 +450,7 @@ def _(mo):
 @app.cell
 def _(letters, np):
     _distinct, first_positions = np.unique(letters, return_index=True)
-    print(dict(zip(_distinct, first_positions)))
+    print(dict(zip(_distinct.tolist(), first_positions.tolist())))
     return
 
 
@@ -481,7 +497,7 @@ def _(mo):
 def _(np):
     your_letters = np.array(["a", "b", "a", "c", "b", "a"])
     labels, times = np.unique(your_letters, return_counts=True)
-    print(dict(zip(labels, times)))
+    print(dict(zip(labels.tolist(), times.tolist())))
     return
 
 
@@ -494,7 +510,7 @@ def _(mo):
 
     - A list of indexes selects many elements in the order you give.
     - In two dimensions, a list of rows and a list of columns are read in pairs.
-    - Assignment through those indexes changes the original array.
+    - Assignment through those indexes changes the original array. Reading with a fancy index returns a copy.
     - A Boolean mask keeps elements that meet a condition.
     - `np.unique` can also return counts, first positions, and a way to rebuild the array.
     """)

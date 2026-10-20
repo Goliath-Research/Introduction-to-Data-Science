@@ -171,7 +171,7 @@ def _(np, table):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A comparison is 1 where it is true and 0 where it is false, so counting the comparison counts the matches. This is the number of negative entries.
+    `True` counts as 1 and `False` as 0, so counting the comparison counts the matches. This is the number of negative entries.
     """)
     return
 
@@ -533,7 +533,7 @@ def _(bits_a, bits_b):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The keywords `and` and `or` compare whole objects. They cannot compare two arrays element by element. Run the next cell to see the error.
+    The keywords `and` and `or` compare whole objects. They cannot compare two arrays element by element. The next cell raises a `ValueError` on purpose: the truth value of an array with more than one element is ambiguous.
     """)
     return
 
@@ -571,6 +571,20 @@ def _(mo):
 @app.cell
 def _(table):
     print(table[(table >= -1) & (table <= 1)])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `~` flips each Boolean in a mask. `sample[~(sample > 0)]` keeps the values that are not positive.
+    """)
+    return
+
+
+@app.cell
+def _(sample):
+    print(sample[~(sample > 0)])
     return
 
 
@@ -631,7 +645,7 @@ def _(mo):
     - A comparison returns a Boolean array with one result per element.
     - `sum`, `count_nonzero`, `any`, and `all` summarize that array. `axis` gives one result per column or per row.
     - Use the Boolean array as an index to keep the matching values.
-    - Combine array conditions with `&` and `|`. The keywords `and` and `or` do not work element by element.
+    - Combine array conditions with `&` and `|`. `~` keeps the values that do not match. The keywords `and` and `or` do not work element by element.
     """)
     return
 
@@ -661,7 +675,7 @@ def _(mo):
 4. **An empty array:** The mask has no `True` values.
 5. **`10`:** Both values are true, so `and` returns the last object it looked at.
 6. **`8`:** `&` compares binary digits: `1001 & 1010 = 1000`.
-7. **`&` is applied first:** Without parentheses, Python would compute `0 & x` before the comparisons.
+7. **`&` is applied first:** Without parentheses, Python would compute `0 & x` before the comparisons, so `x > 0 & x < 5` becomes `x > (0 & x) < 5`, which raises an error.
 """)}, lazy=True)
     return
 

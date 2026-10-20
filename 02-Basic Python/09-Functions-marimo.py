@@ -87,7 +87,7 @@ def _(hello):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Passing too many arguments raises an error. `hello` has one parameter. Run the next cell to see that error.
+    Passing too many arguments raises a `TypeError`. `hello` has one parameter, so the next cell raises that error on purpose.
     """)
     return
 

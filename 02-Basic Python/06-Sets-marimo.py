@@ -242,7 +242,7 @@ def _(without_mango):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `remove()` raises an error if the item is absent. Run the next cell to see that error.
+    `remove()` raises a `KeyError` if the item is absent, so the next cell raises that error on purpose.
     """)
     return
 
@@ -258,7 +258,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` deletes the name. Run the next cell to see the error from using a name after `del` deletes it.
+    `del` deletes the name. The next cell uses that name afterward, so it raises a `NameError` on purpose.
     """)
     return
 
@@ -337,7 +337,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A set cannot contain an unhashable item such as a list or a dictionary. Run the next cell to see the error from adding a list.
+    A set cannot contain an unhashable item such as a list or a dictionary, so the next cell raises a `TypeError` on purpose.
     """)
     return
 

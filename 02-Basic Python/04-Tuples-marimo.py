@@ -21,7 +21,7 @@ def _(mo):
     - Create a tuple, including an empty tuple and a tuple with one item.
     - Read items and slices with the same index rules used for lists and strings.
     - Explain why a tuple cannot be changed, and how to build a new tuple when a value must be added.
-    - Use `count()` and `index()`, and read an item inside a nested tuple.
+    - Use `count()` and `index()`, read an item inside a nested tuple, and unpack a tuple into names.
 
     ## Background
 
@@ -39,7 +39,7 @@ def _(mo):
     mo.md(r"""
     ## Creating tuples
 
-    A tuple is written with parentheses `()`. An empty tuple has no items.
+    Commas make a tuple. Parentheses are usually written around it. An empty tuple is `()`, and it has no items.
     """)
     return
 
@@ -99,7 +99,25 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `len()` returns how many items it holds.
+    ### Unpacking
+
+    Unpacking assigns each item to its own name. The number of names must match the number of items. This is the usual way to take a pair apart. A later lesson returns two values from a function the same way: the caller unpacks the tuple.
+    """)
+    return
+
+
+@app.cell
+def _():
+    point = (3, 4)
+    point_x, point_y = point
+    print(point_x, point_y)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `len()` returns how many items the tuple holds.
     """)
     return
 
@@ -113,7 +131,7 @@ def _(record):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An index reads one item, using the same positions as a list. The first item is `0`, and it is an integer.
+    An index reads one item, using the same positions as a list. The item at index 0 is the integer `0`.
     """)
     return
 
@@ -157,13 +175,14 @@ def _(mo):
     mo.md(r"""
     ## Tuples are immutable
 
-    You cannot replace an item. Run the next cell to see the error.
+    You cannot replace an item. The next cell raises `TypeError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises TypeError on purpose.
     assign_target = (0, "one", "two", 3, 4, 5.5)
     assign_target[2] = 2
     return
@@ -172,13 +191,14 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A tuple has no `append()` method. Run the next cell to see that error.
+    A tuple has no `append()` method. The next cell raises `AttributeError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises AttributeError on purpose.
     append_target = (0, "one", "two", 3, 4, 5.5)
     append_target.append(6)
     return
@@ -413,13 +433,14 @@ def _(combined):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `index()` raises an error when the value is absent. Run the next cell to see that error.
+    `index()` raises an error when the value is absent. The next cell raises `ValueError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises ValueError on purpose.
     index_target = (4, 0, "one", "two", 3, 4, 5.5, 6)
     index_target.index("five")
     return
@@ -518,7 +539,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `practice` and the index, then run the cell.
+    Change `practice` and the index and watch the output update.
     """)
     return
 
@@ -567,7 +588,8 @@ def _(mo):
 
     **Key takeaways:**
 
-    - A tuple is an ordered, immutable sequence written with parentheses.
+    - A tuple is an ordered, immutable sequence. Commas create it, and parentheses usually surround it.
+    - Unpacking assigns each item to its own name: `x, y = point`.
     - A one-item tuple needs a trailing comma. `(4)` is an integer, not a tuple.
     - Indexes and slices follow the same rules as lists. You cannot assign to an index or call `append()`.
     - To add an item, convert to a list, change the list, and convert back with `tuple()`.
@@ -611,6 +633,7 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Tuples and sequences](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

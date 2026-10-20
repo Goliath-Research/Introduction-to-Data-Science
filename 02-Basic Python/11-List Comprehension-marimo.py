@@ -21,6 +21,7 @@ def _(mo):
     - Build a list with `[expression for item in sequence]`.
     - Keep some items with `if`, and choose between two expressions with `if` and `else`.
     - Read a nested comprehension as an outer list built from an inner list.
+    - Build a dictionary or a set with a comprehension, and pair sequences with `zip`.
 
     ## Background
 
@@ -70,7 +71,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The expression before `for` is evaluated once for each item. `number ** 2` squares each number.
+    The expression before `for` is evaluated for each item that passes the `if` (if any). `number ** 2` squares each number.
     """)
     return
 
@@ -78,6 +79,20 @@ def _(mo):
 @app.cell
 def _():
     print([number ** 2 for number in [1, -5, 10, 11, -15, -20]])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `str()` turns each number into text. The Lists lesson wrote those strings by hand and pointed ahead to this form.
+    """)
+    return
+
+
+@app.cell
+def _():
+    print([str(number) for number in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]])
     return
 
 
@@ -185,7 +200,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The expression itself can be a function call. The parentheses after the `lambda` call it on the current number. Even numbers are squared. Odd numbers are cubed. The `if` at the end drops the negative numbers before that function runs.
+    Even numbers are squared. Odd numbers are cubed. The `if` at the end drops the negative numbers first. The choice uses the same `if` / `else` expression as the next section.
     """)
     return
 
@@ -194,7 +209,7 @@ def _(mo):
 def _():
     print(
         [
-            (lambda x: x ** 2 if x % 2 == 0 else x ** 3)(number)
+            number ** 2 if number % 2 == 0 else number ** 3
             for number in [1, -5, 10, 11, -20]
             if number > 0
         ]
@@ -382,7 +397,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A matrix written as a list of rows can be transposed: each new row is one column of the original. The inner comprehension walks the rows and takes item `column`. The outer comprehension does that once for each column. This version assumes a square matrix, so the number of columns equals the number of rows.
+    A matrix written as a list of rows can be transposed: each new row is one column of the original. The inner comprehension walks the rows and takes item `column`. The outer comprehension does that once for each column. `len(matrix[0])` is the number of columns, so this also works when the matrix is not square.
     """)
     return
 
@@ -394,8 +409,34 @@ def _():
         [4, 5, 6],
         [7, 8, 9],
     ]
-    transpose = [[row[column] for row in matrix] for column in range(len(matrix))]
+    transpose = [[row[column] for row in matrix] for column in range(len(matrix[0]))]
     print(transpose)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Dictionaries, sets, and `zip`
+
+    A dict comprehension builds a dictionary: `{key: value for item in sequence}`. A set comprehension builds a set and keeps each value once: `{expression for item in sequence}`.
+
+    `zip` pairs items from two sequences. The pairs stop when the shorter sequence ends.
+    """)
+    return
+
+
+@app.cell
+def _():
+    record_names = ["Ana", "Bo", "Chen"]
+    record_scores = [88, 91, 75]
+    print(
+        {
+            record_name: record_score
+            for record_name, record_score in zip(record_names, record_scores)
+        }
+    )
+    print({record_name for record_name in record_names if len(record_name) > 2})
     return
 
 
@@ -404,7 +445,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `practice` and predict the new list before you run the cell.
+    Change `practice` and predict the new list. The output updates when you edit the value.
     """)
     return
 
@@ -454,7 +495,7 @@ def _(mo):
     - `[expression for item in sequence]` builds the list that a `for` loop would build with `append`.
     - `if` at the end keeps only the items that pass the test.
     - `if` and `else` before `for` choose the value that goes into the list.
-    - A second `for`, or a comprehension inside the expression, handles nested sequences.
+    - A second `for`, or a comprehension inside the expression, handles nested sequences. Dict and set comprehensions use braces. `zip` pairs items from two sequences.
     - A comprehension that is hard to read should be written as a loop.
     """)
     return
@@ -495,6 +536,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: List comprehensions](https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions)
+    - [Nested list comprehensions](https://docs.python.org/3/tutorial/datastructures.html#nested-list-comprehensions)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

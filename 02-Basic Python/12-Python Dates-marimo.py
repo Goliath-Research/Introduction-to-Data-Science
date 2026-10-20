@@ -22,15 +22,15 @@ def _(mo):
     - Create `datetime`, `date`, and `time` objects.
     - Read the year, month, day, hour, minute, second, and microsecond.
     - Format a datetime as text with `strftime()`.
-    - Subtract two dates to get the number of days between them.
+    - Subtract two dates to get a `timedelta`, and read a date from text.
 
     ## Background
 
-    A date or a time is not one of Python's built-in types such as `int` or `str`. The `datetime` module provides objects for a calendar date, a time of day, and a date with a time. Those objects can be formatted as text and combined with arithmetic.
+    A date or a time is not one of Python's built-in types such as `int` or `str`. It comes from the standard-library module `datetime`. That module provides objects for a calendar date, a time of day, and a date with a time. Those objects can be formatted as text and combined with arithmetic.
 
     ## Datasets Used
 
-    This notebook does not use external datasets. `datetime.now()` and `date.today()` read the computer's clock.
+    This notebook does not use external datasets. `datetime.now()` and `date.today()` read the clock. In the browser version of this lesson, that clock is the browser's clock.
     """)
     return
 
@@ -40,7 +40,7 @@ def _(mo):
     mo.md(r"""
     ## The current date and time
 
-    `datetime.now()` returns the current date and time. The object holds the year, month, day, hour, minute, second, and microsecond.
+    `datetime.now()` returns the current local date and time. The result is naive: it has no time zone. The object holds the year, month, day, hour, minute, second, and microsecond.
     """)
     return
 
@@ -178,6 +178,7 @@ def _(mo):
     | `%B` | Month name |
     | `%b` | Month name, short |
     | `%m` | Month number, 01-12 |
+    | `%d` | Day of the month, 01-31 |
     | `%A` | Weekday name |
     | `%a` | Weekday name, short |
     | `%w` | Weekday number, 0 for Sunday |
@@ -188,6 +189,8 @@ def _(mo):
     | `%M` | Minute, 00-59 |
     | `%S` | Second, 00-59 |
     | `%f` | Microsecond, 000000-999999 |
+
+    `%B`, `%A`, and `%p` depend on the language settings of the computer. In these lessons they appear in English.
 
     `%Y` is the year in four digits.
     """)
@@ -253,6 +256,20 @@ def _(mo):
 @app.cell
 def _(current):
     print(current.strftime("%m"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `%d` is the day of the month, from `01` to `31`.
+    """)
+    return
+
+
+@app.cell
+def _(current):
+    print(current.strftime("%d"))
     return
 
 
@@ -443,7 +460,7 @@ def _(dt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Subtracting two `date` objects returns the time between them. This is the starting date.
+    Subtracting two `date` objects returns a `timedelta`, the span between them. This is the starting date.
     """)
     return
 
@@ -458,7 +475,7 @@ def _(dt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `date.today()` reads the computer's clock.
+    `date.today()` reads the clock. Like `datetime.now()`, the result is naive: it has no time zone.
     """)
     return
 
@@ -473,14 +490,48 @@ def _(dt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `.days` is the interval as a number of days.
+    The difference itself is a `timedelta`. `.days` reads that span as a number of days.
     """)
     return
 
 
 @app.cell
 def _(day1, today):
+    print(today - day1)
     print((today - day1).days)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Adding a `timedelta` moves a date. `timedelta(days=7)` is one week after `day1`.
+    """)
+    return
+
+
+@app.cell
+def _(day1, dt):
+    print(day1 + dt.timedelta(days=7))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Reading a date from text
+
+    Data files store dates as text. `date.fromisoformat()` reads `YYYY-MM-DD`. `datetime.strptime()` reads text that follows a format you give. The codes are the same ones `strftime` uses. A numeric format does not depend on the computer's language. `%B` would need the month name in that language.
+    """)
+    return
+
+
+@app.cell
+def _(dt):
+    parsed_iso = dt.date.fromisoformat("2022-01-10")
+    print(parsed_iso, "->", type(parsed_iso))
+    parsed_text = dt.datetime.strptime("10/01/2022", "%d/%m/%Y")
+    print(parsed_text)
     return
 
 
@@ -489,7 +540,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `birthday` to a date you choose, then run the cell.
+    Change `birthday` to a date you choose and watch the output update.
     """)
     return
 
@@ -540,7 +591,8 @@ def _(mo):
     - Import `datetime` to work with dates and times. `datetime.now()` and `date.today()` read the current clock.
     - A datetime object stores the year, month, day, hour, minute, second, and microsecond as separate attributes.
     - `strftime()` formats those parts as text. Each `%` code selects one part.
-    - `datetime()`, `date()`, and `time()` build objects from numbers you choose. Subtracting two dates gives the days between them.
+    - `datetime()`, `date()`, and `time()` build objects from numbers you choose. Subtracting two dates returns a `timedelta`. Adding a `timedelta` moves a date.
+    - `date.fromisoformat()` and `datetime.strptime()` read a date from text. `%d` is the day of the month.
     """)
     return
 
@@ -570,7 +622,7 @@ def _(mo):
 4. **The year in four digits:** `%y` uses two digits.
 5. **The full month name:** `%b` is the short name, and `%m` is the number.
 6. **Midnight:** The hour, minute, and second default to `0`.
-7. **The days between them:** `.days` is that interval as an integer.
+7. **A `timedelta`:** `.days` is that span as an integer.
 """)}, lazy=True)
     return
 
@@ -580,6 +632,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [`datetime` — basic date and time types](https://docs.python.org/3/library/datetime.html)
+    - [The Python Tutorial](https://docs.python.org/3/tutorial/)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

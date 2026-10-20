@@ -87,13 +87,14 @@ def _(hello):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Passing too many arguments raises an error. `hello` has one parameter. Run the next cell to see that error.
+    Passing too many arguments raises an error. `hello` has one parameter. The next cell raises `TypeError` on purpose.
     """)
     return
 
 
 @app.cell
 def _(hello):
+    # This cell raises TypeError on purpose.
     hello("Mary", "John")
     return
 
@@ -134,7 +135,7 @@ def _(youngest_of):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The order matters. Passing `"Anna"` first makes Anna the youngest in this call.
+    The order matters. Passing `"Anna"` first makes Anna the youngest in this call. That is a fragile way to use `*args`. A typical function adds every number the caller passes, so the order does not change the result.
     """)
     return
 
@@ -142,6 +143,15 @@ def _(mo):
 @app.cell
 def _(youngest_of):
     youngest_of("Anna", "John", "Mary", "Raul")
+    return
+
+
+@app.cell
+def _():
+    def add_all(*numbers):
+        return sum(numbers)
+
+    print(add_all(1, 2, 3, 4))
     return
 
 
@@ -179,15 +189,15 @@ def _(youngest_by_name):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `**kid` collects keyword arguments into a dictionary. `**kwargs` is the usual name for that pattern. The function reads the key `"child1"`.
+    `**named_kids` collects keyword arguments into a dictionary. `**kwargs` is the usual name for that pattern. The function reads the key `"child1"`.
     """)
     return
 
 
 @app.cell
 def _():
-    def youngest_from_keywords(**kid):
-        print("The youngest child is", kid["child1"])
+    def youngest_from_keywords(**named_kids):
+        print("The youngest child is", named_kids["child1"])
 
     youngest_from_keywords(child1="Mary", child3="Anna")
     return (youngest_from_keywords,)
@@ -252,7 +262,7 @@ def _():
         for item in food:
             print(item)
 
-    meals = ["rice", "beans", "eggs", "patata"]
+    meals = ["rice", "beans", "eggs", "potato"]
     my_food(meals)
     return (my_food,)
 
@@ -323,9 +333,110 @@ def _(swap):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    The caller can unpack that tuple into names. The number of names must match the number of returned values.
+    """)
+    return
+
+
+@app.cell
+def _(swap):
+    swapped_left, swapped_right = swap(1, 2)
+    print(swapped_left, swapped_right)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A function with no `return` returns `None`. `print` displays a value. It does not send that value back to the caller. The next cell prints `10`, then prints the returned value, which is `None`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    def announced(number):
+        print(number * 2)
+
+    printed_result = announced(5)
+    print("returned:", printed_result)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A string on the first line of the body is a docstring. It documents the function. `help()` and `.__doc__` can read it.
+    """)
+    return
+
+
+@app.cell
+def _():
+    def square(number):
+        """Return the square of number."""
+        return number * number
+
+    print(square(4))
+    print(square.__doc__)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A name assigned inside a function is local. The assignment does not change a variable of the same name outside the function.
+    """)
+    return
+
+
+@app.cell
+def _():
+    course_name = "Python"
+
+    def rename_course():
+        course_name = "Data"
+        return course_name
+
+    print(rename_course())
+    print(course_name)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A default value is created once, when the function is defined. A list used as a default is shared by later calls, so the second call still sees the first item. Use `None` as the default and create a new list inside the function.
+    """)
+    return
+
+
+@app.cell
+def _():
+    def append_item(item, items=[]):
+        items.append(item)
+        return items
+
+    print(append_item("a"))
+    print(append_item("b"))
+
+    def append_fresh(item, items=None):
+        if items is None:
+            items = []
+        items.append(item)
+        return items
+
+    print(append_fresh("a"))
+    print(append_fresh("b"))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Recursion
 
-    A function may call itself. This factorial function multiplies `n` by `factorial(n - 1)`. The calls stop when `n` is not greater than `1`: that call returns `1` and does not call the function again. That stopping case is required. Without it, the function would call itself forever.
+    A function may call itself. This factorial function multiplies `n` by `factorial(n - 1)`. The calls stop when `n` is not greater than `1`: that call returns `1` and does not call the function again. That stopping case is required. Without it, the function would call itself forever. Python also stops a chain of calls around 1000 deep, so `factorial(5000)` would raise `RecursionError`.
 
     `3!` is `3 * 2 * 1 = 6`.
     """)
@@ -378,7 +489,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_name`, then run the cell.
+    Change `your_name` and watch the greeting update.
     """)
     return
 
@@ -434,7 +545,8 @@ def _(mo):
     - `def` creates a function. The body runs only when you call the function.
     - A call needs one argument per parameter, unless the parameter has a default.
     - `*args` collects extra positional arguments into a tuple. `**kwargs` collects keyword arguments into a dictionary.
-    - `return` sends a value back. Several returned values arrive as a tuple.
+    - `return` sends a value back. A function with no `return` returns `None`. `print` shows a value and does not send it back. Several returned values arrive as a tuple, which the caller can unpack.
+    - Names assigned inside a function are local. A mutable default argument is shared by later calls, so use `None` and create the list inside the function.
     - A recursive function must have a case that stops the calls.
     """)
     return
@@ -475,6 +587,7 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Defining functions](https://docs.python.org/3/tutorial/controlflow.html#defining-functions)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

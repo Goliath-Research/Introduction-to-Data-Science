@@ -21,11 +21,13 @@ def _(mo):
     - Write a one-expression function with `lambda`.
     - Compare a `lambda` with a function written with `def`.
     - Return a `lambda` from another function.
-    - Use a `lambda` with a condition, with recursion, and with `filter()`.
+    - Use a `lambda` with a condition, and pass one to `sorted`, `map`, `max`, and `filter()`.
 
     ## Background
 
     A `lambda` is a small function without a name of its own. It can take any number of arguments, and its body is a single expression. The value of that expression is what the function returns. Use it for a short calculation. When the same logic is long, or you need it in several places, write a `def` function instead.
+
+    The examples below give some lambdas a name so the next line can call them. That is only for the demonstration. In real code, use `def` when you need a name, and write the lambda inline, for example as the `key` of `sorted`.
 
     ## Datasets Used
 
@@ -179,7 +181,7 @@ def _(mo):
     mo.md(r"""
     ## A condition inside a lambda
 
-    The expression may use `value_if_true if condition else value_if_false`. This function returns the text `"Even"` or `"Odd"`. `2` is even.
+    The expression may use `value_if_true if condition else value_if_false`. Conditional Statements introduced that form. This function returns the text `"Even"` or `"Odd"`. `2` is even.
     """)
     return
 
@@ -210,7 +212,7 @@ def _(mo):
     mo.md(r"""
     ## A recursive lambda
 
-    A `lambda` can call the name it was assigned to. This one computes a factorial. The expression stops calling itself when `n` is not greater than `1`, and then the value is `1`.
+    This is a curiosity, not a pattern to copy. A lambda can call the name it was assigned to, because Python looks up that name when the lambda runs, not when it is created. Write a factorial with `def`. The expression stops calling itself when `n` is not greater than `1`, and then the value is `1`.
 
     `factorial(3)` is `3 * 2 * 1 = 6`.
     """)
@@ -241,9 +243,60 @@ def _(factorial):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Lambdas with `sorted`, `map`, and `max`
+
+    The usual place for a lambda is an argument, not a name of its own.
+
+    `sorted(..., key=...)` orders the items by the value the lambda returns. This list of records is ordered by age.
+    """)
+    return
+
+
+@app.cell
+def _():
+    people = [
+        {"name": "Ana", "age": 30},
+        {"name": "Bo", "age": 21},
+        {"name": "Chen", "age": 40},
+    ]
+    print(sorted(people, key=lambda person: person["age"]))
+    return (people,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `map(function, items)` builds a new value for each item. `list()` turns the result into a list. A comprehension is often easier to read. `map` is worth knowing because older code uses it. pandas, in a later course, uses the same idea when you pass a lambda to `.apply()`.
+    """)
+    return
+
+
+@app.cell
+def _(people):
+    print(list(map(lambda person: person["name"], people)))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `max(..., key=...)` uses the lambda to decide which item is largest.
+    """)
+    return
+
+
+@app.cell
+def _(people):
+    print(max(people, key=lambda person: person["age"]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## filter
 
-    `filter(function, items)` keeps the items for which `function` returns `True`. `list()` turns that result into a list. This lambda keeps the positive numbers.
+    `filter(function, items)` keeps the items for which `function` returns `True`. `list()` turns that result into a list. A comprehension is usually easier to read than `filter`. This lambda keeps the positive numbers.
     """)
     return
 
@@ -275,7 +328,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `amount` and predict the result before you run the cell.
+    Change `amount` and predict the result. The output updates when you edit the value.
     """)
     return
 
@@ -326,7 +379,7 @@ def _(mo):
     - `lambda arguments: expression` is a function whose body is one expression.
     - It can replace a short `def` function. A longer task is easier to read as `def`.
     - A function can return a `lambda` that remembers a value from the outer function.
-    - A `lambda` can include `if` and `else`, can call itself, and can be passed to `filter()`.
+    - A `lambda` can include `if` and `else`. The usual place for one is an argument to `sorted`, `map`, `max`, or `filter`. A recursive lambda is only a curiosity.
     """)
     return
 
@@ -341,7 +394,7 @@ def _(mo):
     3. Where is the returned value written?
     4. What does a function such as `mult_by(2)` return?
     5. How does a `lambda` choose between two values?
-    6. What stops a recursive factorial lambda?
+    6. Where should a lambda that needs a name be written instead?
     7. What does `filter` keep?
     """)
     return
@@ -355,7 +408,7 @@ def _(mo):
 3. **After the colon:** That expression is the value the lambda returns.
 4. **Another function:** The returned lambda remembers `2` and multiplies by it.
 5. **`value if condition else other`:** Both results are part of the one expression.
-6. **The case `n` is not greater than 1:** That case returns `1` and does not call the lambda again.
+6. **As a `def` function:** Name a lambda only to demonstrate it. A recursive lambda is a curiosity.
 7. **Items for which the function returns true:** `list()` turns the kept items into a list.
 """)}, lazy=True)
     return
@@ -366,6 +419,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Lambda expressions](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)
+    - [`sorted`](https://docs.python.org/3/library/functions.html#sorted)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

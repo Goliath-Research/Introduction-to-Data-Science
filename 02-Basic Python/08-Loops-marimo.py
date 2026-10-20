@@ -19,13 +19,13 @@ def _(mo):
     ## Objectives
 
     - Repeat a block with `while` while a condition stays `True`.
-    - Repeat a block with `for` once for each item in a sequence.
+    - Repeat a block with `for` once for each item in a collection.
     - Stop a loop with `break`, skip one pass with `continue`, and write an empty body with `pass`.
     - Use `range()` and `enumerate()`, and loop over the keys and values of a dictionary.
 
     ## Background
 
-    A loop runs the same indented block more than once. A `while` loop checks a condition before each pass. A `for` loop takes the next item from a sequence on each pass. Sequences you already know, such as lists, tuples, strings, and dictionaries, can be used in a `for` loop.
+    A loop runs the same indented block more than once. A `while` loop checks a condition before each pass. A `for` loop takes the next item from a collection on each pass. Collections you already know, such as lists, tuples, strings, dictionaries, and sets, can be used in a `for` loop. Lists, tuples, and strings are sequences. Dictionaries and sets are iterables, but they are not sequences: they have no numeric index.
 
     ## Datasets Used
 
@@ -57,7 +57,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A `while` loop can also walk a list until it finds a value. The walrus operator `:=` assigns and tests in the same expression. `found := (search_seq[search_i] == 3)` stores whether the current item is `3`, and that stored result is what `if not` tests.
+    A `while` loop can walk a list until it finds a value. `found` starts as `False`. The loop continues while the value has not been found and `search_i` is still inside `search_seq`.
     """)
     return
 
@@ -67,8 +67,10 @@ def _():
     search_i = 0
     search_seq = [1, 2, 3, 4, 5]
     found = False
-    while not found and (search_i < len(search_seq)):
-        if not (found := (search_seq[search_i] == 3)):
+    while not found and search_i < len(search_seq):
+        if search_seq[search_i] == 3:
+            found = True
+        else:
             search_i += 1
     if found:
         print(f"Found at index {search_i} with value: {search_seq[search_i]}")
@@ -80,7 +82,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `break` leaves the loop immediately, even when the `while` condition is still `True`. Here `not_done` stays `True` when `break` runs, because the walrus assignment happened before the body. After the loop, that tells us the value was found. If the loop ends because `i < len(seq)` becomes `False`, `not_done` is `False` and the value was not found.
+    `break` leaves the loop immediately, even when the `while` condition is still `True`. After `break`, `break_i` is still an index inside `break_seq`, which tells us the value was found. If the loop ends because `break_i < len(break_seq)` is `False`, the value was not found.
     """)
     return
 
@@ -89,11 +91,11 @@ def _(mo):
 def _():
     break_i = 0
     break_seq = [1, 2, 3, 4, 5]
-    while not_done := break_i < len(break_seq):
+    while break_i < len(break_seq):
         if break_seq[break_i] == 3:
             break
         break_i += 1
-    if not_done:
+    if break_i < len(break_seq):
         print(f"Found at index {break_i} with value: {break_seq[break_i]}")
     else:
         print("Not found!")
@@ -103,7 +105,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `continue` skips the rest of the current pass and starts the next one. `isinstance(current, int)` is `True` when `current` is an integer. Text items are skipped, and the smallest integer is kept.
+    `continue` skips the rest of the current pass and starts the next one. `isinstance(current, int)` is a built-in function. It is `True` when `current` is an integer. Text items are skipped, and the smallest integer is kept.
     """)
     return
 
@@ -398,7 +400,45 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Python keeps the last value of the loop name after the loop ends.
+    `else` on a `for` loop does not run when the loop exits with `break`. This loop looks for `"Mary"`. She is not in the list, so `break` never runs and the `else` block prints the message. That is the case where loop-`else` is useful: the search did not stop early.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for search_name in ["John", "Rose", "Anna"]:
+        if search_name == "Mary":
+            print("Found Mary")
+            break
+    else:
+        print("Mary was not found")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The same loop with `"Mary"` in the list hits `break`, so the `else` block is skipped.
+    """)
+    return
+
+
+@app.cell
+def _():
+    for stopped_name in ["John", "Rose", "Mary", "Anna"]:
+        if stopped_name == "Mary":
+            print("Found", stopped_name)
+            break
+    else:
+        print("Mary was not found")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Python keeps the last value of the loop name after the loop ends. The next cell prints that value after the loop. If the loop never runs, the name is never assigned, and reading it raises `NameError`.
     """)
     return
 
@@ -407,8 +447,7 @@ def _(mo):
 def _():
     for kept in range(5):
         print(kept)
-    else:
-        print("else:", kept)
+    print("after the loop:", kept)
     return
 
 
@@ -440,7 +479,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The second cell prints every pair from two dice. The inner loop runs six times for each value of the outer loop.
+    The next cell prints every pair from two dice. The inner loop runs six times for each of the six values of the outer loop, so the cell prints 36 lines.
     """)
     return
 
@@ -535,9 +574,24 @@ def _(codes):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    `items()` produces each key together with its value. This is the usual way to loop over both.
+    """)
+    return
+
+
+@app.cell
+def _(codes):
+    for item_key, item_value in codes.items():
+        print(item_key, item_value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
-    Change `limit` and predict the printed numbers before you run the cell.
+    Change `limit` and predict the printed numbers. The output updates when you edit the value.
     """)
     return
 
@@ -593,7 +647,8 @@ def _(mo):
     - `for` repeats once for each item. `range()` produces a sequence of integers, and `enumerate()` produces each index with its item.
     - `break` leaves the loop. `continue` skips the rest of the current pass. `pass` is an empty body.
     - `else` on a loop runs when the loop ends without `break`.
-    - Looping over a dictionary visits the keys. A loop may contain another loop.
+    - Looping over a dictionary visits the keys. `items()` visits each key together with its value. A loop may contain another loop.
+    - `else` on a `for` loop does not run when the loop exits with `break`.
     """)
     return
 
@@ -623,7 +678,7 @@ def _(mo):
 4. **It skips the rest of the current pass:** The loop then starts the next pass.
 5. **`2`, `3`, `4`, and `5`:** The start is included and the stop is excluded.
 6. **When the loop ends without `break`:** It also runs if the body never runs.
-7. **The keys:** Use the key, or `values()`, to reach the values.
+7. **The keys:** Use the key, `values()`, or `items()` to reach the values.
 """)}, lazy=True)
     return
 
@@ -633,6 +688,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: `for` statements](https://docs.python.org/3/tutorial/controlflow.html#for-statements)
+    - [`while` statements](https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

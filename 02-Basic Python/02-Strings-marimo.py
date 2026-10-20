@@ -21,7 +21,7 @@ def _(mo):
     - Create string literals with single quotes, double quotes, and triple quotes.
     - Read individual characters and slices, including negative indexes.
     - Use common string methods without changing the original string.
-    - Combine strings with concatenation and `format()`.
+    - Combine strings with concatenation, `format()`, and f-strings.
 
     ## Background
 
@@ -148,7 +148,9 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Parentheses next to each other join string pieces into one line. Python concatenates them when the program loads.
+    ### Adjacent string literals
+
+    String literals written next to each other are joined into one string when Python loads the program. The parentheses do not join anything. They only let you split the code across lines. The result is one line of text, not a multiline string.
     """)
     return
 
@@ -228,7 +230,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_word`, then run the cell. Print the first character and the length.
+    Change `your_word` and watch the output update. The cell prints the first character and the length.
     """)
     return
 
@@ -304,6 +306,22 @@ def _(slice_text):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    `len()` counts the characters in a slice, the same way it counts a whole string. `in` asks whether a smaller string appears inside a larger one. The test is case-sensitive.
+    """)
+    return
+
+
+@app.cell
+def _(slice_text):
+    print(len(slice_text[0:5]))
+    print("World" in slice_text)
+    print("world" in slice_text)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Negative indexes
 
     A negative index counts from the end of the string.
@@ -358,7 +376,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change the slice bounds and predict the printed text before you run the cell.
+    Change the slice bounds and predict the printed text. The output updates when you leave the cell.
     """)
     return
 
@@ -395,7 +413,7 @@ def _(mo):
 ```python
 student_world = "Hello World!"[6:11]
 ```
-No. The stop index is excluded. Index 11 is `!`, so the slice stops before it. `"Hello World!"[6:]` also works, and it includes the `!`.
+No. The stop index is excluded. Index 11 is `!`, so the slice stops before it. `[6:]` would give `World!`, which is one character too many. `[-6:-1]` is another slice that equals `"World"`.
 ''')}, lazy=True)
     return
 
@@ -405,7 +423,7 @@ def _(mo):
     mo.md(r"""
     ## String methods
 
-    String methods return a new string. They do not change the original value.
+    Methods such as `strip`, `lower`, and `replace` return a new string. Strings are immutable, so no method changes the original. `find`, `rfind`, and `count` return integers. `split` returns a list.
 
     `strip()` removes the whitespace from the beginning and the end.
     """)
@@ -487,6 +505,22 @@ def _(mo):
 @app.cell
 def _(spaced_text):
     print(repr(spaced_text))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    You also cannot replace one character by assigning to an index. The next cell raises `TypeError` on purpose. Build a new string with `replace`, or with concatenation, instead.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # This cell raises TypeError on purpose.
+    immutable_greeting = "Hello"
+    immutable_greeting[0] = "h"
     return
 
 
@@ -642,7 +676,35 @@ def _(age_years, family_name, given_name):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `split()` returns a list of the pieces separated by the delimiter. The comma is not kept.
+    An f-string does the same job, and it is the form to prefer today. Write an `f` before the opening quote, and put a name or an expression inside `{}`.
+    """)
+    return
+
+
+@app.cell
+def _(age_years, family_name, given_name):
+    print(f"My name is {given_name} {family_name}, I am {age_years}")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `join()` goes the other way from `split()`. The string before the dot is placed between the items of a list.
+    """)
+    return
+
+
+@app.cell
+def _():
+    print(" ".join(["Hello", "World!"]))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `split(",")` returns a list of the pieces separated by the comma. The comma is not kept. The space after the comma stays on the second piece, so that piece is `' World!'`. `split(", ")` would drop that space as well.
     """)
     return
 
@@ -659,7 +721,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Edit the name and age, then run the cell.
+    Edit the name and age and watch the sentence update.
     """)
     return
 
@@ -713,8 +775,8 @@ def _(mo):
     - Strings can be written with single, double, or triple quotes. Escape a matching quote with `\`.
     - Indexes start at 0. Negative indexes start at the end.
     - A slice includes the start index and excludes the stop index.
-    - String methods return a new string and leave the original unchanged.
-    - `+` concatenates strings. `format()` fills placeholders. `split()` breaks a string into a list.
+    - Methods such as `strip` and `replace` return a new string. `find` and `count` return integers. No method changes the original string.
+    - `+` concatenates strings. An f-string is the usual way to fill in values. `format()` does the same job. `split()` breaks a string into a list, and `join()` builds one string from a list.
     """)
     return
 
@@ -754,6 +816,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Strings](https://docs.python.org/3/tutorial/introduction.html#strings)
+    - [Text sequence type](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

@@ -22,6 +22,7 @@ def _(mo):
     - Combine comparisons with `and`, `or`, and `not`.
     - Choose which lines run with `if`, `elif`, and `else`.
     - Match one value against several cases with `match`.
+    - Use truthiness, chained comparisons, `in`, and a conditional expression.
 
     ## Background
 
@@ -304,9 +305,9 @@ def _():
     equal_left = 3
     equal_right = 3
     if equal_right > equal_left:
-        print("b is greater than a")
+        print("equal_right is greater than equal_left")
     elif equal_left == equal_right:
-        print("a and b are equal")
+        print("equal_left and equal_right are equal")
     return
 
 
@@ -323,11 +324,11 @@ def _():
     greater = 6
     lesser = 4
     if lesser > greater:
-        print("b is greater than a")
+        print("lesser is the larger value")
     elif greater == lesser:
-        print("a and b are equal")
+        print("greater and lesser are equal")
     else:
-        print("a is greater than b")
+        print("greater is the larger value")
     return
 
 
@@ -382,33 +383,36 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `input()` pauses and reads a line that you type. It always returns text.
+    These notebooks run in the browser. `input()` is for an ordinary Python script: it waits for a line typed at a prompt, and that prompt is not available here. A text box and a number box do the same job. The next cell shows the boxes. The cell after that reads `.value`.
+
+    A number box already gives a number, or `None` when it is empty. The code checks for `None` before it converts the value with `int()` and compares it with `18`.
     """)
     return
 
 
 @app.cell
-def _():
-    username = input("Enter username:")
-    print("Your name is", username)
-    return
-
-
-@app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""
-    `int()` converts that text to an integer so it can be compared with `18`.
-    """)
-    return
+    username_input = mo.ui.text(value="Ana", label="Enter username")
+    age_input = mo.ui.number(start=0, stop=120, step=1, value=21, label="Age")
+    mo.vstack([username_input, age_input])
+    return age_input, username_input
 
 
 @app.cell
-def _():
-    age_text = input("Enter your age:")
-    if int(age_text) < 18:
-        print("You are a child!")
+def _(age_input, username_input):
+    username = username_input.value
+    print("Your name is", username)
+    age_value = age_input.value
+    if age_value is None:
+        print("Enter a whole number for age.")
     else:
-        print("You are an adult!")
+        age_number = int(age_value)
+        if age_number != age_value:
+            print("Enter a whole number for age.")
+        elif age_number < 18:
+            print("You are a minor!")
+        else:
+            print("You are an adult!")
     return
 
 
@@ -467,8 +471,83 @@ def _():
     if limit > checked:
         pass
     else:
-        print("b <= a")
+        print("limit <= checked")
     print("The cell finished. pass did not print anything.")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Truthiness
+
+    `if` accepts more than comparisons. An empty list, the number `0`, an empty string, and `None` are treated as false. A non-empty list and a non-zero number are treated as true.
+    """)
+    return
+
+
+@app.cell
+def _():
+    if [1, 2]:
+        print("A non-empty list is true")
+    if not []:
+        print("An empty list is false")
+    if not 0:
+        print("Zero is false")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Chained comparisons
+
+    `1 < chained < 10` means `chained` is greater than 1 and less than 10. Python checks both parts.
+    """)
+    return
+
+
+@app.cell
+def _():
+    chained = 5
+    print(1 < chained < 10)
+    print(1 < chained < 3)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## A conditional expression
+
+    `value_if_true if condition else value_if_false` is an expression. It picks one value. Later lessons use this form inside lambdas and list comprehensions.
+    """)
+    return
+
+
+@app.cell
+def _():
+    temperature = 30
+    label = "hot" if temperature > 25 else "mild"
+    print(label)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## `in` as a condition
+
+    `in` can be the test in an `if`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    colors = ["red", "blue"]
+    if "red" in colors:
+        print("red is in the list")
     return
 
 
@@ -508,7 +587,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `case 401 | 403 | 404` matches any one of those three values. `404` now prints `Not allowed`.
+    `case 401 | 403 | 404` matches any one of those three values. `404` now prints `Not allowed`. A bare name such as `other` is a capture pattern: it matches whatever is left and stores that value. `case _` matches anything and stores nothing.
     """)
     return
 
@@ -522,8 +601,8 @@ def _(http_error_code):
             print("Bad Request")
         case 401 | 403 | 404:
             print("Not allowed")
-        case _ as error_code:
-            print(f"Unknown error {error_code}")
+        case other:
+            print(f"Unknown error {other}")
     return
 
 
@@ -557,7 +636,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `score` and predict which message prints before you run the cell.
+    Change `score` and predict which message prints. The output updates when you edit the value.
     """)
     return
 
@@ -617,7 +696,8 @@ def _(mo):
     - A comparison or a logical expression is `True` or `False`.
     - `and` needs both sides to be true. `or` needs one side. `not` reverses the value.
     - Indented lines under `if` run only when that condition is `True`. `elif` tries the next condition. `else` runs when none of the conditions were `True`.
-    - `input()` returns text. Convert it with `int()` before a numeric comparison.
+    - In the browser, a text box or a number box stands in for `input()`. Check for an empty number before you convert it with `int()`.
+    - An empty list, the number `0`, an empty string, and `None` count as false. `1 < x < 10` checks both comparisons. `value if condition else other` picks one value.
     - `pass` fills a branch that should do nothing. `match` selects a `case` from one value, including several values written with `|` and values unpacked from a tuple.
     """)
     return
@@ -633,7 +713,7 @@ def _(mo):
     3. When is `or` false?
     4. Which lines belong to an `if`?
     5. When does `else` run?
-    6. What does `input()` return?
+    6. What does an empty list do in an `if` test?
     7. What does `_` match in a `match` statement?
     """)
     return
@@ -647,7 +727,7 @@ def _(mo):
 3. **When both sides are false:** One true side is enough to make `or` true.
 4. **The indented lines:** A line that is not indented is not part of the branch.
 5. **When no earlier condition was true:** It must be the last branch.
-6. **Text:** Use `int()` before comparing the answer with a number.
+6. **It is treated as false:** A non-empty list is treated as true. The number `0`, an empty string, and `None` are also false.
 7. **Anything left over:** It is the case that runs when the earlier cases did not match.
 """)}, lazy=True)
     return
@@ -658,6 +738,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: `if` statements](https://docs.python.org/3/tutorial/controlflow.html#if-statements)
+    - [`match` statements](https://docs.python.org/3/tutorial/controlflow.html#match-statements)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

@@ -84,7 +84,7 @@ def _(mo):
     - **On your computer.** A Python script or a notebook running on your machine can download the file directly.
     - **Inside a web browser.** This notebook can run inside a web page. The browser only lets a page download files from websites that allow it. This security rule is called **CORS**. The UCI and Data.World websites do not allow it, so the browser blocks the download.
 
-    For that reason, this lesson reads copies of the datasets stored in the course repository on GitHub, in the `public` folder next to this notebook. GitHub allows browser pages to read its files, so those copies work in both places. The original code that reads from the UCI and Data.World websites is kept as `#` comments above each example, so you can use it when Python runs on your computer.
+    For that reason, this lesson reads copies of the datasets stored in the course repository on GitHub, in the `public` folder next to this notebook. GitHub allows browser pages to read its files, so those copies work in both places. The original code that reads from the UCI website is kept as `#` comments above each example, so you can use it when Python runs on your computer.
     """)
     return
 
@@ -476,17 +476,13 @@ def _(mo):
 
     JavaScript Object Notation (JSON) is a common way to share data on the web.
 
-    `read_json` reads a JSON file and returns a DataFrame. This example uses a countries file from data.world.
+    `read_json` reads a JSON file and returns a DataFrame. This example uses a countries file from the `public` folder.
     """)
     return
 
 
 @app.cell
 def _(lesson_file, mo, pd):
-    # Reading from the web (works when Python runs on your computer):
-    # df_countries = pd.read_json(
-    #     'https://query.data.world/s/6wc2blqdaxd6s2k3xmzmfx3zb72v7l'
-    # )
     df_countries = pd.read_json(lesson_file('countries.json'))
     mo.Html(df_countries.head().to_html())
     return (df_countries,)

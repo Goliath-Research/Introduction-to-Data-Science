@@ -328,7 +328,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `amount` and predict the result. The output updates when you edit the value.
+    Change `amount` and predict the result before you run the cell.
     """)
     return
 
@@ -394,7 +394,7 @@ def _(mo):
     3. Where is the returned value written?
     4. What does a function such as `mult_by(2)` return?
     5. How does a `lambda` choose between two values?
-    6. Where should a lambda that needs a name be written instead?
+    6. What stops a recursive factorial lambda?
     7. What does `filter` keep?
     """)
     return
@@ -408,7 +408,7 @@ def _(mo):
 3. **After the colon:** That expression is the value the lambda returns.
 4. **Another function:** The returned lambda remembers `2` and multiplies by it.
 5. **`value if condition else other`:** Both results are part of the one expression.
-6. **As a `def` function:** Name a lambda only to demonstrate it. A recursive lambda is a curiosity.
+6. **The case `n` is not greater than 1:** That case returns `1` and does not call the lambda again.
 7. **Items for which the function returns true:** `list()` turns the kept items into a list.
 """)}, lazy=True)
     return

@@ -445,7 +445,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `practice` and predict the new list. The output updates when you edit the value.
+    Change `practice` and predict the new list before you run the cell.
     """)
     return
 

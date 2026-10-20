@@ -182,7 +182,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Edit the values in the next cell and watch the output update. Try a different name, age, and grade.
+    Edit the values in the next cell, then run it. Try a different name, age, and grade.
     """)
     return
 
@@ -367,7 +367,49 @@ def _(mo):
     | `//` | floor division |
     | `%` | modulus (remainder) |
     | `**` | exponentiation |
+
+    Assigning one variable to another makes both names refer to the same value. After `number_n = number_x`, both names refer to `2.5`. For a number this behaves like a copy, because a number cannot be changed in place. A later lesson shows that the same kind of assignment does not copy a dictionary.
     """)
+    return
+
+
+@app.cell
+def _():
+    number_x = 2.5
+    number_n = number_x
+    print(number_n, "->", type(number_n))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `not` reverses a boolean. It is not an arithmetic operator. `not False` is `True`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    original_condition = False
+    opposite_condition = not original_condition
+    print(opposite_condition)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `+` joins two strings when both values are text. Joining text is not arithmetic addition.
+    """)
+    return
+
+
+@app.cell
+def _():
+    first_name = "John"
+    full_name = first_name + " Doe"
+    print(full_name)
     return
 
 
@@ -523,60 +565,6 @@ def _(power_base):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Assigning one name to another
-
-    Assigning one variable to another makes both names refer to the same value. After `number_n = number_x`, both names refer to `2.5`. For a number this behaves like a copy, because a number cannot be changed in place. A later lesson shows that the same kind of assignment does not copy a dictionary: both names then refer to one dictionary.
-    """)
-    return
-
-
-@app.cell
-def _():
-    number_x = 2.5
-    number_n = number_x
-    print(number_n, "->", type(number_n))
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Boolean `not`
-
-    `not` is not an arithmetic operator. It reverses a boolean. `not False` is `True`.
-    """)
-    return
-
-
-@app.cell
-def _():
-    original_condition = False
-    opposite_condition = not original_condition
-    print(opposite_condition)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Joining strings
-
-    `+` joins two strings when both values are text. That is concatenation, not addition.
-    """)
-    return
-
-
-@app.cell
-def _():
-    first_name = "John"
-    full_name = first_name + " Doe"
-    print(full_name)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
     ### Try it yourself
 
     Use floor division and the remainder for `17` and `5`. Replace each `None` with your code. What is `17 % 5`, and why?
@@ -605,6 +593,14 @@ The remainder is `2`. `5` goes into `17` three times, and `17 - 15 = 2`.
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The boxes keep `m` and `n` in a small range, so the power stays readable. Zero to a negative power is left undefined.
+    """)
+    return
+
+
 @app.cell
 def _(mo):
     operator_m = mo.ui.number(start=-12, stop=20, step=1, value=5, label="m")
@@ -612,17 +608,14 @@ def _(mo):
     mo.vstack(
         [
             mo.md("### Explore arithmetic operators"),
-            mo.md(
-                "Change either value. The results update automatically. "
-                "`m` and `n` stay in a small range so the power stays readable."
-            ),
+            mo.md("Change either value. The results update automatically."),
             mo.hstack([operator_m, operator_n], justify="start", gap=2),
         ]
     )
     return operator_m, operator_n
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo, operator_m, operator_n):
     if operator_m.value is None or operator_n.value is None:
         operator_table = mo.md("Enter a number for both `m` and `n`.")
@@ -808,7 +801,6 @@ def _(mo):
     5. What is `5 // 2`?
     6. What is `5 % 2`?
     7. What type does `x /= 4` produce when `x` was an integer?
-    8. What does `int("404")` return?
     """)
     return
 
@@ -823,7 +815,6 @@ def _(mo):
 5. **`2`:** Floor division drops the fraction.
 6. **`1`:** `2` goes into `5` twice, and the remainder is `1`.
 7. **`float`:** `/` always returns a floating-point number.
-8. **The integer `404`:** `int()` reads the digits. The quotes are not part of the number.
 """)}, lazy=True)
     return
 

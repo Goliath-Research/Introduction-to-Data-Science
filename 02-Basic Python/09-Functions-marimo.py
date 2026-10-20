@@ -87,7 +87,7 @@ def _(hello):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Passing too many arguments raises an error. `hello` has one parameter. The next cell raises `TypeError` on purpose.
+    Passing too many arguments raises an error. `hello` has one parameter. Run the next cell to see that error.
     """)
     return
 
@@ -135,7 +135,7 @@ def _(youngest_of):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The order matters. Passing `"Anna"` first makes Anna the youngest in this call. That is a fragile way to use `*args`. A typical function adds every number the caller passes, so the order does not change the result.
+    The order matters. Passing `"Anna"` first makes Anna the youngest in this call.
     """)
     return
 
@@ -143,6 +143,14 @@ def _(mo):
 @app.cell
 def _(youngest_of):
     youngest_of("Anna", "John", "Mary", "Raul")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    A typical `*args` function adds every number the caller passes. The order does not change the result.
+    """)
     return
 
 
@@ -489,7 +497,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `your_name` and watch the greeting update.
+    Change `your_name`, then run the cell.
     """)
     return
 

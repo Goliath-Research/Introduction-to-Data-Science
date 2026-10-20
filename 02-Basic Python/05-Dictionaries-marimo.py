@@ -176,7 +176,7 @@ def _(aged):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A dictionary is not a sequence of positions. Python tries to use the slice itself as a key, so you get `KeyError` (`TypeError` on older versions). The next cell raises that error on purpose.
+    A dictionary is not a sequence of positions. Python tries to use the slice itself as a key, so you get `KeyError` (`TypeError` on older versions). Run the next cell to see that error.
     """)
     return
 
@@ -421,7 +421,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` can also delete the name. In these notebooks a name lives in one cell, so deleting it only affects that cell. You rarely need to delete a variable. The next cell raises `NameError` on purpose.
+    `del` can also delete the name. In these notebooks that name lives only in this cell. Run the next cell to see the error from using a name after it has been deleted.
     """)
     return
 
@@ -503,7 +503,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Add another key to `practice` and print that value. The cell already adds `"month"`.
+    Add another key to `practice` and print that value.
     """)
     return
 

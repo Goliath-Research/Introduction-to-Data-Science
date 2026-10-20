@@ -636,7 +636,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `score` and predict which message prints. The output updates when you edit the value.
+    Change `score` and predict which message prints before you run the cell.
     """)
     return
 

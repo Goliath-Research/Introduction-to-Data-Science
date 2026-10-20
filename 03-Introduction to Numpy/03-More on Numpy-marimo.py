@@ -40,7 +40,7 @@ def _(mo):
     mo.md(r"""
     ## Reshape and flatten
 
-    `reshape` gives an array a new shape. The number of elements must stay the same, and the original array is not replaced. `flatten` returns a 1-D copy.
+    `reshape` gives an array a new shape. The number of elements must stay the same, and the original array keeps its shape. The reshaped array shares that data when it can (it is a view). `flatten` returns a 1-D copy.
 
     The examples use `grid`, which has 3 rows and 4 columns.
     """)
@@ -127,7 +127,7 @@ def _(grid):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `reshape` returned new arrays. `grid` still has its original shape.
+    `reshape` returned new arrays, but they share data with `grid` (they are views). `grid` keeps its shape. To change a reshaped array safely, call `.copy()`.
     """)
     return
 
@@ -141,7 +141,7 @@ def _(grid):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The new shape has to contain the same number of elements. This array has 12 elements. A shape of `(2, 5)` has 10. Run the next cell to see the error.
+    The new shape has to contain the same number of elements. This array has 12 elements. A shape of `(2, 5)` has 10, so the next cell raises a `ValueError` on purpose.
     """)
     return
 
@@ -170,7 +170,7 @@ def _(grid):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `flatten()` gives the same values and the same shape. It always returns a copy, so changing it never changes `grid`.
+    `flatten()` gives the same values and the same shape. Unlike `reshape`, it always returns a copy, so changing it never changes `grid`.
     """)
     return
 
@@ -282,7 +282,7 @@ def _(np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `concatenate` places the second array after the first. The result has 6 elements.
+    `concatenate` places the second array after the first. The result has 6 elements. In NumPy 2, `np.concat` is another name for `np.concatenate`.
     """)
     return
 
@@ -358,7 +358,7 @@ def _(np, ones_block, zeros_block):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `vstack` and `hstack` do the same job when the arrays do not have the same number of dimensions. `vstack` places a 1-D row on top of a 2-D array.
+    `vstack` can put a 1-D row on top of a 2-D array. `hstack` needs the new column written as a 2-D column, `[[8], [8]]`.
     """)
     return
 
@@ -606,15 +606,15 @@ def _(index_one):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `nditer` walks those indexes one by one, so each match can be printed with its value.
+    A loop over the index array prints each match with its value.
     """)
     return
 
 
 @app.cell
-def _(index_one, np, values):
-    for position_one in np.nditer(index_one):
-        print("index:", int(position_one), "value:", values[position_one])
+def _(index_one, values):
+    for position_one in index_one[0]:
+        print("index:", position_one, "value:", values[position_one])
     return
 
 
@@ -628,9 +628,8 @@ def _(mo):
 
 @app.cell
 def _(np, values):
-    index_four = np.where(values == 4)
-    for position_four in np.nditer(index_four):
-        print("index:", int(position_four), "value:", values[position_four])
+    for position_four in np.where(values == 4)[0]:
+        print("index:", position_four, "value:", values[position_four])
     return
 
 
@@ -651,7 +650,7 @@ def _(np, values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `%` is the remainder after floor division. A value is odd when that remainder is 1. The only odd value here is 1.
+    `%` is the remainder after floor division. `%` with 2 gives 1 for every odd integer, negative ones too (`-5 % 2` is 1). The odd values here are -5 and 1.
     """)
     return
 
@@ -659,9 +658,8 @@ def _(mo):
 @app.cell
 def _(np, values):
     # An odd integer leaves a remainder of 1 when divided by 2.
-    index_odd = np.where(values % 2 == 1)
-    for position_odd in np.nditer(index_odd):
-        print("index:", int(position_odd), "value:", values[position_odd])
+    for position_odd in np.where(values % 2 == 1)[0]:
+        print("index:", position_odd, "value:", values[position_odd])
     return
 
 
@@ -675,9 +673,8 @@ def _(mo):
 
 @app.cell
 def _(np, values):
-    index_positive = np.where(values > 0)
-    for position_positive in np.nditer(index_positive):
-        print("index:", int(position_positive), "value:", values[position_positive])
+    for position_positive in np.where(values > 0)[0]:
+        print("index:", position_positive, "value:", values[position_positive])
     return
 
 
@@ -686,7 +683,7 @@ def _(mo):
     mo.md(r"""
     ## Sort
 
-    `np.sort` returns a sorted copy. The original array stays unchanged. The default axis sorts each row. `axis=0` sorts each column.
+    `np.sort` returns a sorted copy. The original array stays unchanged. The default is `axis=-1`, the last axis, which is the rows for 2-D. `axis=0` sorts each column. `np.sort` has no descending option; use `np.sort(x)[::-1]`.
 
     The first example sorts 10 random integers.
     """)
@@ -712,6 +709,20 @@ def _(mo):
 @app.cell
 def _(np, random_values):
     print(np.sort(random_values))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `[::-1]` reverses that sorted copy, so the largest value comes first.
+    """)
+    return
+
+
+@app.cell
+def _(np, random_values):
+    print(np.sort(random_values)[::-1])
     return
 
 
@@ -762,7 +773,7 @@ def _(np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The default sorts each row.
+    The default is the last axis, so this sorts each row.
     """)
     return
 
@@ -840,11 +851,11 @@ def _(mo):
 
     **Key takeaways:**
 
-    - `reshape` keeps the same values and requires a compatible size. `flatten` returns a 1-D copy.
+    - `reshape` keeps the same values and requires a compatible size. It is a view when it can. `flatten` returns a 1-D copy.
     - A loop over a 1-D array yields elements. A loop over a 2-D array yields rows.
     - `concatenate` joins arrays. `+` adds them. `axis=0` adds rows and `axis=1` adds columns.
     - `split`, `vsplit`, and `hsplit` cut an array into parts.
-    - `where` finds indexes. `np.sort` returns a new sorted array.
+    - `where` finds indexes. `np.sort` returns a new sorted array. The default axis is the last one. Reverse the result with `[::-1]` for descending order.
     """)
     return
 
@@ -869,7 +880,7 @@ def _(mo):
 def _(mo):
     mo.accordion({"Show answers": mo.md(r"""
 1. **No:** `(5, 2)` holds 10 elements, not 12. NumPy raises a `ValueError`.
-2. **No:** It returns a new array with the new shape. The original keeps its shape.
+2. **No:** It returns an array with the new shape. That array is a view when it can, so it shares data with the original. The original keeps its shape.
 3. **Joining versus adding:** `concatenate` places `b` after `a`. `+` adds each pair of elements.
 4. **`axis=1`:** `axis=0`, the default, adds extra rows.
 5. **Four parts of two values:** `[0, 1]`, `[2, 3]`, `[4, 5]`, and `[6, 7]`.

@@ -67,7 +67,7 @@ def _(mo):
     mo.md(r"""
     ## The array
 
-    An array is similar to a list, except every element has the same type, usually a number such as `int` or `float`. Arrays are much faster than lists when the data is large and numeric.
+    An array is similar to a list, except every element has the same type, usually a number such as `int` or `float`. Arrays are much faster than lists for whole-array math when the data is large and numeric.
     """)
     return
 
@@ -325,6 +325,20 @@ def _(mo):
 def _(np):
     from_mixed_tuple = np.array((1, 2, 3, 4, 5.4))
     print(from_mixed_tuple, from_mixed_tuple.dtype)
+    return (from_mixed_tuple,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `astype` converts to another dtype. Converting to int drops the fractional part, so `5.4` becomes `5`.
+    """)
+    return
+
+
+@app.cell
+def _(from_mixed_tuple):
+    print(from_mixed_tuple.astype(int))
     return
 
 
@@ -391,9 +405,9 @@ def _(mo):
     mo.md(r"""
     ### Random arrays
 
-    Random constructors draw a new array of the requested shape. Each cell below sets the seed first, so it shows the same values every time it runs.
+    Random constructors draw a new array of the requested shape. Each cell below sets the seed first, so it shows the same values every time it runs. Newer code uses `rng = np.random.default_rng(0)`, then `rng.integers(...)` and `rng.random(...)`.
 
-    `random` is uniform between 0 and 1. The values are rounded to 3 decimals to keep the output short.
+    `random` is uniform from 0 up to, but not including, 1. The values are rounded to 3 decimals to keep the output short.
     """)
     return
 
@@ -622,7 +636,7 @@ def _(mo):
 
     **Key takeaways:**
 
-    - A NumPy array is an `ndarray`. Every element shares one dtype.
+    - A NumPy array is an `ndarray`. Every element shares one dtype. `astype` converts to another dtype.
     - An array can have 0, 1, 2, 3, or more dimensions. A structured array stores named fields in each element.
     - `ndim`, `shape`, `size`, and `dtype` describe the array.
     - `zeros`, `ones`, `full`, `eye`, `random`, `linspace`, and `arange` build arrays without typing every value.
@@ -651,7 +665,7 @@ def _(mo):
 def _(mo):
     mo.accordion({"Show answers": mo.md(r"""
 1. **One type for all elements:** Every element of an array has the same dtype. That makes arrays compact and fast for numbers.
-2. **Rows and columns:** `shape` is a tuple with the number of rows, then the number of columns.
+2. **Rows and columns:** `shape` is a tuple with the number of rows, then the number of columns. In general it is one number per axis.
 3. **`float64`:** One float value is enough to make the whole array floating-point.
 4. **A 2 × 2 table of sevens:** `full` fills every element with the value you pass.
 5. **To repeat the same values:** With the same seed, the random values are the same every time the cell runs.

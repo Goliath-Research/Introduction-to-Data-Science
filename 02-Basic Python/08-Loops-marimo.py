@@ -646,9 +646,8 @@ def _(mo):
     - `while` repeats as long as its condition is `True`. Update the value that the condition tests, or the loop will not end.
     - `for` repeats once for each item. `range()` produces a sequence of integers, and `enumerate()` produces each index with its item.
     - `break` leaves the loop. `continue` skips the rest of the current pass. `pass` is an empty body.
-    - `else` on a loop runs when the loop ends without `break`.
+    - `else` on a loop runs when the loop ends without `break`. A search uses that: `break` when the item is found, and the `else` block when it is not.
     - Looping over a dictionary visits the keys. `items()` visits each key together with its value. A loop may contain another loop.
-    - `else` on a `for` loop does not run when the loop exits with `break`.
     """)
     return
 

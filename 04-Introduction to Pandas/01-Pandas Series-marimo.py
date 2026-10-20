@@ -259,7 +259,7 @@ def _(s3):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A Series of letters is also stored as `object`.
+    A Series of letters is stored as `object` (in pandas 3.0 the type is shown as `str`).
     """)
     return
 
@@ -274,7 +274,7 @@ def _(pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `s3_object` and `s4` are both stored as `object`, but only one of them can become integer.
+    `s3_object` holds numbers stored as `object`. `s4` holds text, stored as `object` (shown as `str` in pandas 3.0). Only one of them can become integer.
 
     - `s3_object` can be converted, because its values are numbers.
     - `s4` cannot be converted, because its values are letters.
@@ -293,7 +293,7 @@ def _(s3_object):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    This cell tries to convert `s4`, and it raises an error. The cells after it still run.
+    This cell tries to convert `s4`. Letters cannot become integers, so it raises a `ValueError` on purpose. The cells after it still run.
     """)
     return
 
@@ -480,7 +480,7 @@ def _(s):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    If a label is not in the index, Pandas raises an exception. The next cell asks for the label `'f'`, and it raises that error.
+    If a label is not in the index, Pandas raises an exception. The next cell asks for the label `'f'`, which is not in the index, so it raises a `KeyError` on purpose.
     """)
     return
 

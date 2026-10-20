@@ -332,7 +332,7 @@ def _(mo):
 
     `transform` returns a DataFrame with the same shape and the same index as the numeric columns it receives. The function `score` turns each group into a standardized value: the distance from that group's mean, divided by that group's standard deviation.
 
-    `Team` is text, so `transform` standardizes `Rank`, `Year`, and `Points`.
+    `Team` is the group label, so it is not part of the result. `transform` standardizes `Rank`, `Year`, and `Points`.
 
     The second call writes each team's mean points onto every row of that team. Rows 2 and 3 are team B, and both show `768.0`. The result has one value per original row.
     """)

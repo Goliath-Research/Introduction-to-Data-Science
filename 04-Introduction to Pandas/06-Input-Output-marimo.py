@@ -63,7 +63,7 @@ def _(mo):
 
     **UCI Machine Learning Repository**
 
-    The UCI Machine Learning Repository, [https://archive.ics.uci.edu/ml/index.php](https://archive.ics.uci.edu/ml/index.php), is a collection of datasets used by the machine learning community. It was created as an ftp archive in 1987 by David Aha and fellow graduate students at UC Irvine.
+    The UCI Machine Learning Repository, [https://archive.ics.uci.edu/](https://archive.ics.uci.edu/), is a collection of datasets used by the machine learning community. It was created as an ftp archive in 1987 by David Aha and fellow graduate students at UC Irvine.
 
     For each dataset, the repository records the source, a description of the data, the attributes, and relevant papers.
 
@@ -111,7 +111,7 @@ def _(mo):
 
     `read_csv` reads a CSV file and returns a DataFrame. This file has no header row, so the column names are passed with `names`. The character `?` means missing, so `na_values='?'` turns it into `NaN`.
 
-    The Automobile dataset is [https://archive.ics.uci.edu/ml/datasets/automobile](https://archive.ics.uci.edu/ml/datasets/automobile).
+    The Automobile dataset is [https://archive.ics.uci.edu/dataset/10/automobile](https://archive.ics.uci.edu/dataset/10/automobile).
     """)
     return
 
@@ -172,8 +172,8 @@ def _(mo):
 
 @app.cell
 def _(df_auto, mo, pd):
-    df_auto.to_csv('auto.csv')
-    with_index = pd.read_csv('auto.csv')
+    df_auto.to_csv('auto_copy.csv')
+    with_index = pd.read_csv('auto_copy.csv')
     mo.Html(with_index.head().to_html())
     return (with_index,)
 
@@ -203,8 +203,8 @@ def _(mo):
 @app.cell
 def _(df_auto, mo, pd, with_index):
     with_index  # this save must run after the file with the index was read
-    df_auto.to_csv('auto.csv', index=False)
-    df2_auto = pd.read_csv('auto.csv')
+    df_auto.to_csv('auto_copy.csv', index=False)
+    df2_auto = pd.read_csv('auto_copy.csv')
     mo.Html(df2_auto.head().to_html())
     return (df2_auto,)
 
@@ -242,7 +242,7 @@ def _(mo):
     mo.md(r"""
     A CSV file is not always separated by commas. It may use semicolons, tabs, or another character. Set that character with `sep`.
 
-    The Higher Education Students Performance Evaluation dataset is [https://archive.ics.uci.edu/ml/datasets/Higher+Education+Students+Performance+Evaluation+Dataset](https://archive.ics.uci.edu/ml/datasets/Higher+Education+Students+Performance+Evaluation+Dataset).
+    The Higher Education Students Performance Evaluation dataset is [https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation](https://archive.ics.uci.edu/dataset/856/higher+education+students+performance+evaluation).
 
     The first read uses the default comma. The whole line lands in one column.
     """)
@@ -320,7 +320,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    The first cell reads the local `auto.csv` file and shows its first three rows. The second cell shows its shape. Change the number of rows in `head` and run the first cell again.
+    The first cell reads the local `auto_copy.csv` file and shows its first three rows. The second cell shows its shape. Change the number of rows in `head` and run the first cell again.
     """)
     return
 
@@ -328,7 +328,7 @@ def _(mo):
 @app.cell
 def _(df2_auto, mo, pd):
     df2_auto  # read the file after it was saved without the index
-    check = pd.read_csv('auto.csv')
+    check = pd.read_csv('auto_copy.csv')
     mo.Html(check.head(3).to_html())
     return (check,)
 
@@ -375,7 +375,7 @@ def _(mo):
 
     An ARFF file (Attribute-Relation File Format) is a text file from the Machine Learning Project at the University of Waikato. It has a header section and a data section.
 
-    `scipy.io.arff.loadarff` reads both sections. The Student Academics file comes from [https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff](https://archive.ics.uci.edu/ml/machine-learning-databases/00467/Sapfile1.arff). `loadarff` cannot open a web address, so the file is first downloaded with `urlopen` from Python's standard library, and its text is passed to `loadarff` through `StringIO`. Text values arrive as byte strings, so each text column is decoded to ordinary text.
+    `scipy.io.arff.loadarff` reads both sections. The Student Academics Performance dataset is [https://archive.ics.uci.edu/dataset/467/student+academics+performance](https://archive.ics.uci.edu/dataset/467/student+academics+performance). `loadarff` cannot open a web address, so the file is first downloaded with `urlopen` from Python's standard library, and its text is passed to `loadarff` through `StringIO`. Text values arrive as byte strings, so each text column is decoded to ordinary text.
     """)
     return
 
@@ -511,14 +511,14 @@ def _(df_countries, mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `to_json` writes that DataFrame to `countries.json` in this folder.
+    `to_json` writes that DataFrame to `countries_copy.json` in this folder.
     """)
     return
 
 
 @app.cell
 def _(df_countries):
-    df_countries.to_json('countries.json')
+    df_countries.to_json('countries_copy.json')
     return
 
 
@@ -527,7 +527,7 @@ def _(mo):
     mo.md(r"""
     JSON can be nested. `json_normalize` flattens it into a table.
 
-    In this example each person has a name, and each car also has a name. `meta_prefix` and `record_prefix` keep those names apart. The result has the columns `person_name`, `person_age`, `car_name`, and `car_models`.
+    In this example each person has a name, and each car also has a name. `meta_prefix` and `record_prefix` keep those names apart. The result has the columns `car_name`, `car_models`, `person_name`, and `person_age`.
     """)
     return
 
@@ -558,7 +558,7 @@ def _():
     # use json_normalize to flatten the data
     # give the fact that name is a column in the data, we need to specify the meta_prefix
     # and record_prefix to avoid conflicts
-    # The final dataframe will contain columns: person_name, person_age, car_name, car_models
+    # The final dataframe will contain columns: car_name, car_models, person_name, person_age
     cars = json_normalize(
         data,
         record_path='cars',
@@ -609,7 +609,7 @@ def _(mo):
     mo.md(r"""
     ## Reading data from a `.xlsx` file
 
-    `read_excel` reads an Excel workbook and returns a DataFrame. This cell loads the Immunotherapy dataset, [https://archive.ics.uci.edu/ml/datasets/Immunotherapy+Dataset](https://archive.ics.uci.edu/ml/datasets/Immunotherapy+Dataset). `openpyxl` is the library Pandas uses to read `.xlsx` files.
+    `read_excel` reads an Excel workbook and returns a DataFrame. This cell loads the Immunotherapy dataset, [https://archive.ics.uci.edu/dataset/428/immunotherapy+dataset](https://archive.ics.uci.edu/dataset/428/immunotherapy+dataset). `openpyxl` is the library Pandas uses to read `.xlsx` files.
     """)
     return
 

@@ -252,8 +252,17 @@ def _(mo):
     - `left`: every row from the first DataFrame, and the matching rows from the second.
     - `right`: every row from the second DataFrame, and the matching rows from the first.
 
-    The picture of these four joins is not in this folder. The four cells below show the same four results.
+    The picture shows these four joins. The four cells below show the same four results.
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.image(
+        src="https://raw.githubusercontent.com/Goliath-Research/Introduction-to-Data-Science/main/04-Introduction%20to%20Pandas/Merge.PNG",
+        alt="Venn diagrams of inner, outer, left and right merges",
+    )
     return
 
 
@@ -374,7 +383,7 @@ def _(mo):
 
     `join` combines columns by the index. It is a convenient way to place two DataFrames side by side when their indexes are the keys.
 
-    Matching can also use a column, through the `on` argument, including columns that do not share a name. The examples below match on the index only.
+    `on` can name a column of the left table to match against the index of the right table. The examples below match on the index only.
 
     The default is a left join: every row of the DataFrame before the dot, plus the matching rows of the DataFrame inside the parentheses. `how='inner'` keeps only the shared index labels. The order of the call decides which columns come first.
     """)
@@ -537,7 +546,7 @@ def _(itemsByOrder, mo, orders, pd):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Order 4 was never finished: it has no products. The inner join below keeps only orders that have items.
+    Order 4 has no products. The inner join below keeps only orders that have items.
     """)
     return
 

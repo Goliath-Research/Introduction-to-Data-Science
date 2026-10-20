@@ -372,7 +372,7 @@ def _(mo):
 
     Iterating a Series produces its values. Iterating a DataFrame produces its column names, the same way iterating a dictionary produces its keys.
 
-    To walk through the rows, use one of these:
+    To walk through the contents, use one of these:
 
     - `items()` yields each column name and that column as a Series.
     - `iterrows()` yields each index and that row as a Series.

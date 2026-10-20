@@ -23,6 +23,7 @@ def _(mo):
     - Create DataFrames from a list, a dictionary, and a list of dictionaries.
     - Add, delete, and rename columns.
     - Inspect a DataFrame with `head`, `tail`, `describe`, and the summary methods.
+    - Find and handle missing values with `isna`, `fillna`, and `dropna`.
 
     ## Background
 
@@ -564,7 +565,7 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The default number of decimals is 0, so the result is the nearest integer.
+    The default number of decimals is 0, so each value is rounded to a whole number, still shown as a float such as `1.0`.
     """)
     return
 
@@ -648,6 +649,78 @@ No. `mean` skips `NaN`. A column with missing values is averaged over the values
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Missing values
+
+    `isna` is `True` where a value is missing. `sum` counts those `True` values in each column. `A` has none, `B` has one, and `C` has three.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.isna().sum()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `fillna(0)` replaces each missing value with 0. The original table is unchanged.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.fillna(0)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `dropna` drops every row that contains a missing value. Only the row where `A`, `B`, and `C` are all present remains.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    df.dropna()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    Replace the missing values in `df` with `0`, using `fillna`. Replace `None` with your code. Does this call change `df`?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_filled = None
+    student_filled
+    return (student_filled,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_filled = df.fillna(0)
+```
+No. `fillna` returns a new DataFrame. `df` still has its missing values.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
     Add a column `NextYear` equal to `Age + 1`, then show the table.
@@ -674,6 +747,7 @@ def _(mo):
     - Build one from a list, a list of lists, a dictionary of lists, or a list of dictionaries. A missing key becomes `NaN`.
     - Assign a column by name. `del` and `pop` remove a column immediately. `drop` returns a new DataFrame unless you pass `inplace=True`.
     - Arithmetic with `NaN` produces `NaN`.
+    - `isna` marks missing values. `fillna` replaces them. `dropna` drops rows that contain a missing value.
     - `head`, `tail`, `shape`, `info`, and `describe` show what the table contains. `mean`, `min`, `max`, `sum`, `cumsum`, and `prod` summarize the columns.
     """)
     return
@@ -691,6 +765,7 @@ def _(mo):
     5. What is the difference between `drop` and `drop(..., inplace=True)`?
     6. How many rows does `head` show when it is called with no argument?
     7. Does `mean` include missing values?
+    8. What is the difference between `fillna` and `dropna`?
     """)
     return
 
@@ -705,6 +780,7 @@ def _(mo):
 5. **A new table, or the same table:** `drop` returns another DataFrame and leaves the original unchanged. `inplace=True` changes the original.
 6. **Five:** `head(n)` shows `n` rows. With no argument, `n` is 5.
 7. **No:** The mean of a column uses the non-missing values.
+8. **Replace, or drop the row:** `fillna` puts a value in place of each missing cell. `dropna` removes every row that still has a missing cell.
 """)}, lazy=True)
     return
 

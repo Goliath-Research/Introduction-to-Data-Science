@@ -137,10 +137,22 @@ def _(mo):
 
     - Read the text above a Python cell before you edit that cell.
     - Click the cell, change a number, a name, or an expression, then leave the cell. Marimo updates every cell that depends on your change.
-    - Do not run the notebook from top to bottom. Marimo chooses the order from the variable relationships.
+    - You do not need to run cells in order. Marimo works out the order from the variable relationships.
     - If a cell shows an error, read the message. It names the problem, often a misspelled name or an expression Python cannot evaluate.
     - To restore the original lesson, undo your edit, or discard your changes to that file in Git.
-    
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Marimo rules
+
+    Two rules come up in the later lessons.
+
+    - **A name belongs to one cell.** Marimo does not allow the same variable to be defined in two cells. When a later step needs a changed list, dictionary, or set, the lesson copies it (`.copy()`) and stores the copy under a new name. The copy is there so each cell can have its own name. In an ordinary Python script you usually change the original and do not copy first.
+    - **`input()` does not work in the browser.** These lessons run in the browser. `input()` waits for a keyboard prompt that the page cannot show. When a lesson needs a value from you, it uses a text box or a number box. `input()` still works in an ordinary Python script on your own computer.
     """)
     return
 
@@ -156,7 +168,7 @@ def _(mo):
     - **E-books.** Structured explanations of the material.
     - **Marimo notebooks.** The primary programming resource. They contain executable Python you can explore and modify.
     - **Quizzes.** Self-assessment with immediate feedback. They are not formal exams.
-    - **Certificate of Knowledge.** Pass a 15-question test within 15 minutes. If you do not pass on the first attempt, you have two further attempts.
+    - **Certificate of Knowledge.** Pass a 15-question test within 15 minutes with a score of at least 70%. If you do not pass on the first attempt, you have two further attempts.
 
     ## Conclusions
 
@@ -170,6 +182,7 @@ def _(mo):
 
     ## References
 
+    - [The Python Tutorial](https://docs.python.org/3/tutorial/)
     - [Marimo](https://marimo.io)
     - [Marimo documentation](https://docs.marimo.io)
     """)

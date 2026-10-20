@@ -41,7 +41,7 @@ def _(mo):
 
     An empty dictionary is `{}`. Its type is `dict`.
 
-    A dictionary with data is written as `{key: value, ...}`. Keys must be hashable, which means they cannot change. Strings, numbers, and tuples are allowed as keys. Lists and dictionaries are not, because those can change.
+    A dictionary with data is written as `{key: value, ...}`. Keys must be hashable. In practice that means immutable values such as strings, numbers, and tuples of those. A tuple that contains a list is not hashable, so it cannot be a key. Lists and dictionaries cannot be keys, because they can change.
 
     A dictionary keeps the order in which you insert the pairs. Keys are unique: assigning to a key that is already present replaces the value.
     """)
@@ -144,7 +144,7 @@ def _(lookup):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Assign to a key to change its value. This copy starts from the same three pairs, then `"age"` becomes `33`.
+    Assign to a key to change its value. This new dictionary has the same three pairs, then `"age"` becomes `33`.
     """)
     return
 
@@ -176,13 +176,14 @@ def _(aged):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A dictionary is not a sequence of positions. A slice does not make sense, and it raises an error. Run the next cell to see that error.
+    A dictionary is not a sequence of positions. Python tries to use the slice itself as a key, so you get `KeyError` (`TypeError` on older versions). The next cell raises that error on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises KeyError on purpose.
     slice_attempt = {"name": "John", "last_name": "Doe", "age": 30}
     slice_attempt["name":"last_name"]
     return
@@ -343,7 +344,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `dict()` builds a separate dictionary. Changing the copy does not change the original.
+    `dict()` builds a separate dictionary. Changing a top-level value on the copy does not change the original. `dict()` and `copy()` are shallow copies: if a value is itself a dictionary, the copy and the original still share that inner dictionary. `copy.deepcopy()` copies the inner dictionaries too. A short example of that follows the nested dictionaries below.
     """)
     return
 
@@ -420,13 +421,14 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` can also delete the name. Run the next cell to see the error from using a name after it has been deleted.
+    `del` can also delete the name. In these notebooks a name lives in one cell, so deleting it only affects that cell. You rarely need to delete a variable. The next cell raises `NameError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises NameError on purpose.
     deleted_record = {"name": "John", "last_name": "Doe", "age": 33}
     del deleted_record
     print(deleted_record)
@@ -476,9 +478,32 @@ def _(family):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    A shallow copy shares the inner dictionaries. Changing `shallow_family["child"]["name"]` also changes the original. A deep copy does not.
+    """)
+    return
+
+
+@app.cell
+def _():
+    import copy
+
+    original_family = {"child": {"name": "Hazel"}}
+    deep_family = copy.deepcopy(original_family)
+    shallow_family = original_family.copy()
+    shallow_family["child"]["name"] = "Hazel Ann"
+    print("original after a shallow change:", original_family["child"]["name"])
+    deep_family["child"]["name"] = "Hazel Deep"
+    print("original after a deep change:", original_family["child"]["name"])
+    print("deep copy:", deep_family["child"]["name"])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
-    Add a key to `practice` and print that value.
+    Add another key to `practice` and print that value. The cell already adds `"month"`.
     """)
     return
 
@@ -528,9 +553,9 @@ def _(mo):
     **Key takeaways:**
 
     - A dictionary stores key-value pairs. You read and write a value by its key, not by position.
-    - Keys must be values that cannot change, such as strings, numbers, and tuples. Keys are unique.
+    - Keys must be hashable. In practice that means strings, numbers, and tuples of those. Keys are unique.
     - `get()` can return a default when the key is missing. Square brackets raise an error instead.
-    - `update()`, `pop()`, `popitem()`, and `del` change the pairs. `dict()` and `copy()` make a separate dictionary. A plain assignment does not.
+    - `update()`, `pop()`, `popitem()`, and `del` change the pairs. `dict()` and `copy()` make a shallow copy. `copy.deepcopy()` also copies nested dictionaries. A plain assignment does not copy.
     - A value can be another dictionary. Use one key after another to reach an inner value.
     """)
     return
@@ -560,7 +585,7 @@ def _(mo):
 3. **`"Unknown"`:** The second argument is the default. No error is raised.
 4. **No:** A dictionary is not a sequence of positions. A slice raises an error.
 5. **The removed value:** `pop` also deletes that pair.
-6. **One dictionary or two:** A plain assignment shares the same dictionary. `copy()` builds a separate one.
+6. **One dictionary or two:** A plain assignment shares the same dictionary. `copy()` builds a separate one. Nested dictionaries inside that copy are still shared.
 7. **One key after another:** `family["child4"]["name"]` selects the inner dictionary, then the field.
 """)}, lazy=True)
     return
@@ -571,6 +596,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries)
+    - [`copy` — shallow and deep copy](https://docs.python.org/3/library/copy.html)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

@@ -54,7 +54,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A set with items is written as `{value, value, ...}`. The printed order may differ from the order you wrote.
+    A set with items is written as `{value, value, ...}`. The printed order may differ from the order you wrote. For strings it can also differ between runs, because Python randomizes string hashes. That is why a set of words may not print in the order you typed.
     """)
     return
 
@@ -242,13 +242,14 @@ def _(without_mango):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `remove()` raises an error if the item is absent. Run the next cell to see that error.
+    `remove()` raises an error if the item is absent. The next cell raises `KeyError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises KeyError on purpose.
     remove_target = {"guava", "cherry"}
     remove_target.remove("banana")
     return
@@ -257,13 +258,14 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `del` deletes the name. Run the next cell to see the error from using a name after `del` deletes it.
+    `del` deletes the name. The next cell raises `NameError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises NameError on purpose.
     deleted_name = {"guava", "cherry"}
     del deleted_name
     print(deleted_name)
@@ -275,7 +277,7 @@ def _(mo):
     mo.md(r"""
     ## Sets drop duplicates
 
-    A set may hold different types.
+    A set may hold different types. This set includes `True`. In Python, `True == 1`, so `{1, True}` has a single item. There is no `1` here, so `True` stays.
     """)
     return
 
@@ -284,6 +286,21 @@ def _(mo):
 def _():
     mixed = {"John", 20, True, 30.33, "male"}
     print(mixed, "->", type(mixed))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `{1, True}` keeps one item, because `True` equals `1`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    print({1, True})
+    print(len({1, True}))
     return
 
 
@@ -320,13 +337,14 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A set cannot contain a mutable item such as a list or a dictionary. Run the next cell to see the error from adding a list.
+    A set cannot contain an unhashable item such as a list or a dictionary. The next cell raises `TypeError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises TypeError on purpose.
     list_target = {"John", 20, True, 30.33, "male"}
     list_target.add([2, 3, 3, 4.0, "Peter"])
     return
@@ -335,7 +353,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    A tuple is allowed, because a tuple cannot change.
+    A tuple is allowed as long as everything inside it is hashable. A tuple of numbers and strings is fine. A tuple that contains a list, such as `(1, [2])`, is not.
     """)
     return
 
@@ -497,9 +515,41 @@ def _(intersection, union):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    `|` is another way to write union. `&` is intersection. `^` is symmetric difference.
+    """)
+    return
+
+
+@app.cell
+def _(set1, set2):
+    print(set1 | set2)
+    print(set1 & set2)
+    print(set1 ^ set2)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `issubset()` asks whether every item of the first set is also in the second. `<=` is the same test.
+    """)
+    return
+
+
+@app.cell
+def _(set1):
+    print({1, 2}.issubset(set1))
+    print({1, 2} <= set1)
+    print(set1 <= {1, 2})
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
-    Add another city to `visited`, then print whether `"Paris"` is in the set.
+    Add another city to `visited`, then print whether `"Paris"` is in the set. Notice `"Lima"` is written twice. The set keeps it once.
     """)
     return
 
@@ -555,8 +605,8 @@ def _(mo):
     - A set is an unordered collection of unique items. `set()` is an empty set. `{}` is an empty dictionary.
     - `add()` and `update()` insert items. A duplicate does not create a second copy.
     - `remove()` raises an error when the item is missing. `discard()` does not.
-    - A set cannot hold a list. It can hold a tuple. `set()` applied to a list or tuple drops duplicates.
-    - Union, intersection, difference, and symmetric difference combine two sets. Difference depends on which set comes first.
+    - A set cannot hold a list. It can hold a tuple when everything inside that tuple is hashable. `set()` applied to a list or tuple drops duplicates.
+    - Union, intersection, difference, and symmetric difference combine two sets. `|`, `&`, `-`, and `^` are the operator forms. `<=` tests whether one set is a subset. Difference depends on which set comes first.
     """)
     return
 
@@ -585,7 +635,7 @@ def _(mo):
 3. **Nothing:** The set keeps that value only once.
 4. **`discard()` does nothing:** `remove()` raises an error.
 5. **`{1, 2}`:** The repeated `1` is dropped.
-6. **No:** A list can change. A tuple can be an item, because a tuple cannot change.
+6. **No:** A list is unhashable. A tuple can be an item when everything inside it is hashable.
 7. **No:** Difference keeps items from the first set only. The order matters.
 """)}, lazy=True)
     return
@@ -596,6 +646,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Sets](https://docs.python.org/3/tutorial/datastructures.html#sets)
+    - [Set types](https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

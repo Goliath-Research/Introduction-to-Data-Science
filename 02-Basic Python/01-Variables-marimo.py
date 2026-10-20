@@ -22,10 +22,11 @@ def _(mo):
     - Learn how to define and use variables of different types (integers, floating-point numbers, booleans, and strings).
     - Grasp Python's dynamic typing through variable type changes.
     - Practice basic arithmetic operations and their shorthand notations.
+    - Convert values with `int()`, `float()`, and `str()`.
 
     ## Background
 
-    Variables are fundamental to any programming language, acting as placeholders for data that can change over time. In Python, variables are dynamically typed: the type is inferred at runtime and can change as the program executes.
+    Variables are fundamental to any programming language, acting as placeholders for data that can change over time. In Python, names are not bound to a type. A name can refer to an integer and later to a string. The value's type is checked at run time.
 
     ## Datasets Used
 
@@ -181,7 +182,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Edit the values in the next cell, then run it. Try a different name, age, and grade.
+    Edit the values in the next cell and watch the output update. Try a different name, age, and grade.
     """)
     return
 
@@ -298,6 +299,63 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Converting types
+
+    `int()`, `float()`, and `str()` build a new value of that type. The quotes around `"404"` make a string. `int("404")` reads those digits as an integer.
+    """)
+    return
+
+
+@app.cell
+def _():
+    converted_int = int("404")
+    converted_float = float("2.5")
+    converted_text = str(404)
+    print(converted_int, "->", type(converted_int))
+    print(converted_float, "->", type(converted_float))
+    print(converted_text, "->", type(converted_text))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `int()` needs a whole number. `int("2.5")` raises an error. Convert to `float` first when the text has a decimal point. `str(2.5)` turns a number into text, which is what `+` needs when you join a number to a string.
+    """)
+    return
+
+
+@app.cell
+def _():
+    print(int(float("2.5")))
+    print("Answer: " + str(2.5))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Comments and `print`
+
+    A `#` starts a comment. Python ignores the rest of that line. `print` separates values with `sep` and finishes the line with `end`. The default separator is a space, and the default end is a new line.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # The next line converts text to an integer.
+    commented_value = int("15")
+    print("A", "B", "C", sep="-")
+    print("same line", end=" ")
+    print("continues")
+    print(commented_value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Python Arithmetic Operators
 
     | Operator | Name |
@@ -309,49 +367,7 @@ def _(mo):
     | `//` | floor division |
     | `%` | modulus (remainder) |
     | `**` | exponentiation |
-
-    Assigning one variable to another copies the current value. After `number_n = number_x`, both names refer to `2.5`.
     """)
-    return
-
-
-@app.cell
-def _():
-    number_x = 2.5
-    number_n = number_x
-    print(number_n, "->", type(number_n))
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    `not` reverses a boolean. `not False` is `True`.
-    """)
-    return
-
-
-@app.cell
-def _():
-    original_condition = False
-    opposite_condition = not original_condition
-    print(opposite_condition)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    `+` joins two strings when both values are text.
-    """)
-    return
-
-
-@app.cell
-def _():
-    first_name = "John"
-    full_name = first_name + " Doe"
-    print(full_name)
     return
 
 
@@ -507,6 +523,60 @@ def _(power_base):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Assigning one name to another
+
+    Assigning one variable to another makes both names refer to the same value. After `number_n = number_x`, both names refer to `2.5`. For a number this behaves like a copy, because a number cannot be changed in place. A later lesson shows that the same kind of assignment does not copy a dictionary: both names then refer to one dictionary.
+    """)
+    return
+
+
+@app.cell
+def _():
+    number_x = 2.5
+    number_n = number_x
+    print(number_n, "->", type(number_n))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Boolean `not`
+
+    `not` is not an arithmetic operator. It reverses a boolean. `not False` is `True`.
+    """)
+    return
+
+
+@app.cell
+def _():
+    original_condition = False
+    opposite_condition = not original_condition
+    print(opposite_condition)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Joining strings
+
+    `+` joins two strings when both values are text. That is concatenation, not addition.
+    """)
+    return
+
+
+@app.cell
+def _():
+    first_name = "John"
+    full_name = first_name + " Doe"
+    print(full_name)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
     Use floor division and the remainder for `17` and `5`. Replace each `None` with your code. What is `17 % 5`, and why?
@@ -537,12 +607,15 @@ The remainder is `2`. `5` goes into `17` three times, and `17 - 15 = 2`.
 
 @app.cell
 def _(mo):
-    operator_m = mo.ui.number(value=5, label="m")
-    operator_n = mo.ui.number(value=3, label="n")
+    operator_m = mo.ui.number(start=-12, stop=20, step=1, value=5, label="m")
+    operator_n = mo.ui.number(start=-5, stop=8, step=1, value=3, label="n")
     mo.vstack(
         [
             mo.md("### Explore arithmetic operators"),
-            mo.md("Change either value. The results update automatically."),
+            mo.md(
+                "Change either value. The results update automatically. "
+                "`m` and `n` stay in a small range so the power stays readable."
+            ),
             mo.hstack([operator_m, operator_n], justify="start", gap=2),
         ]
     )
@@ -551,31 +624,40 @@ def _(mo):
 
 @app.cell
 def _(mo, operator_m, operator_n):
-    m_value = operator_m.value
-    n_value = operator_n.value
-
-    if n_value == 0:
-        division_result = "undefined (division by zero)"
-        floor_result = "undefined (division by zero)"
-        remainder_result = "undefined (division by zero)"
+    if operator_m.value is None or operator_n.value is None:
+        operator_table = mo.md("Enter a number for both `m` and `n`.")
     else:
-        division_result = m_value / n_value
-        floor_result = m_value // n_value
-        remainder_result = m_value % n_value
+        m_value = int(operator_m.value)
+        n_value = int(operator_n.value)
 
-    mo.md(
-        f"""
-        | Expression | Result |
-        |---|---:|
-        | `m + n` | {m_value + n_value} |
-        | `m - n` | {m_value - n_value} |
-        | `m * n` | {m_value * n_value} |
-        | `m / n` | {division_result} |
-        | `m // n` | {floor_result} |
-        | `m % n` | {remainder_result} |
-        | `m ** n` | {m_value ** n_value} |
-        """
-    )
+        if n_value == 0:
+            division_result = "undefined (division by zero)"
+            floor_result = "undefined (division by zero)"
+            remainder_result = "undefined (division by zero)"
+        else:
+            division_result = m_value / n_value
+            floor_result = m_value // n_value
+            remainder_result = m_value % n_value
+
+        if m_value == 0 and n_value < 0:
+            power_result = "undefined (zero to a negative power)"
+        else:
+            power_result = m_value ** n_value
+
+        operator_table = mo.md(
+            f"""
+            | Expression | Result |
+            |---|---:|
+            | `m + n` | {m_value + n_value} |
+            | `m - n` | {m_value - n_value} |
+            | `m * n` | {m_value * n_value} |
+            | `m / n` | {division_result} |
+            | `m // n` | {floor_result} |
+            | `m % n` | {remainder_result} |
+            | `m ** n` | {power_result} |
+            """
+        )
+    operator_table
     return
 
 
@@ -593,6 +675,7 @@ def _(mo):
     | `/=` | `x /= 5` | `x = x / 5` |
     | `%=` | `x %= 5` | `x = x % 5` |
     | `//=` | `x //= 5` | `x = x // 5` |
+    | `**=` | `x **= 5` | `x = x ** 5` |
 
     The sequence begins with `5`. The type is `int`.
     """)
@@ -609,7 +692,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `+= 10` adds `10`. The value is now `15`, still an integer.
+    `+= 10` adds `10` to a variable that starts at `5`. The value is now `15`, still an integer. The next cell starts again from a literal, because this lesson does not reuse the same name in a later cell.
     """)
     return
 
@@ -625,7 +708,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `-= 3` subtracts `3` from that `15`. The value is `12`.
+    `-= 3` starts again from `15` and subtracts `3`. The value is `12`.
     """)
     return
 
@@ -708,6 +791,7 @@ def _(mo):
     - Common built-in types include integers (`int`), floating-point numbers (`float`), booleans (`bool`), and strings (`str`).
     - Arithmetic operators calculate new values, while shorthand assignment operators calculate and update a variable at the same time.
     - `/` returns a float. `//` drops the fraction, and `%` returns the remainder.
+    - `int()`, `float()`, and `str()` convert a value. A comment starts with `#`.
     """)
     return
 
@@ -724,6 +808,7 @@ def _(mo):
     5. What is `5 // 2`?
     6. What is `5 % 2`?
     7. What type does `x /= 4` produce when `x` was an integer?
+    8. What does `int("404")` return?
     """)
     return
 
@@ -738,6 +823,7 @@ def _(mo):
 5. **`2`:** Floor division drops the fraction.
 6. **`1`:** `2` goes into `5` twice, and the remainder is `1`.
 7. **`float`:** `/` always returns a floating-point number.
+8. **The integer `404`:** `int()` reads the digits. The quotes are not part of the number.
 """)}, lazy=True)
     return
 
@@ -747,6 +833,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: An Informal Introduction to Python](https://docs.python.org/3/tutorial/introduction.html)
+    - [Built-in functions `int`, `float`, `str`, and `print`](https://docs.python.org/3/library/functions.html)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

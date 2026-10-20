@@ -270,13 +270,14 @@ def _(indexed_values):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    An index must refer to an item that exists. Run the next cell to see the error raised by an index past the end of the list.
+    An index must refer to an item that exists. The next cell raises `IndexError` on purpose.
     """)
     return
 
 
 @app.cell
 def _():
+    # This cell raises IndexError on purpose.
     short_list = [True, "2", 3.3, 4]
     short_list[10]
     return
@@ -287,7 +288,7 @@ def _(mo):
     mo.md(r"""
     ### Try it yourself
 
-    Change `practice_list` and the indexes, then run the cell. Predict the printed items before you run it.
+    Change `practice_list` and the indexes and watch the output update. Predict the printed items before you edit.
     """)
     return
 
@@ -334,7 +335,7 @@ def _(mo):
     mo.md(r"""
     ## List methods
 
-    These methods change the list they are called on. `len()` is not a list method: it works on any sequence and returns how many items the list holds.
+    Most list methods (`append`, `insert`, `remove`, `pop`, `reverse`, `sort`) change the list in place. `count()` only reads it. `len()` is not a list method. It works on any collection, including lists, strings, tuples, dictionaries, and sets. Here it returns how many items the list holds.
     """)
     return
 
@@ -364,6 +365,8 @@ def _(items):
 def _(mo):
     mo.md(r"""
     `append()` adds one item at the end.
+
+    Each step below copies the list and uses a new name. Marimo does not allow two cells to define the same name, so this lesson cannot call `append` on `items` in a later cell and still show the earlier list. `.copy()` gives each step its own list. You do not need `.copy()` before every `append` in an ordinary Python script. There, `items.append(5)` changes `items` itself.
     """)
     return
 
@@ -513,6 +516,76 @@ def _(items_sorted):
     items_descending = items_sorted.copy()
     items_descending.sort(reverse=True)
     print(items_descending)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### More ways to change a list
+
+    You can replace the item at an index. That is the main way a list is mutable. This cell starts from a copy so the earlier list stays as it was.
+    """)
+    return
+
+
+@app.cell
+def _(indexed_values):
+    replaced_values = indexed_values.copy()
+    replaced_values[0] = False
+    print(replaced_values)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `in` asks whether a value is an item. `index()` returns the first position of a value.
+    """)
+    return
+
+
+@app.cell
+def _():
+    tools = ["pen", "pencil", "pen"]
+    print("pencil" in tools)
+    print(tools.index("pen"))
+    return (tools,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `extend()` adds every item from another list. It changes the list. `del` removes the item at an index and does not return that item. `pop()` removes an item and returns it.
+    """)
+    return
+
+
+@app.cell
+def _(tools):
+    tools_extended = tools.copy()
+    tools_extended.extend(["eraser", "ruler"])
+    del tools_extended[1]
+    print(tools_extended)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `sorted()` returns a new list and leaves the original in place. `sort()` changes the list and returns `None`. Saving that return value is a common mistake: the name then refers to `None`, not to the sorted list.
+    """)
+    return
+
+
+@app.cell
+def _():
+    sort_source = [3, 1, 2]
+    print(sorted(sort_source))
+    print(sort_source)
+    sort_result = sort_source.copy()
+    print(sort_result.sort())
+    print(sort_result)
     return
 
 
@@ -744,7 +817,8 @@ def _(mo):
 
     - A list is an ordered, mutable sequence written with square brackets.
     - Indexes start at 0. Negative indexes start at the last item. A slice includes the start and excludes the stop.
-    - `append`, `insert`, `remove`, `pop`, `reverse`, and `sort` change the list. `+` builds a new list.
+    - `append`, `insert`, `remove`, `pop`, `extend`, `reverse`, and `sort` change the list. `sort()` returns `None`. `sorted()` returns a new list. `+` builds a new list.
+    - You can replace the item at an index. `in` tests membership, and `index()` returns the first position.
     - `append` and `pop` use a list as a stack. `append` and `pop(0)` use a list as a queue. `deque.popleft()` removes the front item without shifting every remaining item.
     """)
     return
@@ -785,6 +859,8 @@ def _(mo):
     mo.md(r"""
     ## References
 
+    - [The Python Tutorial: Lists](https://docs.python.org/3/tutorial/introduction.html#lists)
+    - [Data structures: more on lists](https://docs.python.org/3/tutorial/datastructures.html#more-on-lists)
     - VanderPlas, J. (2017). *Python Data Science Handbook: Essential Tools for Working with Data*. O'Reilly Media.
     """)
     return

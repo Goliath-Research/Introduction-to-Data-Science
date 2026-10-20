@@ -306,7 +306,7 @@ def _(names):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `repeat` does not add rows. The Series still has 4 rows. What changes is the length of each element. `len` of the first element shows it:
+    `repeat` does not add rows. The Series still has 4 rows. `len` of the first element before repeating is 4:
     """)
     return
 

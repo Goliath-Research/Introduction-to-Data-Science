@@ -23,6 +23,7 @@ def _(mo):
     - Create a DataFrame and inspect its rows, shape, and types.
     - Transpose a table and read or replace its index.
     - Select columns and rows with `[]`, `loc`, and `iloc`.
+    - Keep rows that pass a condition.
 
     ## Background
 
@@ -254,7 +255,7 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    `dtypes` is the type of each column. `Name` is `object` because it holds text. `Age` is `float64` because of the missing age.
+    `dtypes` is the type of each column. `Name` holds text, so its type is `object` (`str` in pandas 3.0). `Age` is `float64` because of the missing age.
     """)
     return
 
@@ -465,7 +466,7 @@ def _(mo):
     Select rows and columns together.
 
     - `labeled[:3][['Age', 'GPA']]` takes the first three positions, then those two columns.
-    - `loc[:'c']` takes labels `a` through `c`, including `c`.
+    - `labeled.loc[:'c'][['Age', 'GPA']]` takes labels `a` through `c`, including `c`, and then those two columns.
     - `iloc[:3, [1, 2]]` takes the first three positions and the columns at positions 1 and 2.
     """)
     return
@@ -520,6 +521,76 @@ Yes. A label slice includes the stop label. The matching position slice, `iloc[:
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    A condition inside `[]` keeps the rows where it is `True`. `Age > 20` keeps Tom, Mary, and Peter. A missing age is not greater than 20, so Anna's row is left out.
+    """)
+    return
+
+
+@app.cell
+def _(labeled):
+    labeled[labeled['Age'] > 20]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `&` means and, and `|` means or. The words `and` and `or` do not compare the rows one by one. Each condition needs parentheses. `Age > 20` and `GPA > 3.4` keeps Tom and Mary.
+    """)
+    return
+
+
+@app.cell
+def _(labeled):
+    labeled[(labeled['Age'] > 20) & (labeled['GPA'] > 3.4)]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    `|` keeps a row when either condition is `True`. Here that is Anna, Tom, Mary, and Peter.
+    """)
+    return
+
+
+@app.cell
+def _(labeled):
+    labeled[(labeled['Age'] > 20) | (labeled['GPA'] >= 3.6)]
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Try it yourself
+
+    From `labeled`, keep the rows where `GPA` is greater than `3.4` and `Age` is greater than `20`. Replace `None` with your code. Which names remain?
+    """)
+    return
+
+
+@app.cell
+def _():
+    student_filter = None
+    student_filter
+    return (student_filter,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion({"Show answers": mo.md(r'''
+```python
+student_filter = labeled[(labeled['GPA'] > 3.4) & (labeled['Age'] > 20)]
+```
+Tom and Mary. Anna's GPA is above 3.4, but her age is missing, and a missing age is not greater than 20.
+''')}, lazy=True)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Try it yourself
 
     The next two cells select from `practice`, first with `loc` and then with `iloc`. Change the stop label in `loc` and run the cell. Then change the stop position in `iloc`, add position `0` (`City`) to its column list, and run that cell.
@@ -555,6 +626,7 @@ def _(mo):
     - Assigning to `.index` replaces the row labels. `set_index` uses a column as the index. `reset_index` restores a default index. Without `inplace=True`, the original DataFrame is unchanged.
     - `value_counts` counts distinct values. `dropna=False` also counts missing values.
     - `[]` selects columns by name. `loc` selects by label and includes the stop label. `iloc` selects by position and excludes the stop position.
+    - A condition inside `[]` keeps the rows where it is `True`. `&` and `|` combine conditions, and each condition needs parentheses.
     """)
     return
 
@@ -571,6 +643,7 @@ def _(mo):
     5. Does a slice of labels include the stop label?
     6. Does a slice of positions include the stop position?
     7. What do `size` and `shape` report?
+    8. What do `&` and `|` do inside `[]`?
     """)
     return
 
@@ -585,6 +658,7 @@ def _(mo):
 5. **Yes:** `loc[:'c']` keeps the row labeled `'c'`.
 6. **No:** `iloc[:3]` keeps positions 0, 1, and 2.
 7. **Elements, and rows by columns:** `size` is the number of elements. `shape` is the pair `(rows, columns)`.
+8. **They combine conditions:** `&` keeps rows that pass both. `|` keeps rows that pass either. Each condition is written in parentheses.
 """)}, lazy=True)
     return
 

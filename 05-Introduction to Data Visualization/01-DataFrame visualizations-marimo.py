@@ -459,7 +459,7 @@ def _(mo):
     mo.md(r"""
     ## Box plots
 
-    A box plot uses the quartiles of a numeric column. The line inside the box is the median, the 50% point. The bottom and top of the box are the first quartile (25%) and the third quartile (75%). Points far from the box are drawn as separate dots.
+    A box plot uses the quartiles of a numeric column. The line inside the box is the median, the 50% point. The bottom and top of the box are the first quartile (25%) and the third quartile (75%). Points far from the box are drawn as separate dots. A box plot does not mark the mean.
 
     `boxplot` can split that summary by one or more categories. `column` is the numeric column. `by` is the category, or a list of categories.
     """)

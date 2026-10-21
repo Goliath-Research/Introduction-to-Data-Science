@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "marimo",
+#     "matplotlib",
+#     "numpy",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.24.2"
@@ -246,12 +255,13 @@ def _(np, plt):
 def _(np, plt):
     _figure = plt.figure()
     _x = np.linspace(0, 10, 1000)
-    plt.title("A Sine and Cosine Curves")
+    plt.title("Sine and Cosine Curves")
     plt.plot(_x, np.sin(_x), "--g", label="sin(x)")
     plt.plot(_x, np.cos(_x), ":r", label="cos(x)")
     plt.legend()
     plt.axis([-1, 11, -1.2, 1.2])
-    return _figure
+    _figure
+    return
 
 
 @app.cell
@@ -306,8 +316,8 @@ def _(mo):
     `plt.errorbar` draws the points and a bar of length `yerr` around each one. It returns an `ErrorbarContainer` with three pieces:
 
     - `plotline` is the `Line2D` of the data.
-    - `caplines` are the `Line2D` caps at the ends of the bars. With the default size, that list is often empty. `capsize` gives the caps a length.
-    - `barlinecols` are the `LineCollection` objects that hold the bars. One collection is vertical and one is horizontal. Each point has a segment. The cell prints the first segment.
+    - `caplines` are the `Line2D` caps at the ends of the bars. With the default `capsize` of 0 the list is empty, so the cell prints 0. `capsize` gives the caps a length.
+    - `barlinecols` holds the `LineCollection` of the bars. With only `yerr` there is one collection, of vertical bars, with one segment per point (50 here). `xerr` would add a second collection of horizontal bars. The cell prints the first segment.
 
     In Jupyter, a semicolon at the end of the line hides that container and leaves the chart. This notebook shows the chart by returning the figure.
 
@@ -351,7 +361,8 @@ def _(dy, plt, x, y):
         print(f"Bar line collection {_index + 1} has {len(_segments)} segments")
         print("First segment:")
         print(_segments[0])
-    return _figure
+    _figure
+    return
 
 
 @app.cell
@@ -438,7 +449,8 @@ def _(data, plt):
     print("Edges:", _edges.round(3))
     for _index, _patch in enumerate(_patches):
         print(f"Patch {_index + 1}: Height (Frequency): {_patch.get_height():.3f}, Width (Bin size): {_patch.get_width():.3f}, X (Bin start): {_patch.get_x():.3f}")
-    return _figure
+    _figure
+    return
 
 
 @app.cell(hide_code=True)

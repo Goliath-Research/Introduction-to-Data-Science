@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "marimo",
+#     "matplotlib",
+#     "numpy",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.24.2"
@@ -654,13 +663,13 @@ def _(np, plt):
     plt.plot(_wave_x, _wave_y)
     plt.annotate(
         "local max",
-        xy=(2.3, 1),
+        xy=(2.25, 1),
         xytext=(3, 1.5),
         arrowprops=dict(facecolor="darkgreen"),
     )
     plt.annotate(
         "local min",
-        xy=(2.8, -1),
+        xy=(2.75, -1),
         xytext=(3.5, -1.5),
         arrowprops=dict(facecolor="darkred"),
     )

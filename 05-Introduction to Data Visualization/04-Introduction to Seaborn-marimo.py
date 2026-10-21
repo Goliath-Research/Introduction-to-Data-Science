@@ -41,7 +41,7 @@ def _(mo):
 
     Seaborn is built on Matplotlib. It is imported as `sns`. A plotting function takes the DataFrame in `data` and the role of each column by name: `x`, `y`, `hue`, `col`, `row`, and `size`. You describe the chart. Seaborn chooses the labels, the legend, and the facets.
 
-    `countplot` draws on an existing axes, so each of those charts gets its own figure. `relplot`, `displot`, `jointplot`, and `pairplot` create the figure themselves.
+    `countplot` draws on an existing axes, so each of those charts gets its own figure. `relplot`, `displot`, `jointplot`, and `pairplot` create the figure themselves. `countplot` returns the Matplotlib `Axes` it drew on. `relplot`, `displot`, `jointplot`, and `pairplot` return a Seaborn grid object (`FacetGrid`, `JointGrid`, or `PairGrid`) that holds the whole figure.
 
     ## Datasets Used
 
@@ -83,6 +83,7 @@ def _(mo):
     - `x` puts the categories on the horizontal axis, so the bars are vertical.
     - `y` puts the categories on the vertical axis, so the bars are horizontal.
     - `hue` splits each category by a second column and draws one colored bar per group.
+    - The bars follow the order of the categories. For a plain text column, that is the order in which the values first appear. `order=` (lesson 05) sets it explicitly.
 
     You can pass a column as a Series, `x=tips.sex`, or pass the DataFrame and the column name, `data=tips, y="time"`. The second form is the one used in the rest of this lesson.
     """)

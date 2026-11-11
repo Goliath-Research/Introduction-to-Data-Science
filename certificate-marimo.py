@@ -15,24 +15,18 @@ def _():
 def _(mo):
     mo.md(r"""
     # How to Earn Your Certificate
-
-    Every course in Goliath Research Academy uses the same assessment path: practice quizzes during the lessons, then one certificate test at the end.
     """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""
-    ## How the course is assessed
-
-    Each course has **two lesson sections**. Each lesson section ends with a short **quiz**.
-
-    - Quizzes are for **practice**. They are **not graded** and **do not count** toward your certificate.
-    - Quizzes show **feedback** on your answers.
-
-    At the end of the course there is the **Certificate of Knowledge** test. **Pass the test** to earn your **Certificate of Knowledge**.
-    """)
+    mo.image(
+        src="https://raw.githubusercontent.com/Goliath-Research/Introduction-to-Data-Science/main/images/certificate.png",
+        alt="Certificate of Knowledge medal",
+        width=280,
+        style={"display": "block", "margin": "0 auto"},
+    )
     return
 
 

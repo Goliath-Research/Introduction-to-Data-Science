@@ -139,7 +139,7 @@ def _(mo):
     - Click the cell, change a number, a name, or an expression, then leave the cell. Marimo updates every cell that depends on your change.
     - You do not need to run cells in order. Marimo works out the order from the variable relationships.
     - If a cell shows an error, read the message. It names the problem, often a misspelled name or an expression Python cannot evaluate.
-    - To restore the original lesson, undo your edit, or discard your changes to that file in Git.
+    - To restore the original lesson, undo your edit or reload the page.
     """)
     return
 
@@ -167,8 +167,8 @@ def _(mo):
     - **Videos.** Short introductions and summaries of the main ideas of each topic.
     - **E-books.** Structured explanations of the material.
     - **Marimo notebooks.** The primary programming resource. They contain executable Python you can explore and modify.
-    - **Quizzes.** Self-assessment with immediate feedback. They are not formal exams.
-    - **Certificate of Knowledge.** Pass a 15-question test within 15 minutes with a score of at least 70%. If you do not pass on the first attempt, you have two further attempts.
+    - **Quizzes.** Each lesson section ends with a short quiz. Quizzes are for practice: they are not graded and do not count toward the certificate. They show feedback on your answers.
+    - **Certificate of Knowledge.** At the end of the course, pass the Certificate of Knowledge test to earn your certificate.
 
     ## Conclusions
 

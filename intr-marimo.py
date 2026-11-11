@@ -172,8 +172,6 @@ def _(mo):
 
     ## Conclusions
 
-    **Key takeaways:**
-
     - A Marimo notebook combines explanation and Python in one reactive document.
     - In these lessons, Markdown is hidden so you can read it, and Python stays visible so you can study and change it.
     - When a variable changes, Marimo updates the cells that depend on it.

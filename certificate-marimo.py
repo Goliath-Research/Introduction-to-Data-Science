@@ -37,8 +37,9 @@ def _(mo):
 
     - The test has **15 questions** and a **15-minute** time limit.
     - **Passing score:** at least **70%**.
-    - If you do not pass, you can **retake the test twice**, so you have **three attempts in total**.
-    - Once you **pass**, the test is **closed** and **cannot be retaken**. Review the ebooks, notebooks, and quizzes before you start.
+    - You can **retake the test twice**, so you have **three attempts in total**. 
+    - You will get the **highest score** of the three attempts.
+    - Review the ebooks, notebooks, and quizzes before you start.
     """)
     return
 
